@@ -16,6 +16,13 @@ var config = {
 },
   pixelArt: true,
 };
+let funFactList = [
+  'Octopuses have three hearts',
+  'The blue ring octopus is extremely venomous',
+  'Octopuses have no bones',
+  'Octopuses are highly intelligent and able to use tools',
+  'Most octopuses are able to shoot ink at some point in their life to distract predators',
+]
 let calculation = {
   laneHeight: config.height/4,
 }
@@ -24,6 +31,8 @@ let playerInfo = {
   playerVerticalSpeed: 320,
   ogPlayerSpeed: 2,
   isBoosting: false,
+  loopSpawnInterval: 2000,
+  score: 0,
 }
 var game = new Phaser.Game(config);
 let player;
@@ -35,6 +44,7 @@ let oceanBg2;
 let oceanBgBound2;
 let goldRing;
 let gameRef;
+let loops = [];
 //let backgroundLayer;
 
 function preload ()
@@ -47,17 +57,23 @@ function preload ()
       'assets/octopus.png',
   { frameWidth: 125, frameHeight: 100 }
 );
-//this.load.image('octopus', 'assets/octopus.png');
-
 }
 
 function spawnLoop(x, y) {
-
   let goldRingBack = gameRef.add.sprite(x, y, 'goldLoopBack').setOrigin(0, 0).setScale(4.7);
   goldRingBack.setDepth(0)
   let goldRingFront = gameRef.add.sprite(x, y, 'goldLoopFront').setOrigin(0, 0).setScale(4.7);
   goldRingFront.setDepth(3)
 
+  let goldRingBound = goldRingBack.getBounds();
+
+  let goldRingInfo = {
+    back: goldRingBack,
+    front: goldRingFront,
+    bound: goldRingBound
+  }
+  loops.push(goldRingInfo);
+  console.log(loops)
 }
 
 
@@ -69,15 +85,14 @@ function create (){
   oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound2 = oceanBg2.getBounds();
 
-  player = this.physics.add.sprite(100, 0, 'octopus').setScale(1.6);
+  player = this.physics.add.sprite(100, 0, 'octopus').setScale(1.5);
   player.setCollideWorldBounds(true);
   player.setDepth(2);
-  spawnLoop(0, 0*calculation.laneHeight);
-  spawnLoop(0, 1*calculation.laneHeight);
-  spawnLoop(0, 2*calculation.laneHeight);
-  spawnLoop(0, 3*calculation.laneHeight);
-
-
+  
+  setInterval(() => {
+    let randomLane = Math.floor(Math.random() * 4);
+    spawnLoop(config.width-300, randomLane*calculation.laneHeight);
+  }, playerInfo.loopSpawnInterval);
   //cursor
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -120,10 +135,25 @@ function handleMovingForward() {
   } else {
     oceanBgBound2.x-=playerInfo.playerSpeed;
   }
-  oceanBg2.setPosition([oceanBgBound2.x], [0])
+  oceanBg2.setPosition([oceanBgBound2.x], [0]);
+
+  //loops
+  for (let i = 0; i < loops.length; i++) {
+    if (loops[i].bound.x-playerInfo.playerSpeed <= -loops[i].bound.width-playerInfo.playerSpeed) {
+      loops[i].front.destroy();
+      loops[i].back.destroy();
+      return loops.shift();
+    } else {
+      loops[i].bound.x-=playerInfo.playerSpeed;
+    }
+    loops[i].back.setPosition([loops[i].bound.x], [loops[i].bound.y]);
+    loops[i].front.setPosition([loops[i].bound.x], [loops[i].bound.y]);
+
+  }
+  //array.shift();
 }
 
 function update (){
   handleMovement();
-  //handleMovingForward();
+  handleMovingForward();
 }
