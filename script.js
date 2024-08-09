@@ -21,6 +21,7 @@ let settings = {
   playerSpeed: 2,
   playerVerticalSpeed: 320,
   ogPlayerSpeed: 2,
+  isBoosting: false,
 }
 var game = new Phaser.Game(config);
 let player;
@@ -33,6 +34,8 @@ let oceanBgBound2;
 function preload ()
 {
   this.load.image('oceanBg', 'assets/ocean.png');
+  this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
+
   this.load.spritesheet('octopus',
       'assets/octopus.png',
   { frameWidth: 125, frameHeight: 100 }
@@ -57,8 +60,10 @@ function create ()
 
 function speedBoost(speedboost, time) {
   settings.playerSpeed += speedboost;
+  settings.isBoosting = true;
   setTimeout(() => {
     settings.playerSpeed -= speedboost;
+    settings.isBoosting = false;
   }, time); 
 }
 
@@ -70,21 +75,23 @@ function handleMovement() {
     player.setVelocityY(-settings.playerVerticalSpeed);
   }
   if (cursors.right.isDown) {
-    speedBoost(0.5, 500);
+    if (!settings.isBoosting) {
+      speedBoost(5, 700);
+    }
   }
 }
 
 let test = 2;
 function handleMovingForward() {
-  if (oceanBg.x <= -oceanBgBound.width) {
-    oceanBgBound.x = oceanBgBound.width-settings.playerSpeed;
-    
+  if (oceanBg.x-settings.playerSpeed <= -oceanBgBound.width) {
+    console.log(settings.playerSpeed)
+    oceanBgBound.x = oceanBgBound2.x-settings.playerSpeed+oceanBgBound2.width;
   } else {
     oceanBgBound.x-=settings.playerSpeed;
   }
   oceanBg.setPosition([oceanBgBound.x], [0])
 
-  if (oceanBg2.x <= -oceanBgBound2.width) {
+  if (oceanBg2.x-settings.playerSpeed <= -oceanBgBound2.width) {
     oceanBgBound2.x = oceanBgBound2.width-settings.playerSpeed;
   } else {
     oceanBgBound2.x-=settings.playerSpeed;
@@ -92,8 +99,7 @@ function handleMovingForward() {
   oceanBg2.setPosition([oceanBgBound2.x], [0])
 }
 
-function update ()
-{
+function update (){
   handleMovement();
   handleMovingForward();
 }
