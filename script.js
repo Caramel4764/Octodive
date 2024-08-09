@@ -25,19 +25,21 @@ let funFactList = [
 ]
 let calculation = {
   laneHeight: config.height/4,
+  maxLane: 3,
 }
 let playerInfo = {
   playerSpeed: 2,
-  playerVerticalSpeed: 320,
+  playerVerticalSpeed: 400,
   ogPlayerSpeed: 2,
   isBoosting: false,
   loopSpawnInterval: 2000,
   score: 0,
+  currLane: 0,
+  finishedLaneSwitching: true,
 }
 var game = new Phaser.Game(config);
 let player;
 let cursor;
-let currLane = 1;
 let oceanBg;
 let oceanBgBound;
 let oceanBg2;
@@ -45,7 +47,6 @@ let oceanBgBound2;
 let goldRing;
 let gameRef;
 let loops = [];
-//let backgroundLayer;
 
 function preload ()
 {
@@ -64,21 +65,18 @@ function spawnLoop(x, y) {
   goldRingBack.setDepth(0)
   let goldRingFront = gameRef.add.sprite(x, y, 'goldLoopFront').setOrigin(0, 0).setScale(4.7);
   goldRingFront.setDepth(3)
-
   let goldRingBound = goldRingBack.getBounds();
-
   let goldRingInfo = {
     back: goldRingBack,
     front: goldRingFront,
-    bound: goldRingBound
+    bound: goldRingBound,
   }
   loops.push(goldRingInfo);
-  console.log(loops)
 }
 
-
-function create (){
-  gameRef=this;
+let playerBound;
+function create () {
+  gameRef = this;
   //ocean
   oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound = oceanBg.getBounds();
@@ -88,10 +86,11 @@ function create (){
   player = this.physics.add.sprite(100, 0, 'octopus').setScale(1.5);
   player.setCollideWorldBounds(true);
   player.setDepth(2);
+  playerBound = player.getBounds();
   
   setInterval(() => {
     let randomLane = Math.floor(Math.random() * 4);
-    spawnLoop(config.width-300, randomLane*calculation.laneHeight);
+    spawnLoop(config.width, randomLane*calculation.laneHeight);
   }, playerInfo.loopSpawnInterval);
   //cursor
   cursors = this.input.keyboard.createCursorKeys();
@@ -107,14 +106,40 @@ function speedBoost(speedboost, time) {
     playerInfo.isBoosting = false;
   }, time); 
 }
-
+let change = 0;
 function handleMovement() {
-  if (cursors.down.isDown) {
+ // let change = 0;
+  if (cursors.down.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane<calculation.maxLane) {
     player.setVelocityY(playerInfo.playerVerticalSpeed);
+    playerInfo.finishedLaneSwitching = false;
+    change = 1;
+    playerInfo.currLane = playerInfo.currLane+change;
   }
-  if (cursors.up.isDown) {
+  if (cursors.up.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane>0) {
     player.setVelocityY(-playerInfo.playerVerticalSpeed);
+    playerInfo.finishedLaneSwitching = false;
+    change = -1;
+    playerInfo.currLane = playerInfo.currLane+change;
   }
+
+  if (change > 0) {
+    playerBound = player.getBounds();
+    if (playerBound.y >= playerInfo.currLane*calculation.laneHeight) {
+      console.log(playerInfo.currLane)
+      player.setVelocityY(0);
+      change = 0;
+      playerInfo.finishedLaneSwitching = true;
+    }
+  } else if (change < 0) {
+    playerBound = player.getBounds();
+    if (playerBound.y <= playerInfo.currLane*calculation.laneHeight) {
+      console.log(playerInfo.currLane)
+      player.setVelocityY(0);
+      change = 0;
+      playerInfo.finishedLaneSwitching = true;
+    }
+  }
+
   if (cursors.right.isDown) {
     if (!playerInfo.isBoosting) {
       speedBoost(5, 700);
@@ -150,7 +175,6 @@ function handleMovingForward() {
     loops[i].front.setPosition([loops[i].bound.x], [loops[i].bound.y]);
 
   }
-  //array.shift();
 }
 
 function update (){
