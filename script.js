@@ -16,8 +16,10 @@ var config = {
 },
   pixelArt: true,
 };
-
-let settings = {
+let calculation = {
+  laneHeight: config.height/4,
+}
+let playerInfo = {
   playerSpeed: 2,
   playerVerticalSpeed: 320,
   ogPlayerSpeed: 2,
@@ -31,11 +33,16 @@ let oceanBg;
 let oceanBgBound;
 let oceanBg2;
 let oceanBgBound2;
+let goldRing;
+let gameRef;
+//let backgroundLayer;
+
 function preload ()
 {
   this.load.image('oceanBg', 'assets/ocean.png');
   this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
-
+  this.load.image('goldLoopBack', 'assets/gold-ring/gold-ring-back.png');
+  this.load.image('goldLoopFront', 'assets/gold-ring/gold-ring-front.png');
   this.load.spritesheet('octopus',
       'assets/octopus.png',
   { frameWidth: 125, frameHeight: 100 }
@@ -44,62 +51,79 @@ function preload ()
 
 }
 
-function create ()
-{
+function spawnLoop(x, y) {
+
+  let goldRingBack = gameRef.add.sprite(x, y, 'goldLoopBack').setOrigin(0, 0).setScale(4.7);
+  goldRingBack.setDepth(0)
+  let goldRingFront = gameRef.add.sprite(x, y, 'goldLoopFront').setOrigin(0, 0).setScale(4.7);
+  goldRingFront.setDepth(3)
+
+}
+
+
+function create (){
+  gameRef=this;
   //ocean
   oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound = oceanBg.getBounds();
   oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound2 = oceanBg2.getBounds();
 
-  player = this.physics.add.sprite(100, 0, 'octopus').setScale(1.4);
+  player = this.physics.add.sprite(100, 0, 'octopus').setScale(1.6);
   player.setCollideWorldBounds(true);
+  player.setDepth(2);
+  spawnLoop(0, 0*calculation.laneHeight);
+  spawnLoop(0, 1*calculation.laneHeight);
+  spawnLoop(0, 2*calculation.laneHeight);
+  spawnLoop(0, 3*calculation.laneHeight);
+
+
   //cursor
   cursors = this.input.keyboard.createCursorKeys();
+
 }
 
+
 function speedBoost(speedboost, time) {
-  settings.playerSpeed += speedboost;
-  settings.isBoosting = true;
+  playerInfo.playerSpeed += speedboost;
+  playerInfo.isBoosting = true;
   setTimeout(() => {
-    settings.playerSpeed -= speedboost;
-    settings.isBoosting = false;
+    playerInfo.playerSpeed -= speedboost;
+    playerInfo.isBoosting = false;
   }, time); 
 }
 
 function handleMovement() {
   if (cursors.down.isDown) {
-    player.setVelocityY(settings.playerVerticalSpeed);
+    player.setVelocityY(playerInfo.playerVerticalSpeed);
   }
   if (cursors.up.isDown) {
-    player.setVelocityY(-settings.playerVerticalSpeed);
+    player.setVelocityY(-playerInfo.playerVerticalSpeed);
   }
   if (cursors.right.isDown) {
-    if (!settings.isBoosting) {
+    if (!playerInfo.isBoosting) {
       speedBoost(5, 700);
     }
   }
 }
 
-let test = 2;
 function handleMovingForward() {
-  if (oceanBg.x-settings.playerSpeed <= -oceanBgBound.width) {
-    console.log(settings.playerSpeed)
-    oceanBgBound.x = oceanBgBound2.x-settings.playerSpeed+oceanBgBound2.width;
+  if (oceanBg.x-playerInfo.playerSpeed <= -oceanBgBound.width) {
+    oceanBgBound.x = oceanBgBound2.x-playerInfo.playerSpeed+oceanBgBound2.width;
   } else {
-    oceanBgBound.x-=settings.playerSpeed;
+    oceanBgBound.x-=playerInfo.playerSpeed;
   }
   oceanBg.setPosition([oceanBgBound.x], [0])
 
-  if (oceanBg2.x-settings.playerSpeed <= -oceanBgBound2.width) {
-    oceanBgBound2.x = oceanBgBound2.width-settings.playerSpeed;
+  if (oceanBg2.x-playerInfo.playerSpeed <= -oceanBgBound2.width) {
+    oceanBgBound2.x = oceanBgBound2.width-playerInfo.playerSpeed;
   } else {
-    oceanBgBound2.x-=settings.playerSpeed;
+    oceanBgBound2.x-=playerInfo.playerSpeed;
   }
   oceanBg2.setPosition([oceanBgBound2.x], [0])
 }
 
 function update (){
   handleMovement();
-  handleMovingForward();
+  //handleMovingForward();
 }
