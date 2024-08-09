@@ -54,8 +54,9 @@ function preload ()
   this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
   this.load.image('goldLoopBack', 'assets/gold-ring/gold-ring-back.png');
   this.load.image('goldLoopFront', 'assets/gold-ring/gold-ring-front.png');
+  this.load.image('octoHitBox', 'assets/octopus/octoHitBox.png');
   this.load.spritesheet('octopus',
-      'assets/octopus.png',
+      'assets/octopus/octopus.png',
   { frameWidth: 125, frameHeight: 100 }
 );
 }
@@ -73,8 +74,9 @@ function spawnLoop(x, y) {
   }
   loops.push(goldRingInfo);
 }
-
+let playerContainer;
 let playerBound;
+let oceanHitBox;
 function create () {
   gameRef = this;
   //ocean
@@ -83,11 +85,15 @@ function create () {
   oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound2 = oceanBg2.getBounds();
 
-  player = this.physics.add.sprite(100, 0, 'octopus').setScale(1.5);
-  player.setCollideWorldBounds(true);
+  
+  player = this.add.image(0, 0, 'octopus').setScale(1).setOrigin(0, 0);
   player.setDepth(2);
   playerBound = player.getBounds();
-  
+  oceanHitBox = this.add.image(82, 38, 'octoHitBox').setScale(0.8).setOrigin(0, 0);
+  playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
+  playerContainer.add(player);
+  playerContainer.add(oceanHitBox);
+  this.physics.world.enable(playerContainer);
   setInterval(() => {
     let randomLane = Math.floor(Math.random() * 4);
     spawnLoop(config.width, randomLane*calculation.laneHeight);
@@ -108,15 +114,14 @@ function speedBoost(speedboost, time) {
 }
 let change = 0;
 function handleMovement() {
- // let change = 0;
   if (cursors.down.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane<calculation.maxLane) {
-    player.setVelocityY(playerInfo.playerVerticalSpeed);
+    playerContainer.body.setVelocityY(playerInfo.playerVerticalSpeed);
     playerInfo.finishedLaneSwitching = false;
     change = 1;
     playerInfo.currLane = playerInfo.currLane+change;
   }
   if (cursors.up.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane>0) {
-    player.setVelocityY(-playerInfo.playerVerticalSpeed);
+    playerContainer.body.setVelocityY(-playerInfo.playerVerticalSpeed);
     playerInfo.finishedLaneSwitching = false;
     change = -1;
     playerInfo.currLane = playerInfo.currLane+change;
@@ -126,7 +131,7 @@ function handleMovement() {
     playerBound = player.getBounds();
     if (playerBound.y >= playerInfo.currLane*calculation.laneHeight) {
       console.log(playerInfo.currLane)
-      player.setVelocityY(0);
+      playerContainer.body.setVelocityY(0);
       change = 0;
       playerInfo.finishedLaneSwitching = true;
     }
@@ -134,7 +139,7 @@ function handleMovement() {
     playerBound = player.getBounds();
     if (playerBound.y <= playerInfo.currLane*calculation.laneHeight) {
       console.log(playerInfo.currLane)
-      player.setVelocityY(0);
+      playerContainer.body.setVelocityY(0);
       change = 0;
       playerInfo.finishedLaneSwitching = true;
     }
