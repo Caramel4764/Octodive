@@ -47,6 +47,7 @@ let oceanBgBound2;
 let goldRing;
 let gameRef;
 let loops = [];
+let scoreText;
 
 function preload ()
 {
@@ -61,7 +62,8 @@ function preload ()
 );
 }
 
-function spawnLoop(x, y) {
+function spawnLoop(x, lane) {
+  let y = lane*calculation.laneHeight;
   let goldRingBack = gameRef.add.sprite(x, y, 'goldLoopBack').setOrigin(0, 0).setScale(4.7);
   goldRingBack.setDepth(0)
   let goldRingFront = gameRef.add.sprite(x, y, 'goldLoopFront').setOrigin(0, 0).setScale(4.7);
@@ -71,32 +73,47 @@ function spawnLoop(x, y) {
     back: goldRingBack,
     front: goldRingFront,
     bound: goldRingBound,
+    lane: lane,
+    hasGivenPoint: false,
   }
   loops.push(goldRingInfo);
 }
 let playerContainer;
 let playerBound;
-let oceanHitBox;
+let octoHitBoxBound;
+let octoHitBox;
 function create () {
   gameRef = this;
   //ocean
+  //var text = this.add.text(100, 100, 'Hello Phaser!', { font: '16px Arial', fill: '#ffffff' });
+  scoreText = this.add.text(860, 0, `${playerInfo.score}`, { font:'30px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(10);
   oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound = oceanBg.getBounds();
   oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound2 = oceanBg2.getBounds();
 
-  
-  player = this.add.image(0, 0, 'octopus').setScale(1).setOrigin(0, 0);
-  player.setDepth(2);
+  player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
+
   playerBound = player.getBounds();
-  oceanHitBox = this.add.image(82, 38, 'octoHitBox').setScale(0.8).setOrigin(0, 0);
+  //currently invisible hitbox
+  octoHitBox = this.add.image(82, 38, 'octoHitBox').setScale(0.8).setOrigin(0, 0)//.setVisible(false);
+  octoHitBoxBound = octoHitBox.getBounds();
   playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
+
+  this.anims.create({
+    key: 'swim',
+    frames: this.anims.generateFrameNumbers('octopus', { start: 0, end: 20 }),
+    frameRate: 13,
+    repeat: -1
+  });
+  player.anims.play('swim', true);
+
   playerContainer.add(player);
-  playerContainer.add(oceanHitBox);
+  playerContainer.add(octoHitBox);
   this.physics.world.enable(playerContainer);
   setInterval(() => {
     let randomLane = Math.floor(Math.random() * 4);
-    spawnLoop(config.width, randomLane*calculation.laneHeight);
+    spawnLoop(config.width, randomLane);
   }, playerInfo.loopSpawnInterval);
   //cursor
   cursors = this.input.keyboard.createCursorKeys();
@@ -130,7 +147,6 @@ function handleMovement() {
   if (change > 0) {
     playerBound = player.getBounds();
     if (playerBound.y >= playerInfo.currLane*calculation.laneHeight) {
-      console.log(playerInfo.currLane)
       playerContainer.body.setVelocityY(0);
       change = 0;
       playerInfo.finishedLaneSwitching = true;
@@ -138,7 +154,6 @@ function handleMovement() {
   } else if (change < 0) {
     playerBound = player.getBounds();
     if (playerBound.y <= playerInfo.currLane*calculation.laneHeight) {
-      console.log(playerInfo.currLane)
       playerContainer.body.setVelocityY(0);
       change = 0;
       playerInfo.finishedLaneSwitching = true;
@@ -153,6 +168,8 @@ function handleMovement() {
 }
 
 function handleMovingForward() {
+  octoHitBoxBound = octoHitBox.getBounds();
+
   if (oceanBg.x-playerInfo.playerSpeed <= -oceanBgBound.width) {
     oceanBgBound.x = oceanBgBound2.x-playerInfo.playerSpeed+oceanBgBound2.width;
   } else {
@@ -169,6 +186,11 @@ function handleMovingForward() {
 
   //loops
   for (let i = 0; i < loops.length; i++) {
+    if (loops[i].hasGivenPoint == false &&loops[i].lane == playerInfo.currLane && octoHitBoxBound.x+playerInfo.playerSpeed >= loops[i].bound.x && octoHitBoxBound.x+playerInfo.playerSpeed <= loops[i].bound.x+loops[i].bound.width) {
+      loops[i].hasGivenPoint = true;
+      playerInfo.score+=5;
+      scoreText.setText(`${playerInfo.score}`);
+    }
     if (loops[i].bound.x-playerInfo.playerSpeed <= -loops[i].bound.width-playerInfo.playerSpeed) {
       loops[i].front.destroy();
       loops[i].back.destroy();
