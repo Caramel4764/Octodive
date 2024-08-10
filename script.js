@@ -85,7 +85,6 @@ let octoHitBox;
 function create () {
   gameRef = this;
   //ocean
-  //var text = this.add.text(100, 100, 'Hello Phaser!', { font: '16px Arial', fill: '#ffffff' });
   scoreText = this.add.text(860, 0, `${playerInfo.score}`, { font:'30px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(10);
   oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   oceanBgBound = oceanBg.getBounds();
@@ -96,7 +95,7 @@ function create () {
 
   playerBound = player.getBounds();
   //currently invisible hitbox
-  octoHitBox = this.add.image(82, 38, 'octoHitBox').setScale(0.8).setOrigin(0, 0)//.setVisible(false);
+  octoHitBox = this.add.image(82, 38, 'octoHitBox').setScale(0.8).setOrigin(0, 0).setVisible(false);
   octoHitBoxBound = octoHitBox.getBounds();
   playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
 
