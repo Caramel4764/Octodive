@@ -19,6 +19,7 @@ let playerInfo = {
   distanceTraveledText: undefined,
   prevDistanceTraveledRounded: 0,
   silverLoopSpawnDistanceRate: 1,
+  life: 3,
 }
 
 export {playerInfo}

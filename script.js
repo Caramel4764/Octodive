@@ -6,6 +6,7 @@ import {handleMovingForward} from "./javascript/handleMovingForward.js";
 import { spawnGoldHoop } from "./javascript/spawnRing.js";
 import { spawnSilverHoop } from "./javascript/spawnRing.js";
 import { gameInfo } from "./javascript/data/gameInfo.js";
+import {spawnPufferfish} from "./javascript/spawnPufferfish.js";
 import { handlePlayerMovement } from "./javascript/handlePlayerMovement.js";
 let config = {
   type: Phaser.AUTO,
@@ -36,12 +37,19 @@ function preload ()
   this.load.image('silverLoopBack', 'assets/silver-ring/silver-ring-back.png');
   this.load.image('silverLoopFront', 'assets/silver-ring/silver-ring-front.png');
   this.load.image('octoHitBox', 'assets/octopus/octoHitBox.png');
+  this.load.image('heart', 'assets/oceanHeart.png');
   this.load.spritesheet('octopus',
       'assets/octopus/octopus.png',
-  { frameWidth: 125, frameHeight: 100 }
-);
+    { frameWidth: 125, frameHeight: 100 }
+  );
+  this.load.spritesheet('pufferfish',
+    'assets/pufferfish.png',
+    { frameWidth: 70, frameHeight: 70 }
+  );
 }
 function create () {
+  gameInfo.laneHeight = config.height/4;
+  gameInfo.laneWidth = config.width;
   gameInfo.gameRef = this;
   //ocean
   playerInfo.scoreText = this.add.text(845, 0, `${playerInfo.score}`, { font:'30px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(10);
@@ -56,8 +64,7 @@ function create () {
   playerInfo.octoHitBox = this.add.image(90, 34, 'octoHitBox').setScale(1.3).setOrigin(0, 0).setVisible(false);
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
   playerInfo.playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
-  
-
+  spawnPufferfish(2);
   this.anims.create({
     key: 'swim',
     frames: this.anims.generateFrameNumbers('octopus', { start: 0, end: 20 }),
