@@ -46,9 +46,10 @@ function create () {
   gameInfo.gameRef = this;
   //ocean
   playerInfo.scoreText = this.add.text(845, 0, `${playerInfo.score}`, { font:'30px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(10);
+  playerInfo.distanceTraveledText = this.add.text(845, 30, `${playerInfo.distanceTraveledRounded}`, { font:'30px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(10);
   background.oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   background.oceanBgBound = background.oceanBg.getBounds();
-  background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
+  background.oceanBg2 = this.add.image(900, 0, 'oceanBgGreen').setScale(3).setOrigin(0, 0);
   background.oceanBgBound2 = background.oceanBg2.getBounds();
   playerInfo.player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
   playerInfo.playerBound = playerInfo.player.getBounds();
@@ -56,6 +57,7 @@ function create () {
   playerInfo.octoHitBox = this.add.image(90, 34, 'octoHitBox').setScale(1.3).setOrigin(0, 0).setVisible(false);
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
   playerInfo.playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
+  
 
   this.anims.create({
     key: 'swim',
@@ -82,17 +84,13 @@ function create () {
   gameInfo.cursors = this.input.keyboard.createCursorKeys();
 
 }
-
-function speedBoost(speedboost, time) {
-  playerInfo.playerSpeed += speedboost;
-  playerInfo.isBoosting = true;
-  setTimeout(() => {
-    playerInfo.playerSpeed -= speedboost;
-    playerInfo.isBoosting = false;
-  }, time); 
-}
-
-function update (){
-  handlePlayerMovement();
+function update (time, delta){
   handleMovingForward();
+  handlePlayerMovement();
 }
+
+setInterval(() => {
+  playerInfo.distanceTraveled += playerInfo.playerSpeed;
+  playerInfo.distanceTraveledRounded = Math.floor(playerInfo.distanceTraveled);
+  playerInfo.distanceTraveledText.setText(`${playerInfo.distanceTraveledRounded}`);
+}, 1000)

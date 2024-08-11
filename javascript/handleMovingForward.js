@@ -1,7 +1,7 @@
 import { moveLoopBack } from "./moveLoopBack.js";
 import { playerInfo } from "./data/playerInfo.js";
 import { background } from "./data/background.js";
-
+let firstLoop = true;
 function handleMovingForward() {
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
   if (background.oceanBg.x-playerInfo.playerSpeed <= -background.oceanBgBound.width) {
@@ -12,13 +12,18 @@ function handleMovingForward() {
   background.oceanBg.setPosition([background.oceanBgBound.x], [0])
 
   if (background.oceanBg2.x-playerInfo.playerSpeed <= -background.oceanBgBound2.width) {
+    if (firstLoop) {
     background.oceanBgBound2.x = background.oceanBgBound2.width-playerInfo.playerSpeed;
+    } else {
+    background.oceanBgBound2.x = background.oceanBgBound.x-playerInfo.playerSpeed+background.oceanBgBound.width;
+    }
   } else {
     background.oceanBgBound2.x-=playerInfo.playerSpeed/2;
   }
   background.oceanBg2.setPosition([background.oceanBgBound2.x], [0]);
   //loops
   moveLoopBack();
+  firstLoop=false;
 }
 
 export {handleMovingForward}

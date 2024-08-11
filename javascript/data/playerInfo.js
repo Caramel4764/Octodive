@@ -14,6 +14,10 @@ let playerInfo = {
   playerContainer: undefined,
   player: undefined,
   playerBound: undefined,
+  distanceTraveled: 0,
+  distanceTraveledRounded: 0,
+  distanceTraveledText: undefined,
+
 }
 
 export {playerInfo}
