@@ -1,0 +1,4 @@
+function moveToCenterOfMenu() {
+  
+}
+export {moveToCenterOfMenu}
