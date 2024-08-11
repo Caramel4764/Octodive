@@ -11,6 +11,9 @@ let playerInfo = {
   octoHitBoxBound: undefined,
   octoHitBox: undefined,
   scoreText: undefined,
+  playerContainer: undefined,
+  player: undefined,
+  playerBound: undefined,
 }
 
 export {playerInfo}

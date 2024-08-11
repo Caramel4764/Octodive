@@ -5,9 +5,8 @@ import { background } from "./javascript/data/background.js";
 import {handleMovingForward} from "./javascript/handleMovingForward.js";
 import { spawnGoldHoop } from "./javascript/spawnRing.js";
 import { spawnSilverHoop } from "./javascript/spawnRing.js";
-
-let loops = entity.loops;
-let silverLoops = entity.silverLoops;
+import { gameInfo } from "./javascript/data/gameInfo.js";
+import { handlePlayerMovement } from "./javascript/handlePlayerMovement.js";
 let config = {
   type: Phaser.AUTO,
   width: 900,
@@ -26,15 +25,7 @@ let config = {
 },
   pixelArt: true,
 };
-
-let calculation = {
-  laneHeight: config.height/4,
-  maxLane: 3,
-}
-
 let game = new Phaser.Game(config);
-let player;
-let gameRef;
 
 function preload ()
 {
@@ -51,27 +42,20 @@ function preload ()
 );
 }
 
-
-
-let playerContainer;
-let playerBound;
-let cursors;
 function create () {
-  gameRef = this;
+  gameInfo.gameRef = this;
   //ocean
   playerInfo.scoreText = this.add.text(845, 0, `${playerInfo.score}`, { font:'30px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(10);
   background.oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   background.oceanBgBound = background.oceanBg.getBounds();
   background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   background.oceanBgBound2 = background.oceanBg2.getBounds();
-
-  player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
-
-  playerBound = player.getBounds();
+  playerInfo.player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
+  playerInfo.playerBound = playerInfo.player.getBounds();
   //currently invisible hitbox
   playerInfo.octoHitBox = this.add.image(90, 34, 'octoHitBox').setScale(1.3).setOrigin(0, 0).setVisible(false);
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
-  playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
+  playerInfo.playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
 
   this.anims.create({
     key: 'swim',
@@ -79,11 +63,11 @@ function create () {
     frameRate: 13,
     repeat: -1
   });
-  player.anims.play('swim', true);
+  playerInfo.player.anims.play('swim', true);
 
-  playerContainer.add(player);
-  playerContainer.add(playerInfo.octoHitBox);
-  this.physics.world.enable(playerContainer);
+  playerInfo.playerContainer.add(playerInfo.player);
+  playerInfo.playerContainer.add(playerInfo.octoHitBox);
+  this.physics.world.enable(playerInfo.playerContainer);
   setInterval(() => {
     let randomLane = Math.floor(Math.random() * 4);
     spawnGoldHoop(config.width, randomLane);
@@ -92,14 +76,12 @@ function create () {
   setInterval(() => {
     let randomLane = Math.floor(Math.random() * 4);
     spawnSilverHoop(config.width, randomLane);
-
   }, playerInfo.silverLoopSpawnInterval);
   //
   //cursor
-  cursors = this.input.keyboard.createCursorKeys();
+  gameInfo.cursors = this.input.keyboard.createCursorKeys();
 
 }
-
 
 function speedBoost(speedboost, time) {
   playerInfo.playerSpeed += speedboost;
@@ -109,47 +91,8 @@ function speedBoost(speedboost, time) {
     playerInfo.isBoosting = false;
   }, time); 
 }
-let change = 0;
-function handleMovement() {
-  if (cursors.down.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane<calculation.maxLane) {
-    playerContainer.body.setVelocityY(playerInfo.playerVerticalSpeed);
-    playerInfo.finishedLaneSwitching = false;
-    change = 1;
-    playerInfo.currLane = playerInfo.currLane+change;
-  }
-  if (cursors.up.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane>0) {
-    playerContainer.body.setVelocityY(-playerInfo.playerVerticalSpeed);
-    playerInfo.finishedLaneSwitching = false;
-    change = -1;
-    playerInfo.currLane = playerInfo.currLane+change;
-  }
-
-  if (change > 0) {
-    playerBound = player.getBounds();
-    if (playerBound.y >= playerInfo.currLane*calculation.laneHeight) {
-      playerContainer.body.setVelocityY(0);
-      change = 0;
-      playerInfo.finishedLaneSwitching = true;
-    }
-  } else if (change < 0) {
-    playerBound = player.getBounds();
-    if (playerBound.y <= playerInfo.currLane*calculation.laneHeight) {
-      playerContainer.body.setVelocityY(0);
-      change = 0;
-      playerInfo.finishedLaneSwitching = true;
-    }
-  }
-
-  if (cursors.right.isDown) {
-    if (!playerInfo.isBoosting) {
-      speedBoost(5, 700);
-    }
-  }
-}
-
-handleMovingForward
 
 function update (){
-  handleMovement();
+  handlePlayerMovement();
   handleMovingForward();
 }
