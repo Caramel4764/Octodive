@@ -41,7 +41,6 @@ function preload ()
   { frameWidth: 125, frameHeight: 100 }
 );
 }
-
 function create () {
   gameInfo.gameRef = this;
   //ocean
@@ -49,7 +48,7 @@ function create () {
   playerInfo.distanceTraveledText = this.add.text(845, 30, `${playerInfo.distanceTraveledRounded}`, { font:'30px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(10);
   background.oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   background.oceanBgBound = background.oceanBg.getBounds();
-  background.oceanBg2 = this.add.image(900, 0, 'oceanBgGreen').setScale(3).setOrigin(0, 0);
+  background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
   background.oceanBgBound2 = background.oceanBg2.getBounds();
   playerInfo.player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
   playerInfo.playerBound = playerInfo.player.getBounds();
@@ -74,23 +73,21 @@ function create () {
     let randomLane = Math.floor(Math.random() * 4);
     spawnGoldHoop(config.width, randomLane);
   }, playerInfo.goldLoopSpawnInterval);
-
-  setInterval(() => {
-    let randomLane = Math.floor(Math.random() * 4);
-    spawnSilverHoop(config.width, randomLane);
-  }, playerInfo.silverLoopSpawnInterval);
-  //
-  //cursor
   gameInfo.cursors = this.input.keyboard.createCursorKeys();
 
 }
-function update (time, delta){
+function update (time, delta) {
   handleMovingForward();
   handlePlayerMovement();
+  if (playerInfo.distanceTraveledRounded-playerInfo.prevDistanceTraveledRounded >= playerInfo.silverLoopSpawnDistanceRate) {
+    playerInfo.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
+    spawnSilverHoop(config.width, Math.floor(Math.random() * 4));
+    spawnSilverHoop(config.width+(config.width/4), Math.floor(Math.random() * 4));
+  }
 }
 
 setInterval(() => {
-  playerInfo.distanceTraveled += playerInfo.playerSpeed;
+  playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
   playerInfo.distanceTraveledRounded = Math.floor(playerInfo.distanceTraveled);
   playerInfo.distanceTraveledText.setText(`${playerInfo.distanceTraveledRounded}`);
-}, 1000)
+}, 200)

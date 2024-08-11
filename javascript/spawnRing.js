@@ -1,6 +1,6 @@
 import { gameInfo } from "./data/gameInfo.js";
 import { entity } from "./data/entity.js";
-
+let goldRingBoundTest;
 let loops = entity.loops;
 let silverLoops = entity.silverLoops;
 function spawnGoldHoop(x, lane) {
@@ -18,6 +18,7 @@ function spawnGoldHoop(x, lane) {
     hasGivenPoint: false,
   }
   loops.push(goldRingInfo);
+  goldRingBoundTest = goldRingBound;
 }
 
 function spawnSilverHoop(x, lane) {
