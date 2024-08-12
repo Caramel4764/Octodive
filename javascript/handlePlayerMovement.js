@@ -5,30 +5,31 @@ let change = 0;
 
 function handlePlayerMovement() {
   if (gameInfo.cursors.down.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane<gameInfo.maxLane) {
-    playerInfo.playerContainer.body.setVelocityY(playerInfo.playerVerticalSpeed);
     playerInfo.finishedLaneSwitching = false;
+    playerInfo.playerContainer.body.setVelocityY(playerInfo.playerVerticalSpeed);
     change = 1;
     playerInfo.currLane = playerInfo.currLane+change;
   }
   if (gameInfo.cursors.up.isDown && playerInfo.finishedLaneSwitching && playerInfo.currLane>0) {
-    playerInfo.playerContainer.body.setVelocityY(-playerInfo.playerVerticalSpeed);
     playerInfo.finishedLaneSwitching = false;
+    playerInfo.playerContainer.body.setVelocityY(-playerInfo.playerVerticalSpeed);
     change = -1;
     playerInfo.currLane = playerInfo.currLane+change;
   }
   if (change > 0) {
     playerInfo.playerBound = playerInfo.player.getBounds();
     if (playerInfo.playerBound.y >= playerInfo.currLane*gameInfo.laneHeight) {
+      playerInfo.finishedLaneSwitching = true;
       playerInfo.playerContainer.body.setVelocityY(0);
       change = 0;
-      playerInfo.finishedLaneSwitching = true;
     }
   } else if (change < 0) {
     playerInfo.playerBound = playerInfo.player.getBounds();
+
     if (playerInfo.playerBound.y <= playerInfo.currLane*gameInfo.laneHeight) {
+      playerInfo.finishedLaneSwitching = true;
       playerInfo.playerContainer.body.setVelocityY(0);
       change = 0;
-      playerInfo.finishedLaneSwitching = true;
     }
   }
 

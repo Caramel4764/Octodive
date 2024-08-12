@@ -21,6 +21,8 @@ let playerInfo = {
   silverLoopSpawnDistanceRate: 1,
   life: 3,
   heartEntity : [],
+  octoDangerHitBox: undefined,
+  octoDangerHitBoxBound: undefined,
 }
 
 export {playerInfo}

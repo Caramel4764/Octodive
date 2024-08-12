@@ -49,6 +49,8 @@ function preload ()
   this.load.image('heartEmpty', 'assets/oceanHeartEmpty.png');
   this.load.image('sandGround', 'assets/sandyGround.png');
   this.load.image('sidebarMenuBg', 'assets/sidebarMenuBg.png');
+  this.load.image('octoDangerHitBox', 'assets/octoDangerHitBox.png');
+
   this.load.spritesheet('octopus',
       'assets/octopus/octopus.png',
     { frameWidth: 125, frameHeight: 100 }
@@ -89,6 +91,9 @@ function create () {
   //currently invisible hitbox
   playerInfo.octoHitBox = this.add.image(90, 34, 'octoHitBox').setScale(1.3).setOrigin(0, 0).setVisible(false);
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
+
+  playerInfo.octoDangerHitBox = this.add.image(120, 34, 'octoDangerHitBox').setScale(2.5).setOrigin(0, 0)//.setVisible(false);
+  playerInfo.octoDangerHitBoxBound = playerInfo.octoDangerHitBox.getBounds();
   playerInfo.playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
   spawnPufferfish(2);
   this.anims.create({
@@ -101,6 +106,7 @@ function create () {
 
   playerInfo.playerContainer.add(playerInfo.player);
   playerInfo.playerContainer.add(playerInfo.octoHitBox);
+  playerInfo.playerContainer.add(playerInfo.octoDangerHitBox);
   this.physics.world.enable(playerInfo.playerContainer);
 
   this.time.addEvent({

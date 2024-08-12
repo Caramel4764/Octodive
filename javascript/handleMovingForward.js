@@ -29,10 +29,19 @@ function handleMovingForward() {
     let pufferfishBounds = pufferfish.pufferfish.getBounds();
     //0.3 is pufferfish speed for going slower
     pufferfishBounds.x -= playerInfo.playerSpeed-0.3;
+    //console.log(playerInfo.octoDangerHitBox.getBounds().x)
+    if (pufferfishBounds.x) {
+    if (playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
+      alert(`${pufferfishBounds.x+pufferfishBounds.width}`)
+    }
+  }
     pufferfish.pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
-    if ((playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.playerBound.x+playerInfo.playerSpeed > pufferfishBounds.x && playerInfo.playerBound.x+playerInfo.playerSpeed<pufferfishBounds.x+pufferfishBounds.width) {
+    if ((playerInfo.finishedLaneSwitching == true && playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
+      if (playerInfo.finishedLaneSwitching) {
       changeLife(-1)
+      //alert('hit')
       pufferfish.hasBeenHit = true;
+      }
     }
   })
   firstLoop=false;
