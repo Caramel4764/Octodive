@@ -70,6 +70,7 @@ function create () {
   gameInfo.laneHeight = config.height/4;
   gameInfo.laneWidth = config.width;
   gameInfo.gameRef = this;
+  gameInfo.game = game;
   //ocean
   playerInfo.scoreText = this.add.text(920, 14, `${playerInfo.score}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
   playerInfo.distanceTraveledText = this.add.text(920, 60, `${playerInfo.distanceTraveledRounded}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
@@ -112,6 +113,11 @@ function create () {
     delay: 200,
     callback: updateDistance,
     callbackScope: this,
+    loop: true
+  });
+  this.time.addEvent({
+    delay: 5000,
+    callback: spawnPufferfish,
     loop: true
   });
 

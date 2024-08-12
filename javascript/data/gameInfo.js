@@ -4,7 +4,8 @@ let gameInfo = {
   maxLane: 3,
   gameRef: undefined,
   cursors: undefined,
-  sidebarMenuBg: undefined
+  sidebarMenuBg: undefined,
+  game: undefined,
 }
 
 export {gameInfo}

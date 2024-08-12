@@ -1,6 +1,6 @@
 let playerInfo = {
-  playerSpeed: 2,
-  playerVerticalSpeed: 450,
+  playerSpeed: 3,
+  playerVerticalSpeed: 480,
   ogPlayerSpeed: 2,
   isBoosting: false,
   goldLoopSpawnInterval: 5000,
@@ -20,6 +20,7 @@ let playerInfo = {
   prevDistanceTraveledRounded: 0,
   silverLoopSpawnDistanceRate: 1,
   life: 3,
+  heartEntity : [],
 }
 
 export {playerInfo}
