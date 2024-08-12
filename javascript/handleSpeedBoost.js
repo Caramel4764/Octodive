@@ -1,12 +1,13 @@
+import { gameInfo } from "./data/gameInfo.js";
 import { playerInfo } from "./data/playerInfo.js";
 
 function handleSpeedBoost(speedboost, time) {
   playerInfo.playerSpeed += speedboost;
   playerInfo.isBoosting = true;
-  setTimeout(() => {
+  gameInfo.gameRef.time.delayedCall(time, () => {
     playerInfo.playerSpeed -= speedboost;
     playerInfo.isBoosting = false;
-  }, time); 
+  });
 }
 
 export {handleSpeedBoost}

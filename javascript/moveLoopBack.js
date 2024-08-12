@@ -1,5 +1,8 @@
 import { entity } from "./data/entity.js";
+import { gameInfo } from "./data/gameInfo.js";
 import { playerInfo } from "./data/playerInfo.js";
+import { moveToCenterOfMenu } from "./moveToCenterOfMenu.js";
+
 let loops = entity.loops;
 let silverLoops = entity.silverLoops;
 
@@ -10,6 +13,8 @@ function moveLoopBack(loop) {
       silverLoops[i].hasGivenPoint = true;
       playerInfo.score+=1;
       playerInfo.scoreText.setText(`${playerInfo.score}`);
+      moveToCenterOfMenu(playerInfo.scoreText,15)
+
     }
     if (silverLoops[i].bound.x-playerInfo.playerSpeed <= -silverLoops[i].bound.width-playerInfo.playerSpeed-200) {
       silverLoops[i].front.destroy();

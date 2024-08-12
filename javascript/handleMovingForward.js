@@ -1,6 +1,7 @@
 import { moveLoopBack } from "./moveLoopBack.js";
 import { playerInfo } from "./data/playerInfo.js";
 import { background } from "./data/background.js";
+import {entity} from "./data/entity.js";
 let firstLoop = true;
 function handleMovingForward() {
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
@@ -23,6 +24,12 @@ function handleMovingForward() {
   background.oceanBg2.setPosition([background.oceanBgBound2.x], [0]);
   //loops
   moveLoopBack();
+  entity.pufferfish.forEach(pufferfish => {
+    let pufferfishBounds = pufferfish.getBounds();
+    //5 is pufferfish speed
+    pufferfishBounds.x -= playerInfo.playerSpeed-0.3;
+    pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
+  })
   firstLoop=false;
 }
 

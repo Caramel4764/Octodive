@@ -3,7 +3,9 @@ import { entity } from "./data/entity.js";
 let goldRingBoundTest;
 let loops = entity.loops;
 let silverLoops = entity.silverLoops;
-function spawnGoldHoop(x, lane) {
+function spawnGoldHoop() {
+  let x = gameInfo.laneWidth;
+  let lane = Math.floor(Math.random() * 4);
   let y = lane*gameInfo.laneHeight;
   let goldRingBack = gameInfo.gameRef.add.sprite(x, y, 'goldLoopBack').setOrigin(0, 0).setScale(4.7);
   goldRingBack.setDepth(0)

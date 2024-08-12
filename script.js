@@ -9,6 +9,8 @@ import { gameInfo } from "./javascript/data/gameInfo.js";
 import {spawnPufferfish} from "./javascript/spawnPufferfish.js";
 import { handlePlayerMovement } from "./javascript/handlePlayerMovement.js";
 import { createHeart } from "./javascript/createHeart.js";
+import { moveToCenterOfMenu } from "./javascript/moveToCenterOfMenu.js";
+
 let config = {
   type: Phaser.AUTO,
   width: 1000,
@@ -24,9 +26,14 @@ let config = {
         gravity: { y: 0 },
         debug: false
     }
-},
+  },
+  fps: {
+    target: 60,
+    forceSetTimeOut: true
+  },
   pixelArt: true,
 };
+
 let game = new Phaser.Game(config);
 
 function preload ()
@@ -51,6 +58,14 @@ function preload ()
     { frameWidth: 70, frameHeight: 70 }
   );
 }
+
+function updateDistance() {
+  playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
+  playerInfo.distanceTraveledRounded = Math.floor(playerInfo.distanceTraveled);
+  playerInfo.distanceTraveledText.setText(`${playerInfo.distanceTraveledRounded}m`);
+  moveToCenterOfMenu(playerInfo.distanceTraveledText,62)
+}
+
 function create () {
   gameInfo.laneHeight = config.height/4;
   gameInfo.laneWidth = config.width;
@@ -70,7 +85,6 @@ function create () {
   createHeart(200);
   createHeart(270);
 
-  
   //currently invisible hitbox
   playerInfo.octoHitBox = this.add.image(90, 34, 'octoHitBox').setScale(1.3).setOrigin(0, 0).setVisible(false);
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
@@ -87,11 +101,23 @@ function create () {
   playerInfo.playerContainer.add(playerInfo.player);
   playerInfo.playerContainer.add(playerInfo.octoHitBox);
   this.physics.world.enable(playerInfo.playerContainer);
-  setInterval(() => {
-    let randomLane = Math.floor(Math.random() * 4);
-    spawnGoldHoop(config.width, randomLane);
-  }, playerInfo.goldLoopSpawnInterval);
+
+  this.time.addEvent({
+    delay: playerInfo.goldLoopSpawnInterval,
+    callback: spawnGoldHoop,
+    callbackScope: this,
+    loop: true
+  })
+  this.time.addEvent({
+    delay: 200,
+    callback: updateDistance,
+    callbackScope: this,
+    loop: true
+  });
+
   gameInfo.cursors = this.input.keyboard.createCursorKeys();
+  moveToCenterOfMenu(playerInfo.scoreText,15)
+  moveToCenterOfMenu(playerInfo.distanceTraveledText,62)
 
 }
 function update (time, delta) {
@@ -100,12 +126,6 @@ function update (time, delta) {
   if (playerInfo.distanceTraveledRounded-playerInfo.prevDistanceTraveledRounded >= playerInfo.silverLoopSpawnDistanceRate) {
     playerInfo.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
     spawnSilverHoop(config.width, Math.floor(Math.random() * 4));
-    spawnSilverHoop(config.width+(config.width/4), Math.floor(Math.random() * 4));
   }
 }
 
-setInterval(() => {
-  playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
-  playerInfo.distanceTraveledRounded = Math.floor(playerInfo.distanceTraveled);
-  playerInfo.distanceTraveledText.setText(`${playerInfo.distanceTraveledRounded}`);
-}, 200)
