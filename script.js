@@ -93,7 +93,7 @@ function create () {
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
 
 
-  playerInfo.octoDangerHitBox = this.physics.add.sprite(100, 34, 'octoDangerHitBox').setScale(1).setOrigin(0, 0)//.setVisible(false);
+  playerInfo.octoDangerHitBox = this.physics.add.sprite(17, 34, 'octoDangerHitBox').setScale(4).setOrigin(0, 0).setVisible(false);
   playerInfo.octoDangerHitBoxBound = playerInfo.octoDangerHitBox.getBounds();
   spawnPufferfish(2);
   this.anims.create({
