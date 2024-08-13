@@ -3,6 +3,7 @@ import { playerInfo } from "./data/playerInfo.js";
 import { background } from "./data/background.js";
 import {entity} from "./data/entity.js";
 import { changeLife } from "./changeLife.js";
+import { gameInfo } from "./data/gameInfo.js";
 let firstLoop = true;
 function handleMovingForward() {
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
@@ -23,27 +24,25 @@ function handleMovingForward() {
     background.oceanBgBound2.x-=playerInfo.playerSpeed/2;
   }
   background.oceanBg2.setPosition([background.oceanBgBound2.x], [0]);
-  //loops
-  moveLoopBack();
+
+
   entity.pufferfish.forEach(pufferfish => {
     let pufferfishBounds = pufferfish.pufferfish.getBounds();
     //0.3 is pufferfish speed for going slower
     pufferfishBounds.x -= playerInfo.playerSpeed-0.3;
-    //console.log(playerInfo.octoDangerHitBox.getBounds().x)
-    if (pufferfishBounds.x) {
-    if (playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
-      alert(`${pufferfishBounds.x+pufferfishBounds.width}`)
-    }
-  }
+
     pufferfish.pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
-    if ((playerInfo.finishedLaneSwitching == true && playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
+    /*if ((playerInfo.finishedLaneSwitching == true && playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
       if (playerInfo.finishedLaneSwitching) {
-      changeLife(-1)
-      //alert('hit')
-      pufferfish.hasBeenHit = true;
+        console.log(playerInfo.octoDangerHitBoxBound.x)
+
       }
-    }
+    }*/
   })
+
+  //loops
+  moveLoopBack();
+
   firstLoop=false;
 }
 

@@ -92,9 +92,9 @@ function create () {
   playerInfo.octoHitBox = this.add.image(90, 34, 'octoHitBox').setScale(1.3).setOrigin(0, 0).setVisible(false);
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
 
-  playerInfo.octoDangerHitBox = this.add.image(120, 34, 'octoDangerHitBox').setScale(2.5).setOrigin(0, 0)//.setVisible(false);
+
+  playerInfo.octoDangerHitBox = this.physics.add.sprite(100, 34, 'octoDangerHitBox').setScale(1).setOrigin(0, 0)//.setVisible(false);
   playerInfo.octoDangerHitBoxBound = playerInfo.octoDangerHitBox.getBounds();
-  playerInfo.playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
   spawnPufferfish(2);
   this.anims.create({
     key: 'swim',
@@ -104,6 +104,7 @@ function create () {
   });
   playerInfo.player.anims.play('swim', true);
 
+  playerInfo.playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
   playerInfo.playerContainer.add(playerInfo.player);
   playerInfo.playerContainer.add(playerInfo.octoHitBox);
   playerInfo.playerContainer.add(playerInfo.octoDangerHitBox);
