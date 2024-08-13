@@ -101,7 +101,7 @@ export default class GameScene extends Phaser.Scene {
       loop: true
     });
     this.time.addEvent({
-      delay: 5000,
+      delay: 1000,
       callback: spawnPufferfish,
       loop: true
     });

@@ -33,8 +33,8 @@ function handleMovingForward() {
     pufferfish.pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
     if ((playerInfo.finishedLaneSwitching == true && playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
       if (playerInfo.finishedLaneSwitching) {
-        console.log(playerInfo.octoDangerHitBoxBound.x)
         changeLife(-1)
+        
         pufferfish.hasBeenHit = true;
       }
     }

@@ -23,7 +23,7 @@ let config = {
     forceSetTimeOut: true
   },
   pixelArt: true,
-  scene: [GameOver, GameScene]
+  scene: [GameScene, GameOver]
 };
 
 let game = new Phaser.Game(config);
