@@ -1,6 +1,7 @@
 
 import GameScene from './gameScene.js';
 import GameOver from './gameOver.js';
+import {funFactList} from "./javascript/data/funfact.js";
 let config = {
   type: Phaser.AUTO,
   width: 1000,

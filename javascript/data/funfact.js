@@ -5,3 +5,5 @@ let funFactList = [
   'Octopuses are highly intelligent and able to use tools',
   'Most octopuses are able to shoot ink at some point in their life to distract predators',
 ]
+
+export {funFactList}
