@@ -3,7 +3,6 @@ import { playerInfo } from "./data/playerInfo.js";
 import { background } from "./data/background.js";
 import {entity} from "./data/entity.js";
 import { changeLife } from "./changeLife.js";
-import { gameInfo } from "./data/gameInfo.js";
 let firstLoop = true;
 function handleMovingForward() {
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
@@ -32,12 +31,13 @@ function handleMovingForward() {
     pufferfishBounds.x -= playerInfo.playerSpeed-0.3;
 
     pufferfish.pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
-    /*if ((playerInfo.finishedLaneSwitching == true && playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
+    if ((playerInfo.finishedLaneSwitching == true && playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
       if (playerInfo.finishedLaneSwitching) {
         console.log(playerInfo.octoDangerHitBoxBound.x)
-
+        changeLife(-1)
+        pufferfish.hasBeenHit = true;
       }
-    }*/
+    }
   })
 
   //loops
