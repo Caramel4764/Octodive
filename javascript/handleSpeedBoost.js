@@ -6,7 +6,7 @@ function handleSpeedBoost(speedboost, time) {
     playerInfo.isBoosting = true;
     playerInfo.boostSpeed = speedboost,
     playerInfo.boostTimeEvent.push(gameInfo.gameRef.time.addEvent({
-      delay: playerInfo.restartDelay,
+      delay: time,
       callback: function () {
         playerInfo.playerSpeed -= speedboost;
         playerInfo.isBoosting = false;

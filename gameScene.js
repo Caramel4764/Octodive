@@ -117,7 +117,7 @@ export default class GameScene extends Phaser.Scene {
     playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
     playerInfo.rightKey = this.input.keyboard.on('keydown_RIGHT', function (event) {
       if (playerInfo.isBoosting == false && playerInfo.inkBarAmount > 0) {
-        handleSpeedBoost(5, 2000);
+        handleSpeedBoost(5, playerInfo.boostDuration);
         playerInfo.isInvincible = true;
       }
     }, this);
