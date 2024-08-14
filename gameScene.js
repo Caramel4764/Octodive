@@ -11,7 +11,7 @@ import { handlePlayerMovement } from "./javascript/handlePlayerMovement.js";
 import { createHeart } from "./javascript/createHeart.js";
 import { moveToCenterOfMenu } from "./javascript/moveToCenterOfMenu.js";
 import { config } from "./script.js";
-
+import { handleSpeedBoost } from "./javascript/handleSpeedBoost.js";
 
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
@@ -111,16 +111,28 @@ export default class GameScene extends Phaser.Scene {
     moveToCenterOfMenu(playerInfo.scoreText,15)
     moveToCenterOfMenu(playerInfo.distanceTraveledText,62)
     playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
+    playerInfo.rightKey = this.input.keyboard.on('keydown_RIGHT', function (event) {
+      if (playerInfo.isBoosting == false) {
+        handleSpeedBoost(5, 1000);
+      }
+    }, this);
+    playerInfo.upKey = this.input.keyboard.on('keyup_UP', function (event) {
+      playerInfo.isUpDown = false;
+      console.log('released up')
+    }, this);
+    playerInfo.upKey = this.input.keyboard.on('keyup_DOWN', function (event) {
+      playerInfo.isDownDown = false;
+      console.log('released down')
+    }, this);
+    playerInfo.downKey = this.input.keyboard.on('keydown_UP', function (event) {
+      console.log('pressed up')
+      playerInfo.isUpDown = true;
+    }, this);
 
-    console.log('test')
-    this.time.addEvent({
-      delay: playerInfo.restartDelay,
-      callback: function () {
-        playerInfo.isBoosting = false;
-      },
-      callbackScope: this,
-      loop: false
-    })
+    playerInfo.downKey = this.input.keyboard.on('keydown_DOWN', function (event) {
+      playerInfo.isDownDown = true
+      console.log('pressed down')
+    }, this);
   }
 
   update() {
@@ -131,7 +143,5 @@ export default class GameScene extends Phaser.Scene {
         playerInfo.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
         spawnSilverHoop(config.width, Math.floor(Math.random() * 4));
       }
-    console.log(playerInfo.playerSpeed)
-
   }
 }
