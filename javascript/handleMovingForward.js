@@ -34,7 +34,6 @@ function handleMovingForward() {
     if ((playerInfo.finishedLaneSwitching == true && playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
       if (playerInfo.finishedLaneSwitching) {
         changeLife(-1)
-        
         pufferfish.hasBeenHit = true;
       }
     }

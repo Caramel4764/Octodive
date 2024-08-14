@@ -12,6 +12,7 @@ import { createHeart } from "./javascript/createHeart.js";
 import { moveToCenterOfMenu } from "./javascript/moveToCenterOfMenu.js";
 import { config } from "./script.js";
 
+
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
   playerInfo.distanceTraveledRounded = Math.floor(playerInfo.distanceTraveled);
@@ -82,7 +83,7 @@ export default class GameScene extends Phaser.Scene {
     });
     playerInfo.player.anims.play('swim', true);
 
-    playerInfo.playerContainer = this.add.container(0, 0).setScale(1.5).setDepth(2);
+    playerInfo.playerContainer = this.add.container(0, playerInfo.currLane*gameInfo.laneHeight).setScale(1.5).setDepth(2);
     playerInfo.playerContainer.add(playerInfo.player);
     playerInfo.playerContainer.add(playerInfo.octoHitBox);
     playerInfo.playerContainer.add(playerInfo.octoDangerHitBox);
@@ -109,6 +110,17 @@ export default class GameScene extends Phaser.Scene {
     gameInfo.cursors = this.input.keyboard.createCursorKeys();
     moveToCenterOfMenu(playerInfo.scoreText,15)
     moveToCenterOfMenu(playerInfo.distanceTraveledText,62)
+    playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
+
+    console.log('test')
+    this.time.addEvent({
+      delay: playerInfo.restartDelay,
+      callback: function () {
+        playerInfo.isBoosting = false;
+      },
+      callbackScope: this,
+      loop: false
+    })
   }
 
   update() {
@@ -119,5 +131,7 @@ export default class GameScene extends Phaser.Scene {
         playerInfo.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
         spawnSilverHoop(config.width, Math.floor(Math.random() * 4));
       }
+    console.log(playerInfo.playerSpeed)
+
   }
 }

@@ -2,6 +2,7 @@ import { config } from "./script.js";
 import { playerInfo } from "./javascript/data/playerInfo.js";
 import { generateFunFact } from "./javascript/generateFunFact.js";
 import { gameInfo } from "./javascript/data/gameInfo.js";
+import { handleGameRestart } from "./javascript/handleGameRestart.js";
 
 let gameOverMenu;
 let gameOverText;
@@ -11,6 +12,7 @@ let distanceText;
 let funFactDiv;
 let didYouKnowText;
 let funFactText;
+
 export default class GameOver extends Phaser.Scene {
   constructor() {
       super({ key: 'GameOver' });
@@ -36,17 +38,8 @@ export default class GameOver extends Phaser.Scene {
     funFactText = this.add.text(funFactDiv.getBounds().x+funFactDiv.getBounds().width/2, funFactDiv.getBounds().y+250, `Fun fact goes here`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', align: 'center', wordWrap: { width: 300, useAdvancedWrap: true }}).setOrigin(0.5, 0.5).setDepth(3);
     gameInfo.funFactText = funFactText;
     generateFunFact();
-    //this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    this.rKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    playerInfo.rKey = this.input.keyboard.on('keydown_R', handleGameRestart, this);
   }
   update() {
-    if (this.rKey.isDown) {
-      playerInfo.score = 0;
-      playerInfo.distanceTraveled = 0;
-      playerInfo.distanceTraveledRounded = 0;
-      playerInfo.life = 3;
-      playerInfo.heartEntity = [];
-      this.scene.stop('GameOver').launch('GameScene');
-    }
   }
 }

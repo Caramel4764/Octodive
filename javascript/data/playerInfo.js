@@ -1,8 +1,12 @@
 let playerInfo = {
   playerSpeed: 3,
   playerVerticalSpeed: 480,
-  ogPlayerSpeed: 2,
+  ogPlayerSpeed: 3,
   isBoosting: false,
+  isGameOver: false,
+  rKey: undefined,
+  restartDelay: 1000,
+  boostTimeEvent: undefined,
   goldLoopSpawnInterval: 5000,
   silverLoopSpawnInterval: 500,
   score: 0,
