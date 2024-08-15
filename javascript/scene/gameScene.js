@@ -1,12 +1,8 @@
 import {playerInfo} from "../data/playerInfo.js";
-import { moveLoopBack } from "../function/movement/moveLoopBack.js";
 import { entity } from "../data/entity.js";
 import { background } from "../data/background.js";
 import {handleMovingForward} from "../function/movement/handleMovingForward.js";
-import { spawnGoldHoop } from "../function/spawn/spawnRing.js";
-import { spawnSilverHoop } from "../function/spawn/spawnRing.js";
 import { gameInfo } from "../data/gameInfo.js";
-import {spawnPufferfish} from "../function/spawn/spawnPufferfish.js";
 import { handlePlayerMovement } from "../function/movement/handlePlayerMovement.js";
 import { createHeart } from "../function/UIUpdate/createHeart.js";
 import { moveToCenterOfMenu } from "../function/UIUpdate/moveToCenterOfMenu.js";
@@ -39,7 +35,10 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('inkBottleFull', 'assets/ink-bottle/inkBottle1.png');
       this.load.image('inkBottleHalf', 'assets/ink-bottle/inkBottle3.png');
       this.load.image('inkBottleEmpty', 'assets/ink-bottle/inkBottle5.png');
-
+      this.load.image('swordfish', 'assets/enemy/swordFish.png');
+      this.load.image('plasticRing', 'assets/enemy/plasticRing.png');
+      this.load.image('plasticBag', 'assets/enemy/plasticBag.png');
+      this.load.image('bottle', 'assets/enemy/bottle.png');
       this.load.image('sidebarMenuBg', 'assets/sidebarMenuBg.png');
       this.load.image('octoDangerHitBox', 'assets/octoDangerHitBox.png');
       this.load.spritesheet('octopus',
@@ -93,8 +92,8 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.enable(playerInfo.playerContainer);
 
     this.time.addEvent({
-      delay: playerInfo.goldLoopSpawnInterval,
-      callback: spawnGoldHoop,
+      delay: entity.goldLoops.goldLoopSpawnInterval,
+      callback: entity.goldLoops.spawnFunction,
       callbackScope: this,
       loop: true
     })
@@ -104,12 +103,6 @@ export default class GameScene extends Phaser.Scene {
       callbackScope: this,
       loop: true
     });
-    /*this.time.addEvent({
-      delay: 1000,
-      callback: spawnPufferfish,
-      loop: true
-    });*/
-    //spawnPufferfish();
 
     gameInfo.cursors = this.input.keyboard.createCursorKeys();
     moveToCenterOfMenu(playerInfo.scoreText,15)
@@ -142,11 +135,15 @@ export default class GameScene extends Phaser.Scene {
       handlePlayerMovement();
       if (playerInfo.distanceTraveledRounded-playerInfo.prevDistanceTraveledRounded >= playerInfo.silverLoopSpawnDistanceRate) {
         playerInfo.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-        spawnSilverHoop(config.width, Math.floor(Math.random() * 4));
+        entity.silverLoops.spawnFunction();
       }
       if (playerInfo.distanceTraveledRounded-entity.pufferfish.prevDistanceTraveledRounded >= entity.pufferfish.spawnDistanceRate) {
         entity.pufferfish.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-        spawnPufferfish()
+        entity.pufferfish.spawnFunction();
+      }
+      if (playerInfo.distanceTraveledRounded-entity.swordfish.prevDistanceTraveledRounded >= entity.swordfish.spawnDistanceRate) {
+        entity.swordfish.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
+        entity.swordfish.spawnFunction();
       }
   }
 }
