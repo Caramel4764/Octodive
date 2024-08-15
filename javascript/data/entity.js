@@ -93,7 +93,7 @@ let entity = {
   pufferfish : {
     ref: [],
     speed: 0.3,
-    spawnDistanceRate: 5,
+    spawnDistanceRate: 8,
     prevDistanceTraveledRounded: 0,
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
@@ -122,28 +122,75 @@ let entity = {
   },
   swordfish: {
     ref: [],
-    speed: -10,
+    speed: -20,
     spawnDistanceRate: 5,
     prevDistanceTraveledRounded: 0,
+    warningTime: 2000,
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
+      let dangerSign = gameInfo.gameRef.add.image(config.width-200, 30+(lane*gameInfo.laneHeight), 'dangerSign').setScale(3).setOrigin(0, 0);
       let swordfish = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'swordfish').setOrigin(0, 0).setDepth(0).setScale(3.9);
       let swordfishInfo = {
         swordfish: swordfish,
         lane: lane,
         hasBeenHit: false,
+        isMoving: false,
       }
+      let currentIndex = entity.swordfish.ref.length;
+      gameInfo.gameRef.time.addEvent({
+        delay: entity.swordfish.warningTime,
+        callback: function () {
+          entity.swordfish.ref[currentIndex].isMoving = true;
+          dangerSign.destroy();
+        },
+        callbackScope: this,
+        loop: true
+      })
+
       entity.swordfish.ref.push(swordfishInfo);
     },
     moveFunction: () => {
       entity.swordfish.ref.forEach(swordfish => {
-        let swordfishBounds = swordfish.swordfish.getBounds();
-        swordfishBounds.x -= playerInfo.playerSpeed-entity.swordfish.speed;
-        swordfish.swordfish.setPosition(swordfishBounds.x, swordfishBounds.y);
-        if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == swordfish.lane || playerInfo.currLane == swordfish.lane+1) && swordfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= swordfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=swordfishBounds.x+swordfishBounds.width) {
-          if (playerInfo.finishedLaneSwitching && swordfish.hasBeenHit == false) {
+        //console.log(swordfish)
+        if (swordfish.isMoving == true) {
+          let swordfishBounds = swordfish.swordfish.getBounds();
+          swordfishBounds.x -= playerInfo.playerSpeed-entity.swordfish.speed;
+          swordfish.swordfish.setPosition(swordfishBounds.x, swordfishBounds.y);
+          if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && playerInfo.currLane == swordfish.lane && swordfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= swordfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=swordfishBounds.x+swordfishBounds.width) {
+            if (playerInfo.finishedLaneSwitching && swordfish.hasBeenHit == false) {
+              changeLife(-1)
+              swordfish.hasBeenHit = true;
+            }
+          }
+        }
+      })
+    }
+  },
+  trash: {
+    ref: [],
+    speed: 0,
+    spawnDistanceRate: 10,
+    prevDistanceTraveledRounded: 0,
+    spawnFunction: () => {
+      let lane = Math.floor(Math.random() * 4);
+      let trash = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'plasticBag').setOrigin(0, 0).setDepth(0).setScale(3.5);
+      let trashInfo = {
+        trash: trash,
+        lane: lane,
+        hasBeenHit: false,
+        isMoving: false,
+      }
+      entity.trash.ref.push(trashInfo);
+    },
+    moveFunction: () => {
+      entity.trash.ref.forEach(trash => {
+        let trashBounds = trash.trash.getBounds();
+        trashBounds.x -= playerInfo.playerSpeed-entity.trash.speed;
+        trash.trash.setPosition(trashBounds.x, trashBounds.y);
+        if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && playerInfo.currLane == trash.lane && trash.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= trashBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=trashBounds.x+trashBounds.width) {
+          if (playerInfo.finishedLaneSwitching && trash.hasBeenHit == false) {
             changeLife(-1)
-            swordfish.hasBeenHit = true;
+            trash.hasBeenHit = true;
           }
         }
       })
@@ -152,3 +199,16 @@ let entity = {
 }
 
 export {entity}
+
+/*
+  entityName: {
+    ref: [],
+    speed: -20,
+    spawnDistanceRate: 5,
+    prevDistanceTraveledRounded: 0,
+    spawnFunction: () => {
+    },
+    moveFunction: () => {
+    }
+  }
+*/

@@ -41,6 +41,8 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('bottle', 'assets/enemy/bottle.png');
       this.load.image('sidebarMenuBg', 'assets/sidebarMenuBg.png');
       this.load.image('octoDangerHitBox', 'assets/octoDangerHitBox.png');
+      this.load.image('dangerSign', 'assets/dangerWarning.png');
+
       this.load.spritesheet('octopus',
         'assets/octopus/octopus.png',
       { frameWidth: 125, frameHeight: 100 }
@@ -144,6 +146,10 @@ export default class GameScene extends Phaser.Scene {
       if (playerInfo.distanceTraveledRounded-entity.swordfish.prevDistanceTraveledRounded >= entity.swordfish.spawnDistanceRate) {
         entity.swordfish.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
         entity.swordfish.spawnFunction();
+      }
+      if (playerInfo.distanceTraveledRounded-entity.trash.prevDistanceTraveledRounded >= entity.trash.spawnDistanceRate) {
+        entity.trash.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
+        entity.trash.spawnFunction();
       }
   }
 }
