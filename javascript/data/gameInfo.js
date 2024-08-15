@@ -6,6 +6,8 @@ let gameInfo = {
   cursors: undefined,
   sidebarMenuBg: undefined,
   game: undefined,
+  currFunFact: undefined,
+  funFactText: undefined,
 }
 
 export {gameInfo}
