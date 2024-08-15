@@ -1,4 +1,4 @@
-import { playerInfo } from "./data/playerInfo.js";
+import { playerInfo } from "../../data/playerInfo.js";
 
 function handleGameRestart() {
   playerInfo.isGameOver = false;

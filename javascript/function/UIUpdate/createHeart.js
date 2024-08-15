@@ -1,5 +1,5 @@
-import { gameInfo } from "./data/gameInfo.js";
-import { playerInfo } from "./data/playerInfo.js";
+import { gameInfo } from "../../data/gameInfo.js";
+import { playerInfo } from "../../data/playerInfo.js";
 import { moveToCenterOfMenu } from "./moveToCenterOfMenu.js";
 function createHeart(y) {
   let heart;

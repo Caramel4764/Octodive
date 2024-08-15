@@ -1,5 +1,5 @@
-import { playerInfo } from "./data/playerInfo.js";
-import { gameInfo } from "./data/gameInfo.js";
+import { playerInfo } from "../../data/playerInfo.js";
+import { gameInfo } from "../../data/gameInfo.js";
 
 function changeLife (change) {
   playerInfo.life+=change;

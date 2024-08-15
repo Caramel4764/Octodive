@@ -1,8 +1,8 @@
-import { gameInfo } from "./data/gameInfo.js";
-import { entity } from "./data/entity.js";
+import { gameInfo } from "../../data/gameInfo.js";
+import { entity } from "../../data/entity.js";
 let goldRingBoundTest;
-let loops = entity.loops;
-let silverLoops = entity.silverLoops;
+let loops = entity.loops.ref;
+let silverLoops = entity.silverLoops.ref;
 function spawnGoldHoop() {
   let x = gameInfo.laneWidth;
   let lane = Math.floor(Math.random() * 4);

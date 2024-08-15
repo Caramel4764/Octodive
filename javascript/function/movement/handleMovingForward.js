@@ -1,8 +1,8 @@
 import { moveLoopBack } from "./moveLoopBack.js";
-import { playerInfo } from "./data/playerInfo.js";
-import { background } from "./data/background.js";
-import {entity} from "./data/entity.js";
-import { changeLife } from "./changeLife.js";
+import { playerInfo } from "../../data/playerInfo.js";
+import { background } from "../../data/background.js";
+import {entity} from "../../data/entity.js";
+import { changeLife } from "../UIUpdate/changeLife.js";
 let firstLoop = true;
 function handleMovingForward() {
   playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
@@ -25,10 +25,9 @@ function handleMovingForward() {
   background.oceanBg2.setPosition([background.oceanBgBound2.x], [0]);
 
 
-  entity.pufferfish.forEach(pufferfish => {
+  entity.pufferfish.ref.forEach(pufferfish => {
     let pufferfishBounds = pufferfish.pufferfish.getBounds();
-    //0.3 is pufferfish speed for going slower
-    pufferfishBounds.x -= playerInfo.playerSpeed-0.3;
+    pufferfishBounds.x -= playerInfo.playerSpeed-entity.pufferfish.speed;
 
     pufferfish.pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
     if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {

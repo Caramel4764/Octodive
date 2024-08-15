@@ -1,5 +1,5 @@
-import { funFactList } from "./data/funfact.js";
-import { gameInfo } from "./data/gameInfo.js";
+import { funFactList } from "../../data/funfact.js";
+import { gameInfo } from "../../data/gameInfo.js";
 
 function generateFunFact() {
   let randomFunFactNum = Math.floor(Math.random()*funFactList.length);

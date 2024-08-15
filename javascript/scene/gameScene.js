@@ -1,17 +1,17 @@
-import {playerInfo} from "./javascript/data/playerInfo.js";
-import { moveLoopBack } from "./javascript/moveLoopBack.js";
-import { entity } from "./javascript/data/entity.js";
-import { background } from "./javascript/data/background.js";
-import {handleMovingForward} from "./javascript/handleMovingForward.js";
-import { spawnGoldHoop } from "./javascript/spawnRing.js";
-import { spawnSilverHoop } from "./javascript/spawnRing.js";
-import { gameInfo } from "./javascript/data/gameInfo.js";
-import {spawnPufferfish} from "./javascript/spawnPufferfish.js";
-import { handlePlayerMovement } from "./javascript/handlePlayerMovement.js";
-import { createHeart } from "./javascript/createHeart.js";
-import { moveToCenterOfMenu } from "./javascript/moveToCenterOfMenu.js";
-import { config } from "./script.js";
-import { handleSpeedBoost } from "./javascript/handleSpeedBoost.js";
+import {playerInfo} from "../data/playerInfo.js";
+import { moveLoopBack } from "../function/movement/moveLoopBack.js";
+import { entity } from "../data/entity.js";
+import { background } from "../data/background.js";
+import {handleMovingForward} from "../function/movement/handleMovingForward.js";
+import { spawnGoldHoop } from "../function/spawn/spawnRing.js";
+import { spawnSilverHoop } from "../function/spawn/spawnRing.js";
+import { gameInfo } from "../data/gameInfo.js";
+import {spawnPufferfish} from "../function/spawn/spawnPufferfish.js";
+import { handlePlayerMovement } from "../function/movement/handlePlayerMovement.js";
+import { createHeart } from "../function/UIUpdate/createHeart.js";
+import { moveToCenterOfMenu } from "../function/UIUpdate/moveToCenterOfMenu.js";
+import { config } from "../../script.js";
+import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
 
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
@@ -78,7 +78,6 @@ export default class GameScene extends Phaser.Scene {
 
     playerInfo.octoDangerHitBox = this.physics.add.sprite(150, 34, 'octoDangerHitBox').setScale(0.5).setOrigin(0.5, 0.5).setVisible(false);
     playerInfo.octoDangerHitBoxBound = playerInfo.octoDangerHitBox.getBounds();
-    spawnPufferfish(2);
     this.anims.create({
       key: 'swim',
       frames: this.anims.generateFrameNumbers('octopus', { start: 0, end: 20 }),
@@ -105,11 +104,12 @@ export default class GameScene extends Phaser.Scene {
       callbackScope: this,
       loop: true
     });
-    this.time.addEvent({
+    /*this.time.addEvent({
       delay: 1000,
       callback: spawnPufferfish,
       loop: true
-    });
+    });*/
+    //spawnPufferfish();
 
     gameInfo.cursors = this.input.keyboard.createCursorKeys();
     moveToCenterOfMenu(playerInfo.scoreText,15)
@@ -143,6 +143,10 @@ export default class GameScene extends Phaser.Scene {
       if (playerInfo.distanceTraveledRounded-playerInfo.prevDistanceTraveledRounded >= playerInfo.silverLoopSpawnDistanceRate) {
         playerInfo.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
         spawnSilverHoop(config.width, Math.floor(Math.random() * 4));
+      }
+      if (playerInfo.distanceTraveledRounded-entity.pufferfish.prevDistanceTraveledRounded >= entity.pufferfish.spawnDistanceRate) {
+        entity.pufferfish.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
+        spawnPufferfish()
       }
   }
 }

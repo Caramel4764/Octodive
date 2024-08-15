@@ -1,8 +1,8 @@
-import { config } from "./script.js";
-import { playerInfo } from "./javascript/data/playerInfo.js";
-import { generateFunFact } from "./javascript/generateFunFact.js";
-import { gameInfo } from "./javascript/data/gameInfo.js";
-import { handleGameRestart } from "./javascript/handleGameRestart.js";
+import { config } from "../../script.js";
+import { playerInfo } from "../data/playerInfo.js";
+import { generateFunFact } from "../function/UIUpdate/generateFunFact.js";
+import { gameInfo } from "../data/gameInfo.js";
+import { handleGameRestart } from "../function/UIUpdate/handleGameRestart.js";
 
 let gameOverMenu;
 let gameOverText;

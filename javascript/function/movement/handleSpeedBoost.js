@@ -1,6 +1,6 @@
-import { gameInfo } from "./data/gameInfo.js";
-import { playerInfo } from "./data/playerInfo.js";
-import { updateInkBar } from "./updateInkBar.js";
+import { gameInfo } from "../../data/gameInfo.js";
+import { playerInfo } from "../../data/playerInfo.js";
+import { updateInkBar } from "../UIUpdate/updateInkBar.js";
 function handleSpeedBoost(speedboost, time) {
     playerInfo.playerSpeed += speedboost;
     playerInfo.isBoosting = true;

@@ -1,6 +1,6 @@
 
-import GameScene from './gameScene.js';
-import GameOver from './gameOver.js';
+import GameScene from './javascript/scene/gameScene.js';
+import GameOver from './javascript/scene/gameOver.js';
 import {funFactList} from "./javascript/data/funfact.js";
 let config = {
   type: Phaser.AUTO,

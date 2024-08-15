@@ -4,7 +4,7 @@ let playerInfo = {
   inkBarAmount: 2,
   isInvincible: false,
   boostDuration: 1500,
-  playerVerticalSpeed: 480,
+  playerVerticalSpeed: 650,
   ogPlayerSpeed: 3,
   isBoosting: false,
   boostSpeed: 0,

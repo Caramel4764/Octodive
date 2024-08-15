@@ -1,10 +1,10 @@
-import { entity } from "./data/entity.js";
-import { gameInfo } from "./data/gameInfo.js";
-import { playerInfo } from "./data/playerInfo.js";
-import { moveToCenterOfMenu } from "./moveToCenterOfMenu.js";
+import { entity } from "../../data/entity.js";
+import { gameInfo } from "../../data/gameInfo.js";
+import { playerInfo } from "../../data/playerInfo.js";
+import { moveToCenterOfMenu } from "../UIUpdate/moveToCenterOfMenu.js";
 
-let loops = entity.loops;
-let silverLoops = entity.silverLoops;
+let loops = entity.loops.ref;
+let silverLoops = entity.silverLoops.ref;
 
 function moveLoopBack(loop) {
 

@@ -1,6 +1,6 @@
-import { playerInfo } from "./data/playerInfo.js";
-import { gameInfo } from "./data/gameInfo.js";
-import { entity } from "./data/entity.js";
+import { playerInfo } from "../../data/playerInfo.js";
+import { gameInfo } from "../../data/gameInfo.js";
+import { entity } from "../../data/entity.js";
 
 function spawnPufferfish() {
   let lane = Math.floor(Math.random() * 4);
@@ -10,7 +10,7 @@ function spawnPufferfish() {
     lane: lane,
     hasBeenHit: false,
   }
-  entity.pufferfish.push(pufferfishInfo);
+  entity.pufferfish.ref.push(pufferfishInfo);
 }
 
 export {spawnPufferfish}
