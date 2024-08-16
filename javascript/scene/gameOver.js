@@ -34,7 +34,7 @@ export default class GameOver extends Phaser.Scene {
     restartText.setPosition(gameOverInfoWidth, config.height/2+150);
     funFactDiv = this.add.image(config.width/2+60, config.height/2, 'funFactDiv').setOrigin(0,0.5).setScale(9);
     funFactDiv = this.add.image(config.width/2+60, config.height/2, 'funFactDiv').setOrigin(0,0.5).setScale(9);
-    didYouKnowText = this.add.text(funFactDiv.getBounds().x+funFactDiv.getBounds().width/2, funFactDiv.getBounds().y+40, 'Did You Know?', { font:'bold 46px Open Sans', fontFamily: 'Open Sans, sans-serif', fill:'00008B'}).setOrigin(0.5,0);
+    didYouKnowText = this.add.text(funFactDiv.getBounds().x+funFactDiv.getBounds().width/2, funFactDiv.getBounds().y+30, 'Did You Know?', { font:'bold 43px Open Sans', fontFamily: 'Open Sans, sans-serif', fill:'00008B'}).setOrigin(0.5,0);
     funFactText = this.add.text(funFactDiv.getBounds().x+funFactDiv.getBounds().width/2, funFactDiv.getBounds().y+250, `Fun fact goes here`, { font:'40px Open Sans', fontFamily: 'Open Sans, sans-serif', align: 'center', wordWrap: { width: 300, useAdvancedWrap: true }}).setOrigin(0.5, 0.5).setDepth(3);
     gameInfo.funFactText = funFactText;
     generateFunFact();

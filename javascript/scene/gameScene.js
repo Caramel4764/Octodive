@@ -10,7 +10,7 @@ import { config } from "../../script.js";
 import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
 import { updateInkBar } from "../function/UIUpdate/updateInkBar.js";
 import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
-
+import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
   playerInfo.distanceTraveledRounded = Math.floor(playerInfo.distanceTraveled);

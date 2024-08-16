@@ -1,6 +1,6 @@
 import { playerInfo } from "../../data/playerInfo.js";
 import { gameInfo } from "../../data/gameInfo.js";
-
+import { updatePlayerScore } from "../UIUpdate/updatePlayerScore.js";
 function changeLife (change) {
   if (change < 0) {
     playerInfo.life+=change;
@@ -28,7 +28,7 @@ function changeLife (change) {
         console.log(`heart doesn't exist ${playerInfo.life}`)
       }
     } else {
-      playerInfo.score += 15;
+      updatePlayerScore(15);
     }
 
   }

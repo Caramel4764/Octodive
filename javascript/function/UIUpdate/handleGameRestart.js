@@ -1,5 +1,5 @@
 import { playerInfo } from "../../data/playerInfo.js";
-
+import { entity } from "../../data/entity.js";
 function handleGameRestart() {
   playerInfo.isGameOver = false;
   for (let i = 0; i < playerInfo.boostTimeEvent; i++) {
@@ -14,6 +14,7 @@ function handleGameRestart() {
   playerInfo.prevDistanceTraveledRounded = 0;
   playerInfo.heartEntity = [];
   playerInfo.currLane = 0;
+  playerInfo.isInvincible = false;
   playerInfo.finishedLaneSwitching = true;
   playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
   playerInfo.isBoosting = false;
@@ -21,6 +22,10 @@ function handleGameRestart() {
   playerInfo.isUpDown = false;
   playerInfo.inkBarAmount = 4,
   playerInfo.playerSpeed -= playerInfo.speedboost;
+  console.log(Object.keys(entity))
+  Object.keys(entity).forEach(singleEntity => {
+    entity[singleEntity].prevDistanceTraveledRounded = 0;
+  });
   this.scene.stop('GameOver').launch('GameScene');
 }
 

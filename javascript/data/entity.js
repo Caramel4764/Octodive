@@ -2,7 +2,9 @@ import { gameInfo } from "./gameInfo.js";
 import { playerInfo } from "./playerInfo.js";
 import { config } from "../../script.js";
 import { changeLife } from "../function/UIUpdate/changeLife.js";
-import { moveToCenterOfMenu } from "../function/UIUpdate/moveToCenterOfMenu.js";
+import { placeCenterOfLane } from "../function/UIUpdate/placeCenterOfLane.js";
+import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
+
 let entity = {
   silverLoops : {
     ref: [],
@@ -30,10 +32,7 @@ let entity = {
       entity.silverLoops.ref.forEach(silverLoop => {
         if (silverLoop.hasGivenPoint == false && playerInfo.finishedLaneSwitching && silverLoop.lane == playerInfo.currLane && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed >= silverLoop.bound.x && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed <= silverLoop.bound.x+silverLoop.bound.width) {
           silverLoop.hasGivenPoint = true;
-          playerInfo.score+=1;
-          playerInfo.scoreText.setText(`${playerInfo.score}`);
-          moveToCenterOfMenu(playerInfo.scoreText,15)
-    
+          updatePlayerScore(1);
         }
         if (silverLoop.bound.x-playerInfo.playerSpeed <= -silverLoop.bound.width-playerInfo.playerSpeed-200) {
           silverLoop.front.destroy();
@@ -179,6 +178,7 @@ let entity = {
         hasBeenHit: false,
         isMoving: false,
       }
+      placeCenterOfLane(trash, lane)
       entity.trash.ref.push(trashInfo);
     },
     moveFunction: () => {
@@ -198,7 +198,8 @@ let entity = {
   heart: {
     ref: [],
     speed: 0,
-    spawnDistanceRate: 15,
+    isDestroyedAfterGrab: true,
+    spawnDistanceRate: 5, //15
     prevDistanceTraveledRounded: 0,
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
@@ -210,6 +211,7 @@ let entity = {
         isMoving: false,
       }
       entity.heart.ref.push(heartInfo);
+      placeCenterOfLane(heart, lane)
     },
     moveFunction: () => {
       entity.heart.ref.forEach(heart => {
@@ -220,6 +222,9 @@ let entity = {
           if (playerInfo.finishedLaneSwitching && heart.hasBeenHit == false) {
             changeLife(1)
             heart.hasBeenHit = true;
+            if (entity.heart.isDestroyedAfterGrab) {
+              heart.heart.destroy();
+            }
           }
         }
       })
