@@ -132,24 +132,16 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-      // Game loop logic
-      handleMovingForward();
-      handlePlayerMovement();
-      if (playerInfo.distanceTraveledRounded-playerInfo.prevDistanceTraveledRounded >= playerInfo.silverLoopSpawnDistanceRate) {
-        playerInfo.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-        entity.silverLoops.spawnFunction();
+    // Game loop logic
+    handleMovingForward();
+    handlePlayerMovement();
+    Object.keys(entity).forEach(singleEntity => {
+      if (entity[singleEntity].isDistanceBased == undefined || entity[singleEntity].isDistanceBased==true) {
+        if (playerInfo.distanceTraveledRounded-entity[singleEntity].prevDistanceTraveledRounded >= entity[singleEntity].spawnDistanceRate) {
+          entity[singleEntity].prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
+          entity[singleEntity].spawnFunction();
+        }
       }
-      if (playerInfo.distanceTraveledRounded-entity.pufferfish.prevDistanceTraveledRounded >= entity.pufferfish.spawnDistanceRate) {
-        entity.pufferfish.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-        entity.pufferfish.spawnFunction();
-      }
-      if (playerInfo.distanceTraveledRounded-entity.swordfish.prevDistanceTraveledRounded >= entity.swordfish.spawnDistanceRate) {
-        entity.swordfish.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-        entity.swordfish.spawnFunction();
-      }
-      if (playerInfo.distanceTraveledRounded-entity.trash.prevDistanceTraveledRounded >= entity.trash.spawnDistanceRate) {
-        entity.trash.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-        entity.trash.spawnFunction();
-      }
+    })
   }
 }

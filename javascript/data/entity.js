@@ -146,7 +146,6 @@ let entity = {
         callbackScope: this,
         loop: true
       })
-
       entity.swordfish.ref.push(swordfishInfo);
     },
     moveFunction: () => {
@@ -191,6 +190,36 @@ let entity = {
           if (playerInfo.finishedLaneSwitching && trash.hasBeenHit == false) {
             changeLife(-1)
             trash.hasBeenHit = true;
+          }
+        }
+      })
+    }
+  },
+  heart: {
+    ref: [],
+    speed: 0,
+    spawnDistanceRate: 15,
+    prevDistanceTraveledRounded: 0,
+    spawnFunction: () => {
+      let lane = Math.floor(Math.random() * 4);
+      let heart = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'heart').setOrigin(0, 0).setDepth(0).setScale(2);
+      let heartInfo = {
+        heart: heart,
+        lane: lane,
+        hasBeenHit: false,
+        isMoving: false,
+      }
+      entity.heart.ref.push(heartInfo);
+    },
+    moveFunction: () => {
+      entity.heart.ref.forEach(heart => {
+        let heartBounds = heart.heart.getBounds();
+        heartBounds.x -= playerInfo.playerSpeed-entity.heart.speed;
+        heart.heart.setPosition(heartBounds.x, heartBounds.y);
+        if (playerInfo.finishedLaneSwitching == true && playerInfo.currLane == heart.lane && heart.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.heart.speed)+playerInfo.octoDangerHitBoxBound.width >= heartBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.heart.speed) <=heartBounds.x+heartBounds.width) {
+          if (playerInfo.finishedLaneSwitching && heart.hasBeenHit == false) {
+            changeLife(1)
+            heart.hasBeenHit = true;
           }
         }
       })

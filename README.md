@@ -3,6 +3,9 @@ This is my first time trying to make a game with Phaser and will (hopefully) res
 # Boilerplate
 Since I have no idea what I'm doing, I'm going to use the boilerplate from phaser's game tutorial to get me started
 https://phaser.io/tutorials/making-your-first-phaser-3-game/part1
+# Phaser google font tutorial
+I followed a tutorial to import google fonts into the game.
+https://phasergames.com/using-google-fonts-phaser/
 # Art
 All art assets were self made by me using piskel (really awesome for drawing and animating pixel art)
 https://www.piskelapp.com/
