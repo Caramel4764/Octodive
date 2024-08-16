@@ -8,6 +8,8 @@ import { createHeart } from "../function/UIUpdate/createHeart.js";
 import { moveToCenterOfMenu } from "../function/UIUpdate/moveToCenterOfMenu.js";
 import { config } from "../../script.js";
 import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
+import { updateInkBar } from "../function/UIUpdate/updateInkBar.js";
+import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
 
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
@@ -32,9 +34,11 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('heart', 'assets/oceanHeart.png');
       this.load.image('heartEmpty', 'assets/oceanHeartEmpty.png');
       this.load.image('sandGround', 'assets/sandyGround.png');
-      this.load.image('inkBottleFull', 'assets/ink-bottle/inkBottle1.png');
-      this.load.image('inkBottleHalf', 'assets/ink-bottle/inkBottle3.png');
-      this.load.image('inkBottleEmpty', 'assets/ink-bottle/inkBottle5.png');
+      this.load.image('inkBottle5', 'assets/ink-bottle/inkBottle1.png');
+      this.load.image('inkBottle4', 'assets/ink-bottle/inkBottle2.png');
+      this.load.image('inkBottle3', 'assets/ink-bottle/inkBottle3.png');
+      this.load.image('inkBottle2', 'assets/ink-bottle/inkBottle4.png');
+      this.load.image('inkBottle1', 'assets/ink-bottle/inkBottle5.png');
       this.load.image('swordfish', 'assets/enemy/swordFish.png');
       this.load.image('plasticRing', 'assets/enemy/plasticRing.png');
       this.load.image('plasticBag', 'assets/enemy/plasticBag.png');
@@ -42,6 +46,15 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('sidebarMenuBg', 'assets/sidebarMenuBg.png');
       this.load.image('octoDangerHitBox', 'assets/octoDangerHitBox.png');
       this.load.image('dangerSign', 'assets/dangerWarning.png');
+      this.load.image('inkGenCircle0', 'assets/inkGenerationBar/newInkBar0.png');
+      this.load.image('inkGenCircle1', 'assets/inkGenerationBar/newInkBar1.png');
+      this.load.image('inkGenCircle2', 'assets/inkGenerationBar/newInkBar2.png');
+      this.load.image('inkGenCircle3', 'assets/inkGenerationBar/newInkBar3.png');
+      this.load.image('inkGenCircle4', 'assets/inkGenerationBar/newInkBar4.png');
+      this.load.image('inkGenCircle5', 'assets/inkGenerationBar/newInkBar5.png');
+      this.load.image('inkGenCircle6', 'assets/inkGenerationBar/newInkBar6.png');
+      this.load.image('inkGenCircle7', 'assets/inkGenerationBar/newInkBar7.png');
+      this.load.image('inkGenCircle8', 'assets/inkGenerationBar/newInkBar8.png');
 
       this.load.spritesheet('octopus',
         'assets/octopus/octopus.png',
@@ -68,11 +81,13 @@ export default class GameScene extends Phaser.Scene {
     playerInfo.playerBound = playerInfo.player.getBounds();
     gameInfo.sidebarMenuBg = this.add.image(0,0, 'sidebarMenuBg').setScale(6).setOrigin(0, 0).setDepth(10);
     gameInfo.sidebarMenuBg.setPosition(config.width-gameInfo.sidebarMenuBg.getBounds().width, 0);
-    createHeart(130);
-    createHeart(200);
-    createHeart(270);
-    playerInfo.inkBar = this.add.image(0, 0, 'inkBottleFull').setScale(1.5).setOrigin(0, 0).setDepth(10);
-    moveToCenterOfMenu(playerInfo.inkBar, 360);
+    createHeart(120);
+    createHeart(190);
+    createHeart(260);
+    playerInfo.inkBar = this.add.image(0, 0, 'inkBottle5').setScale(1.5).setOrigin(0, 0).setDepth(10);
+    moveToCenterOfMenu(playerInfo.inkBar, 350);
+    playerInfo.inkGenCircle = this.add.image(0, 0, 'inkGenCircle0').setScale(2.8).setOrigin(0, 0).setDepth(10);
+    moveToCenterOfMenu(playerInfo.inkGenCircle, 480);
     //currently invisible hitbox
     playerInfo.octoHitBox = this.add.image(90, 34, 'octoHitBox').setScale(1.3).setOrigin(0, 0).setVisible(false);
     playerInfo.octoHitBoxBound = playerInfo.octoHitBox.getBounds();
@@ -105,6 +120,23 @@ export default class GameScene extends Phaser.Scene {
       callbackScope: this,
       loop: true
     });
+    this.time.addEvent({
+      delay: playerInfo.inkGenCounterRate,
+      callback: function () {
+        if (playerInfo.inkGenCounter < 8) {
+        playerInfo.inkGenCounter++;
+        } else {
+          if (playerInfo.inkBarAmount < 4) {
+            playerInfo.inkGenCounter = 0;
+            playerInfo.inkBarAmount++;
+            updateInkBar();
+          }
+        }
+        updateInkGenCircle();
+      },
+      callbackScope: this,
+      loop: true
+    });
 
     gameInfo.cursors = this.input.keyboard.createCursorKeys();
     moveToCenterOfMenu(playerInfo.scoreText,15)
@@ -112,7 +144,7 @@ export default class GameScene extends Phaser.Scene {
     playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
     playerInfo.rightKey = this.input.keyboard.on('keydown_RIGHT', function (event) {
       if (playerInfo.isBoosting == false && playerInfo.inkBarAmount > 0) {
-        handleSpeedBoost(5, playerInfo.boostDuration);
+        handleSpeedBoost(playerInfo.boostSpeed, playerInfo.boostDuration);
         playerInfo.isInvincible = true;
       }
     }, this);

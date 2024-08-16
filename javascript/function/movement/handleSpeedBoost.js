@@ -10,7 +10,6 @@ function handleSpeedBoost(speedboost, time) {
       callback: function () {
         playerInfo.playerSpeed -= speedboost;
         playerInfo.isBoosting = false;
-        playerInfo.isInvincible = false;
         for (let i = 0; i < playerInfo.boostTimeEvent.length; i++) {
           playerInfo.boostTimeEvent[i].remove(false);
         }
@@ -18,6 +17,16 @@ function handleSpeedBoost(speedboost, time) {
       callbackScope: gameInfo.ref,
       loop: false
     }))
+
+    gameInfo.gameRef.time.addEvent({
+      delay: time+playerInfo.BoostExtraInvincibleTime,
+      callback: function () {
+        playerInfo.isInvincible = false;
+      },
+      callbackScope: gameInfo.ref,
+      loop: false
+    })
+
     playerInfo.inkBarAmount -= 1;
     updateInkBar();
 }
