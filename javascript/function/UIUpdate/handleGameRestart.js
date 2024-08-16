@@ -22,7 +22,6 @@ function handleGameRestart() {
   playerInfo.isUpDown = false;
   playerInfo.inkBarAmount = 4,
   playerInfo.playerSpeed -= playerInfo.speedboost;
-  console.log(Object.keys(entity))
   Object.keys(entity).forEach(singleEntity => {
     entity[singleEntity].prevDistanceTraveledRounded = 0;
   });

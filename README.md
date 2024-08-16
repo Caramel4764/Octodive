@@ -11,3 +11,8 @@ All art assets were self made by me using piskel (really awesome for drawing and
 https://www.piskelapp.com/
 # AI Useage
 Throughout this project, I used Codeium to help me set up scenes (like the game and gameover screen) and search for phaser functions and things inside the API documentation. If correct and applicable, it also helped autocomplete what I'm about to type.
+# Music
+Self-made with chrome music maker although I knew nothing lol
+Marimba: https://musiclab.chromeexperiments.com/Song-Maker/song/5089592757321728
+Piano: https://musiclab.chromeexperiments.com/Song-Maker/song/6445601174192128
+Woodwind: https://musiclab.chromeexperiments.com/Song-Maker/song/6428391642890240

@@ -8,6 +8,8 @@ let gameInfo = {
   game: undefined,
   currFunFact: undefined,
   funFactText: undefined,
+  bgMusic: undefined,
+  isFirstLoop: true,
 }
 
 export {gameInfo}

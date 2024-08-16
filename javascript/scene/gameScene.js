@@ -24,6 +24,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
+      this.load.audio('beachPanic', 'assets/audio/music/beachPanic.mp3');
       this.load.image('oceanBg', 'assets/ocean.png');
       this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
       this.load.image('goldLoopBack', 'assets/gold-ring/gold-ring-back.png');
@@ -67,9 +68,17 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    gameInfo.laneHeight = config.height/4;
-    gameInfo.laneWidth = config.width;
-    gameInfo.gameRef = this;
+    if (gameInfo.isFirstLoop == true) {
+      gameInfo.bgMusic = this.sound.add('beachPanic');
+      gameInfo.bgMusic.setLoop(true);
+      gameInfo.bgMusic.setVolume(0.3);
+      gameInfo.bgMusic.play();
+      gameInfo.laneHeight = config.height/4;
+      gameInfo.laneWidth = config.width;
+      gameInfo.gameRef = this;
+      gameInfo.isFirstLoop = false;
+    }
+
     //ocean
     playerInfo.scoreText = this.add.text(920, 14, `${playerInfo.score}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
     playerInfo.distanceTraveledText = this.add.text(920, 60, `${playerInfo.distanceTraveledRounded}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
