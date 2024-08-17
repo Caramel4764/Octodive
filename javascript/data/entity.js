@@ -4,6 +4,7 @@ import { config } from "../../script.js";
 import { changeLife } from "../function/UIUpdate/changeLife.js";
 import { placeCenterOfLane } from "../function/UIUpdate/placeCenterOfLane.js";
 import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
+import { moveEntityBack } from "../function/movement/moveEntityBack.js";
 
 let entity = {
   silverLoops : {
@@ -172,6 +173,10 @@ let entity = {
     speed: 0,
     spawnDistanceRate: 10,
     prevDistanceTraveledRounded: 0,
+    //audioSound: 'audio',
+    activateFunctionality: function () {
+      changeLife(-1)
+    },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
       let trash = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'plasticBag').setOrigin(0, 0).setDepth(0).setScale(3.5);
@@ -204,6 +209,10 @@ let entity = {
     isDestroyedAfterGrab: true,
     spawnDistanceRate: 5, //15
     prevDistanceTraveledRounded: 0,
+    audioSound: 'itemPickup',
+    activateFunctionality: function () {
+      changeLife(1)
+    },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
       let heart = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'heart').setOrigin(0, 0).setDepth(0).setScale(2);
@@ -217,21 +226,7 @@ let entity = {
       placeCenterOfLane(heart, lane)
     },
     moveFunction: () => {
-      entity.heart.ref.forEach(heart => {
-        let heartBounds = heart.heart.getBounds();
-        heartBounds.x -= playerInfo.playerSpeed-entity.heart.speed;
-        heart.heart.setPosition(heartBounds.x, heartBounds.y);
-        if (playerInfo.finishedLaneSwitching == true && playerInfo.currLane == heart.lane && heart.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.heart.speed)+playerInfo.octoDangerHitBoxBound.width >= heartBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.heart.speed) <=heartBounds.x+heartBounds.width) {
-          if (playerInfo.finishedLaneSwitching && heart.hasBeenHit == false) {
-            changeLife(1)
-            gameInfo.gameRef.sound.add('itemPickup').play();
-            heart.hasBeenHit = true;
-            if (entity.heart.isDestroyedAfterGrab) {
-              heart.heart.destroy();
-            }
-          }
-        }
-      })
+      moveEntityBack(entity.heart, 'heart')
     }
   }
 }

@@ -7,7 +7,6 @@ function handleGameRestart() {
   for (let i = 0; i < playerInfo.boostTimeEvent; i++) {
     playerInfo.boostTimeEvent[i].destroy();
   }
-  console.log(gameInfo.bgMusic)
   gameInfo.bgMusic.play();
   playerInfo.boostTimeEvent = [];
   playerInfo.score = 0;
