@@ -5,7 +5,8 @@ import { changeLife } from "../function/UIUpdate/changeLife.js";
 import { placeCenterOfLane } from "../function/UIUpdate/placeCenterOfLane.js";
 import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
 import { moveEntityBack } from "../function/movement/moveEntityBack.js";
-
+import { changeInk } from "../function/UIUpdate/changeInk.js";
+import { spawnEntity } from "../function/UIUpdate/spawnEntity.js";
 let entity = {
   silverLoops : {
     ref: [],
@@ -171,6 +172,7 @@ let entity = {
   trash: {
     ref: [],
     speed: 0,
+    src: ['plasticBag', 'bottle', 'plasticRing'],
     spawnDistanceRate: 10,
     prevDistanceTraveledRounded: 0,
     //audioSound: 'audio',
@@ -178,29 +180,11 @@ let entity = {
       changeLife(-1)
     },
     spawnFunction: () => {
-      let lane = Math.floor(Math.random() * 4);
-      let trash = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'plasticBag').setOrigin(0, 0).setDepth(0).setScale(3.5);
-      let trashInfo = {
-        trash: trash,
-        lane: lane,
-        hasBeenHit: false,
-        isMoving: false,
-      }
-      placeCenterOfLane(trash, lane)
-      entity.trash.ref.push(trashInfo);
+      spawnEntity('trash')
+
     },
     moveFunction: () => {
-      entity.trash.ref.forEach(trash => {
-        let trashBounds = trash.trash.getBounds();
-        trashBounds.x -= playerInfo.playerSpeed-entity.trash.speed;
-        trash.trash.setPosition(trashBounds.x, trashBounds.y);
-        if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && playerInfo.currLane == trash.lane && trash.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= trashBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=trashBounds.x+trashBounds.width) {
-          if (playerInfo.finishedLaneSwitching && trash.hasBeenHit == false) {
-            changeLife(-1)
-            trash.hasBeenHit = true;
-          }
-        }
-      })
+      moveEntityBack(entity.trash)
     }
   },
   heart: {
@@ -214,19 +198,27 @@ let entity = {
       changeLife(1)
     },
     spawnFunction: () => {
-      let lane = Math.floor(Math.random() * 4);
-      let heart = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'heart').setOrigin(0, 0).setDepth(0).setScale(2);
-      let heartInfo = {
-        heart: heart,
-        lane: lane,
-        hasBeenHit: false,
-        isMoving: false,
-      }
-      entity.heart.ref.push(heartInfo);
-      placeCenterOfLane(heart, lane)
+      spawnEntity('heart')
     },
     moveFunction: () => {
-      moveEntityBack(entity.heart, 'heart')
+      moveEntityBack(entity.heart)
+    }
+  },
+  inkVial: {
+    ref: [],
+    speed: 0,
+    isDestroyedAfterGrab: true,
+    spawnDistanceRate: 15,
+    prevDistanceTraveledRounded: 0,
+    audioSound: 'itemPickup',
+    activateFunctionality: function () {
+      changeInk(1);
+    },
+    spawnFunction: () => {
+      spawnEntity('inkVial')
+    },
+    moveFunction: () => {
+      moveEntityBack(entity.inkVial)
     }
   }
 }
@@ -234,14 +226,30 @@ let entity = {
 export {entity}
 
 /*
-  entityName: {
+    inkVial: {
     ref: [],
-    speed: -20,
-    spawnDistanceRate: 5,
+    speed: 0,
+    isDestroyedAfterGrab: true,
+    spawnDistanceRate: 15,
     prevDistanceTraveledRounded: 0,
+    audioSound: 'itemPickup',
+    activateFunctionality: function () {
+      changeInk(1);
+    },
     spawnFunction: () => {
+      let lane = Math.floor(Math.random() * 4);
+      let inkVial = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'inkVial').setOrigin(0, 0).setDepth(0).setScale(2.3);
+      let heartInfo = {
+        inkVial: inkVial,
+        lane: lane,
+        hasBeenHit: false,
+        isMoving: false,
+      }
+      entity.inkVial.ref.push(heartInfo);
+      placeCenterOfLane(inkVial, lane)
     },
     moveFunction: () => {
+      moveEntityBack(entity.inkVial, 'inkVial')
     }
   }
 */

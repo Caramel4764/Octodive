@@ -11,6 +11,8 @@ import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
 import { updateInkBar } from "../function/UIUpdate/updateInkBar.js";
 import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
 import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
+import { changeInk } from "../function/UIUpdate/changeInk.js";
+
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
   playerInfo.distanceTraveledRounded = Math.floor(playerInfo.distanceTraveled);
@@ -32,6 +34,7 @@ export default class GameScene extends Phaser.Scene {
       this.load.audio('silverLoopPickup', 'assets/audio/sfx/silverLoopSound.wav');
       this.load.audio('goldLoopPickup', 'assets/audio/sfx/goldLoopSound.mp3');
 
+      this.load.image('inkVial', 'assets/ink-bottle/inkVial.png');
       this.load.image('oceanBg', 'assets/ocean.png');
       this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
       this.load.image('goldLoopBack', 'assets/gold-ring/gold-ring-back.png');
@@ -144,8 +147,7 @@ export default class GameScene extends Phaser.Scene {
         } else {
           if (playerInfo.inkBarAmount < 4) {
             playerInfo.inkGenCounter = 0;
-            playerInfo.inkBarAmount++;
-            updateInkBar();
+            changeInk(1);
           }
         }
         updateInkGenCircle();

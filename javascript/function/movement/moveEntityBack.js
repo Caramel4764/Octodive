@@ -1,11 +1,11 @@
 import { gameInfo } from "../../data/gameInfo.js";
 import { playerInfo } from "../../data/playerInfo.js";
 import { changeLife } from "../UIUpdate/changeLife.js";
-function moveEntityBack(entity, entityName) {
+function moveEntityBack(entity) {
   entity.ref.forEach(singleEntity => {
-    let entityBound = singleEntity[entityName].getBounds();
+    let entityBound = singleEntity.entityBody.getBounds();
     entityBound.x -= playerInfo.playerSpeed-entity.speed;
-    singleEntity[entityName].setPosition(entityBound.x, entityBound.y);
+    singleEntity.entityBody.setPosition(entityBound.x, entityBound.y);
     if (playerInfo.finishedLaneSwitching == true && playerInfo.currLane == singleEntity.lane && singleEntity.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed)+playerInfo.octoDangerHitBoxBound.width >= entityBound.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed) <=entityBound.x+entityBound.width) {
       if (playerInfo.finishedLaneSwitching && singleEntity.hasBeenHit == false) {
         if (entity.activateFunctionality) {
@@ -16,7 +16,7 @@ function moveEntityBack(entity, entityName) {
         }
         singleEntity.hasBeenHit = true;
         if (entity.isDestroyedAfterGrab) {
-          singleEntity[entityName].destroy();
+          singleEntity.entityBody.destroy();
         }
       }
     }
