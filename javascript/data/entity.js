@@ -33,6 +33,8 @@ let entity = {
         if (silverLoop.hasGivenPoint == false && playerInfo.finishedLaneSwitching && silverLoop.lane == playerInfo.currLane && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed >= silverLoop.bound.x && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed <= silverLoop.bound.x+silverLoop.bound.width) {
           silverLoop.hasGivenPoint = true;
           updatePlayerScore(1);
+          gameInfo.gameRef.sound.add('silverLoopPickup').play();
+
         }
         if (silverLoop.bound.x-playerInfo.playerSpeed <= -silverLoop.bound.width-playerInfo.playerSpeed-200) {
           silverLoop.front.destroy();
@@ -76,6 +78,7 @@ let entity = {
           goldLoop.hasGivenPoint = true;
           playerInfo.score+=5;
           playerInfo.scoreText.setText(`${playerInfo.score}`);
+          gameInfo.gameRef.sound.add('goldLoopPickup').play();
         }
         if (goldLoop.bound.x-playerInfo.playerSpeed <= -goldLoop.bound.width-playerInfo.playerSpeed) {
           goldLoop.front.destroy();
@@ -221,6 +224,7 @@ let entity = {
         if (playerInfo.finishedLaneSwitching == true && playerInfo.currLane == heart.lane && heart.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.heart.speed)+playerInfo.octoDangerHitBoxBound.width >= heartBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.heart.speed) <=heartBounds.x+heartBounds.width) {
           if (playerInfo.finishedLaneSwitching && heart.hasBeenHit == false) {
             changeLife(1)
+            gameInfo.gameRef.sound.add('itemPickup').play();
             heart.hasBeenHit = true;
             if (entity.heart.isDestroyedAfterGrab) {
               heart.heart.destroy();

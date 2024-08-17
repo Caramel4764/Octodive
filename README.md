@@ -16,3 +16,5 @@ Self-made with chrome music maker although I knew nothing lol
 Marimba: https://musiclab.chromeexperiments.com/Song-Maker/song/5089592757321728
 Piano: https://musiclab.chromeexperiments.com/Song-Maker/song/6445601174192128
 Woodwind: https://musiclab.chromeexperiments.com/Song-Maker/song/6428391642890240
+# Soundeffect
+All the 8 bit sound effects are generated from https://onlinesound.net/8bit-sfx-generator

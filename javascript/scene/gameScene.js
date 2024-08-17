@@ -25,6 +25,13 @@ export default class GameScene extends Phaser.Scene {
 
   preload() {
       this.load.audio('beachPanic', 'assets/audio/music/beachPanic.mp3');
+      this.load.audio('hurt', 'assets/audio/sfx/hurt.wav');
+      this.load.audio('death', 'assets/audio/sfx/death.wav');
+      this.load.audio('itemPickup', 'assets/audio/sfx/itemPickup.wav');
+      this.load.audio('boost', 'assets/audio/sfx/boost.wav');
+      this.load.audio('silverLoopPickup', 'assets/audio/sfx/silverLoopSound.wav');
+      this.load.audio('goldLoopPickup', 'assets/audio/sfx/goldLoopSound.mp3');
+
       this.load.image('oceanBg', 'assets/ocean.png');
       this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
       this.load.image('goldLoopBack', 'assets/gold-ring/gold-ring-back.png');
@@ -71,7 +78,7 @@ export default class GameScene extends Phaser.Scene {
     if (gameInfo.isFirstLoop == true) {
       gameInfo.bgMusic = this.sound.add('beachPanic');
       gameInfo.bgMusic.setLoop(true);
-      gameInfo.bgMusic.setVolume(0.3);
+      gameInfo.bgMusic.setVolume(1);
       gameInfo.bgMusic.play();
       gameInfo.laneHeight = config.height/4;
       gameInfo.laneWidth = config.width;
@@ -153,6 +160,7 @@ export default class GameScene extends Phaser.Scene {
     playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
     playerInfo.rightKey = this.input.keyboard.on('keydown_RIGHT', function (event) {
       if (playerInfo.isBoosting == false && playerInfo.inkBarAmount > 0) {
+        this.sound.add('boost').play();
         handleSpeedBoost(playerInfo.boostSpeed, playerInfo.boostDuration);
         playerInfo.isInvincible = true;
       }
