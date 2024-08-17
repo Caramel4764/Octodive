@@ -23,7 +23,6 @@ function changeLife (change) {
   } else if (change > 0) {
     if (playerInfo.life < 3) {
       playerInfo.life+=change;
-
       if (playerInfo.heartEntity[playerInfo.life-1]) {
         playerInfo.heartEntity[playerInfo.life-1].setTexture('heart');
       } else {

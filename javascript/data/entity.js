@@ -10,93 +10,50 @@ import { spawnEntity } from "../function/UIUpdate/spawnEntity.js";
 let entity = {
   silverLoops : {
     ref: [],
+    isPowerup: true,
     speed: 0,
+    indexVal: 4,
     spawnDistanceRate: 1,
     prevDistanceTraveledRounded: 0,
+    src: ['silverLoopFront'],
+    backSrc: 'silverLoopBack',
+    scale: 4.7,
     spawnFunction: () => {
-      let ranLane = Math.floor(Math.random() * 4);
-      let y = ranLane*gameInfo.laneHeight;
-      let silverRingBack = gameInfo.gameRef.add.sprite(config.width, y, 'silverLoopBack').setOrigin(0, 0).setScale(4.7);
-      silverRingBack.setDepth(0)
-      let silverRingFront = gameInfo.gameRef.add.sprite(config.width, y, 'silverLoopFront').setOrigin(0, 0).setScale(4.7);
-      silverRingFront.setDepth(3)
-      let silverRingBound = silverRingBack.getBounds();
-      let silverRingInfo = {
-        back: silverRingBack,
-        front: silverRingFront,
-        bound: silverRingBound,
-        lane: ranLane,
-        hasGivenPoint: false,
-      }
-      entity.silverLoops.ref.push(silverRingInfo);
+      spawnEntity('silverLoops');
+    },
+    activateFunctionality: function () {
+      updatePlayerScore(1);
     },
     moveFunction: () => {
-      entity.silverLoops.ref.forEach(silverLoop => {
-        if (silverLoop.hasGivenPoint == false && playerInfo.finishedLaneSwitching && silverLoop.lane == playerInfo.currLane && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed >= silverLoop.bound.x && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed <= silverLoop.bound.x+silverLoop.bound.width) {
-          silverLoop.hasGivenPoint = true;
-          updatePlayerScore(1);
-          gameInfo.gameRef.sound.add('silverLoopPickup').play();
-
-        }
-        if (silverLoop.bound.x-playerInfo.playerSpeed <= -silverLoop.bound.width-playerInfo.playerSpeed-200) {
-          silverLoop.front.destroy();
-          silverLoop.back.destroy();
-          return entity.silverLoops.ref.shift();
-        } else {
-          silverLoop.bound.x-=playerInfo.playerSpeed;
-        }
-        silverLoop.back.setPosition([silverLoop.bound.x], [silverLoop.bound.y]);
-        silverLoop.front.setPosition([silverLoop.bound.x], [silverLoop.bound.y]);
-      })
+      moveEntityBack(entity.silverLoops);
     }
   },
   goldLoops : {
     ref: [],
+    isPowerup: true,
     speed: 0,
+    indexVal: 4,
+    src: ['goldLoopFront'],
+    backSrc: 'goldLoopBack',
+    scale: 4.7,
     spawnDistanceRate: 10,
+    audioSound: 'goldLoopPickup',
     prevDistanceTraveledRounded: 0,
     goldLoopSpawnInterval: 3000,
     spawnFunction: () => {
-      let x = gameInfo.laneWidth;
-      let lane = Math.floor(Math.random() * 4);
-      let y = lane*gameInfo.laneHeight;
-      let goldRingBack = gameInfo.gameRef.add.sprite(x, y, 'goldLoopBack').setOrigin(0, 0).setScale(4.7);
-      goldRingBack.setDepth(0)
-      let goldRingFront = gameInfo.gameRef.add.sprite(x, y, 'goldLoopFront').setOrigin(0, 0).setScale(4.7);
-      goldRingFront.setDepth(3)
-      let goldRingBound = goldRingBack.getBounds();
-      let goldRingInfo = {
-        back: goldRingBack,
-        front: goldRingFront,
-        bound: goldRingBound,
-        lane: lane,
-        hasGivenPoint: false,
-      }
-      entity.goldLoops.ref.push(goldRingInfo);
+      spawnEntity('goldLoops');
     },
     moveFunction: () => {
-      entity.goldLoops.ref.forEach(goldLoop => {
-        if (goldLoop.hasGivenPoint == false && playerInfo.finishedLaneSwitching &&goldLoop.lane == playerInfo.currLane && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed >= goldLoop.bound.x && playerInfo.octoHitBoxBound.x+playerInfo.playerSpeed <= goldLoop.bound.x+goldLoop.bound.width) {
-          goldLoop.hasGivenPoint = true;
-          playerInfo.score+=5;
-          playerInfo.scoreText.setText(`${playerInfo.score}`);
-          gameInfo.gameRef.sound.add('goldLoopPickup').play();
-        }
-        if (goldLoop.bound.x-playerInfo.playerSpeed <= -goldLoop.bound.width-playerInfo.playerSpeed) {
-          goldLoop.front.destroy();
-          goldLoop.back.destroy();
-          return entity.goldLoops.ref.shift();
-        } else {
-          goldLoop.bound.x-=playerInfo.playerSpeed;
-        }
-        goldLoop.back.setPosition([goldLoop.bound.x], [goldLoop.bound.y]);
-        goldLoop.front.setPosition([goldLoop.bound.x], [goldLoop.bound.y]);
-      })
-    }
+      moveEntityBack(entity.goldLoops);
+    },
+    activateFunctionality: function () {
+      updatePlayerScore(10);
+    },
   },
   pufferfish : {
     ref: [],
     speed: 0.3,
+    multiLane: 1,
     spawnDistanceRate: 8,
     prevDistanceTraveledRounded: 0,
     spawnFunction: () => {
@@ -127,46 +84,29 @@ let entity = {
   swordfish: {
     ref: [],
     speed: -20,
+    scale: 3.9,
     spawnDistanceRate: 5,
     prevDistanceTraveledRounded: 0,
     warningTime: 2000,
+    activateFunctionality: function () {
+      changeLife(-1);
+    },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
       let dangerSign = gameInfo.gameRef.add.image(config.width-200, 30+(lane*gameInfo.laneHeight), 'dangerSign').setScale(3).setOrigin(0, 0);
-      let swordfish = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'swordfish').setOrigin(0, 0).setDepth(0).setScale(3.9);
-      let swordfishInfo = {
-        swordfish: swordfish,
-        lane: lane,
-        hasBeenHit: false,
-        isMoving: false,
-      }
-      let currentIndex = entity.swordfish.ref.length;
       gameInfo.gameRef.time.addEvent({
         delay: entity.swordfish.warningTime,
         callback: function () {
-          entity.swordfish.ref[currentIndex].isMoving = true;
           dangerSign.destroy();
+          spawnEntity('swordfish', lane);
+
         },
         callbackScope: this,
-        loop: true
+        loop: false
       })
-      entity.swordfish.ref.push(swordfishInfo);
     },
     moveFunction: () => {
-      entity.swordfish.ref.forEach(swordfish => {
-        //console.log(swordfish)
-        if (swordfish.isMoving == true) {
-          let swordfishBounds = swordfish.swordfish.getBounds();
-          swordfishBounds.x -= playerInfo.playerSpeed-entity.swordfish.speed;
-          swordfish.swordfish.setPosition(swordfishBounds.x, swordfishBounds.y);
-          if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && playerInfo.currLane == swordfish.lane && swordfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= swordfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=swordfishBounds.x+swordfishBounds.width) {
-            if (playerInfo.finishedLaneSwitching && swordfish.hasBeenHit == false) {
-              changeLife(-1)
-              swordfish.hasBeenHit = true;
-            }
-          }
-        }
-      })
+      moveEntityBack(entity.swordfish)
     }
   },
   trash: {
@@ -189,9 +129,10 @@ let entity = {
   },
   heart: {
     ref: [],
+    isPowerup: true,
     speed: 0,
     isDestroyedAfterGrab: true,
-    spawnDistanceRate: 5, //15
+    spawnDistanceRate: 15,
     prevDistanceTraveledRounded: 0,
     audioSound: 'itemPickup',
     activateFunctionality: function () {
@@ -207,8 +148,9 @@ let entity = {
   inkVial: {
     ref: [],
     speed: 0,
+    isPowerup: true,
     isDestroyedAfterGrab: true,
-    spawnDistanceRate: 15,
+    spawnDistanceRate: 6,
     prevDistanceTraveledRounded: 0,
     audioSound: 'itemPickup',
     activateFunctionality: function () {
