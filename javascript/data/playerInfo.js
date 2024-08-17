@@ -1,5 +1,6 @@
 let playerInfo = {
-  playerSpeed: 3,
+  playerSpeed: 5,
+  ogPlayerSpeed: 5,
   inkGenCounter: 0,
   inkGenCounterRate: 1000,
   afterHitInvincibleTime: 1500,
@@ -10,7 +11,6 @@ let playerInfo = {
   isInvincible: false,
   boostDuration: 500,
   playerVerticalSpeed: 650,
-  ogPlayerSpeed: 3,
   isBoosting: false,
   boostSpeed: 8,
   isGameOver: false,

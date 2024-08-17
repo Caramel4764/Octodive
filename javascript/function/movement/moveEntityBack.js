@@ -1,6 +1,5 @@
 import { gameInfo } from "../../data/gameInfo.js";
 import { playerInfo } from "../../data/playerInfo.js";
-import { changeLife } from "../UIUpdate/changeLife.js";
 function moveEntityBack(entity) {
   entity.ref.forEach(singleEntity => {
     let entityBound = singleEntity.entityBody.getBounds();
@@ -25,8 +24,10 @@ function moveEntityBack(entity) {
         }
       }
     }
-    if (entityBound.x<-100) {
+    if (entityBound.x<-120) {
       singleEntity.entityBody.destroy();
+      if (singleEntity.backEntityBody)
+      singleEntity.backEntityBody.destroy();
     }
   })
 }

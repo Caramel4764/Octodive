@@ -17,6 +17,7 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     src: ['silverLoopFront'],
     backSrc: 'silverLoopBack',
+    audioSound: 'silverLoopPickup',
     scale: 4.7,
     spawnFunction: () => {
       spawnEntity('silverLoops');
@@ -75,6 +76,7 @@ let entity = {
         if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
           if (playerInfo.finishedLaneSwitching && pufferfish.hasBeenHit == false) {
             changeLife(-1)
+            console.log(1)
             pufferfish.hasBeenHit = true;
           }
         }
@@ -87,9 +89,11 @@ let entity = {
     scale: 3.9,
     spawnDistanceRate: 5,
     prevDistanceTraveledRounded: 0,
-    warningTime: 2000,
+    warningTime: 1000,
     activateFunctionality: function () {
       changeLife(-1);
+      console.log(2)
+
     },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
@@ -112,12 +116,15 @@ let entity = {
   trash: {
     ref: [],
     speed: 0,
+    indexVal: 5,
     src: ['plasticBag', 'bottle', 'plasticRing'],
     spawnDistanceRate: 10,
     prevDistanceTraveledRounded: 0,
     //audioSound: 'audio',
     activateFunctionality: function () {
       changeLife(-1)
+      console.log(3)
+
     },
     spawnFunction: () => {
       spawnEntity('trash')
@@ -132,7 +139,7 @@ let entity = {
     isPowerup: true,
     speed: 0,
     isDestroyedAfterGrab: true,
-    spawnDistanceRate: 15,
+    spawnDistanceRate: 30,
     prevDistanceTraveledRounded: 0,
     audioSound: 'itemPickup',
     activateFunctionality: function () {

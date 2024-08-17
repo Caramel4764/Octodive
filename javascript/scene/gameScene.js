@@ -183,7 +183,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
+    let numberOfEntities = this.children.length;
     // Game loop logic
+    console.log(playerInfo.playerSpeed)
     handleMovingForward();
     handlePlayerMovement();
     Object.keys(entity).forEach(singleEntity => {
