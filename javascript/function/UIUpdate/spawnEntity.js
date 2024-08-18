@@ -24,7 +24,7 @@ function spawnEntity(name, lane) {
     isMoving: false,
   }
   if (entity[name].backSrc) {
-    entityInfo.backEntityBody = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth-5, lane*gameInfo.laneHeight-5, entity[name].backSrc).setOrigin(0, 0).setDepth(0).setScale(entity[name].scale+0.2);
+    entityInfo.backEntityBody = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth-5, lane*gameInfo.laneHeight-5, entity[name].backSrc).setOrigin(0, 0).setDepth(1).setScale(entity[name].scale+0.2);
   }
   entity[name].ref.push(entityInfo);
   placeCenterOfLane(entityBody, lane)

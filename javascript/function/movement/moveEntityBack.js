@@ -24,7 +24,7 @@ function moveEntityBack(entity) {
         }
       }
     }
-    if (entityBound.x<-120) {
+    if (entityBound.x<-220) {
       singleEntity.entityBody.destroy();
       if (singleEntity.backEntityBody)
       singleEntity.backEntityBody.destroy();

@@ -88,12 +88,11 @@ let entity = {
     speed: -20,
     scale: 3.9,
     spawnDistanceRate: 5,
+    src: ['swordfish', 'swordFishAqua'],
     prevDistanceTraveledRounded: 0,
     warningTime: 1000,
     activateFunctionality: function () {
       changeLife(-1);
-      console.log(2)
-
     },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
@@ -103,7 +102,6 @@ let entity = {
         callback: function () {
           dangerSign.destroy();
           spawnEntity('swordfish', lane);
-
         },
         callbackScope: this,
         loop: false
@@ -117,7 +115,7 @@ let entity = {
     ref: [],
     speed: 0,
     indexVal: 5,
-    src: ['plasticBag', 'bottle', 'plasticRing'],
+    src: ['plasticBag', 'bottle', 'plasticRing', 'cigarette', 'crushedCan'],
     spawnDistanceRate: 10,
     prevDistanceTraveledRounded: 0,
     //audioSound: 'audio',
@@ -169,7 +167,25 @@ let entity = {
     moveFunction: () => {
       moveEntityBack(entity.inkVial)
     }
-  }
+  },
+  clownfish: {
+    ref: [],
+    speed: -1,
+    scale: 3,
+    spawnDistanceRate: 15,
+    src: ['clownfish', 'clownfishClown'],
+    prevDistanceTraveledRounded: 0,
+    warningTime: 250,
+    activateFunctionality: function () {
+      changeLife(-1);
+    },
+    spawnFunction: () => {
+      spawnEntity('clownfish')
+    },
+    moveFunction: () => {
+      moveEntityBack(entity.clownfish)
+    }
+  },
 }
 
 export {entity}

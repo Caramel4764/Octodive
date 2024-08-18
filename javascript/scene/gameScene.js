@@ -8,7 +8,6 @@ import { createHeart } from "../function/UIUpdate/createHeart.js";
 import { moveToCenterOfMenu } from "../function/UIUpdate/moveToCenterOfMenu.js";
 import { config } from "../../script.js";
 import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
-import { updateInkBar } from "../function/UIUpdate/updateInkBar.js";
 import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
 import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
@@ -34,6 +33,12 @@ export default class GameScene extends Phaser.Scene {
       this.load.audio('silverLoopPickup', 'assets/audio/sfx/silverLoopSound.wav');
       this.load.audio('goldLoopPickup', 'assets/audio/sfx/goldLoopSound.mp3');
 
+      this.load.image('clownfishClown', 'assets/enemy/clownfishClown.png');
+      this.load.image('clownfish', 'assets/enemy/clownfish.png');
+      this.load.image('swordFishAqua', 'assets/enemy/swordFishAqua.png');
+      this.load.image('crushedCan', 'assets/enemy/crushedCan.png');
+      this.load.image('cigarette', 'assets/enemy/cigarette.png');
+
       this.load.image('inkVial', 'assets/ink-bottle/inkVial.png');
       this.load.image('oceanBg', 'assets/ocean.png');
       this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
@@ -44,7 +49,7 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('octoHitBox', 'assets/octopus/octoHitBox.png');
       this.load.image('heart', 'assets/oceanHeart.png');
       this.load.image('heartEmpty', 'assets/oceanHeartEmpty.png');
-      this.load.image('sandGround', 'assets/sandyGround.png');
+      this.load.image('sandGround', 'assets/background/sandyGround.png');
       this.load.image('inkBottle5', 'assets/ink-bottle/inkBottle1.png');
       this.load.image('inkBottle4', 'assets/ink-bottle/inkBottle2.png');
       this.load.image('inkBottle3', 'assets/ink-bottle/inkBottle3.png');
@@ -92,9 +97,17 @@ export default class GameScene extends Phaser.Scene {
     //ocean
     playerInfo.scoreText = this.add.text(920, 14, `${playerInfo.score}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
     playerInfo.distanceTraveledText = this.add.text(920, 60, `${playerInfo.distanceTraveledRounded}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
-    background.oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
+    background.oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0).setDepth(-2);
     background.oceanBgBound = background.oceanBg.getBounds();
-    background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
+
+    background.sandGround = this.add.image(0, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
+    background.sandGroundBound = background.sandGround.getBounds();
+    background.sandGround.setPosition(0, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2);
+    background.sandGround2 = this.add.image(background.sandGroundBound-background.oceanBgBound.width, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
+    background.sandGround2Bound = background.sandGround.getBounds();
+    background.sandGround2.setPosition(0, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2);
+
+    background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0).setDepth(-2);
     background.oceanBgBound2 = background.oceanBg2.getBounds();
     playerInfo.player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
     playerInfo.playerBound = playerInfo.player.getBounds();
@@ -185,7 +198,6 @@ export default class GameScene extends Phaser.Scene {
   update() {
     let numberOfEntities = this.children.length;
     // Game loop logic
-    console.log(playerInfo.playerSpeed)
     handleMovingForward();
     handlePlayerMovement();
     Object.keys(entity).forEach(singleEntity => {
