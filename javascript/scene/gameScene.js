@@ -10,6 +10,7 @@ import { config } from "../../script.js";
 import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
 import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
+import { addRandomLandDecor } from "../function/UIUpdate/addRandomLandDecor.js";
 
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
@@ -107,11 +108,16 @@ export default class GameScene extends Phaser.Scene {
 
     background.sandGround = this.add.image(0, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
     background.sandGroundBound = background.sandGround.getBounds();
-    background.sandGround.setPosition(0, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2);
+    background.sandGround.setPosition(0, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2+30);
 
     background.sandGround2 = this.add.image(background.sandGroundBound.x+background.sandGroundBound.width, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
     background.sandGround2Bound = background.sandGround.getBounds();
-    background.sandGround2.setPosition(background.sandGroundBound.x+background.sandGroundBound.width, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2);
+    background.sandGround2.setPosition(background.sandGroundBound.x+background.sandGroundBound.width, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2+30);
+    
+    background.groundDecor = this.add.image(0, 0, 'starfishRock').setScale(7).setOrigin(0, 0).setDepth(5);
+    background.groundDecorBound = background.groundDecor.getBounds();
+    background.groundDecor.setPosition(background.sandGround2Bound.x+background.sandGround2Bound.width, background.oceanBgBound.height-background.groundDecorBound.height);
+    addRandomLandDecor();
 
     background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0).setDepth(-2);
     background.oceanBgBound2 = background.oceanBg2.getBounds();

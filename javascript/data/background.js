@@ -1,5 +1,5 @@
 let background = {
-  decorList: ['starfishRock', 'yellowSeaAnemone', 'seaGrass', 'seaAnemone'],
+  decorList: ['starfishRock', 'yellowSeaAnemone', 'seaGrass', 'seaAnemone', 'rock'],
   oceanBg: undefined,
   oceanBg2: undefined,
   oceanBgBound: undefined,
@@ -8,7 +8,8 @@ let background = {
   sandGroundBound: undefined,
   sandGround2: undefined,
   sandGround2Bound: undefined,
-  sandGround2Container: undefined
+  groundDecor: undefined,
+  groundDecorBound: undefined
 }
 
 export {background};
