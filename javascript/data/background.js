@@ -1,5 +1,5 @@
 let background = {
-  decorList: ['starfishRock', 'yellowSeaAnemone', 'seaGrass', 'seaAnemone', 'rock'],
+  decorList: ['starfishRock', 'yellowSeaAnemone', 'seaGrass', 'seaAnemone', 'rock', 'mossRock', 'starfishRockBlue'],
   oceanBg: undefined,
   oceanBg2: undefined,
   oceanBgBound: undefined,

@@ -1,7 +1,7 @@
 import { playerInfo } from "../../data/playerInfo.js";
 import { entity } from "../../data/entity.js";
 import { gameInfo } from "../../data/gameInfo.js";
-
+import { setinvincibility } from "./setinvincibility.js";
 function handleGameRestart() {
   playerInfo.isGameOver = false;
   for (let i = 0; i < playerInfo.boostTimeEvent; i++) {
@@ -17,7 +17,7 @@ function handleGameRestart() {
   playerInfo.prevDistanceTraveledRounded = 0;
   playerInfo.heartEntity = [];
   playerInfo.currLane = 0;
-  playerInfo.isInvincible = false;
+  setinvincibility(false);
   playerInfo.finishedLaneSwitching = true;
   playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
   playerInfo.isBoosting = false;

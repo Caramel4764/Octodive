@@ -11,6 +11,7 @@ import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
 import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
 import { addRandomLandDecor } from "../function/UIUpdate/addRandomLandDecor.js";
+import { setinvincibility } from "../function/UIUpdate/setinvincibility.js";
 
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
@@ -33,6 +34,8 @@ export default class GameScene extends Phaser.Scene {
       this.load.audio('silverLoopPickup', 'assets/audio/sfx/silverLoopSound.wav');
       this.load.audio('goldLoopPickup', 'assets/audio/sfx/goldLoopSound.mp3');
 
+      this.load.image('mossRock', 'assets/background/mossRock.png');
+      this.load.image('starfishRockBlue', 'assets/background/starfishRockBlue.png');
       this.load.image('rock', 'assets/background/rock.png');
       this.load.image('seaAnemone', 'assets/background/seaAnemone.png');
       this.load.image('seaGrass', 'assets/background/seaGrass.png');
@@ -78,7 +81,7 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('inkGenCircle7', 'assets/inkGenerationBar/newInkBar7.png');
       this.load.image('inkGenCircle8', 'assets/inkGenerationBar/newInkBar8.png');
 
-      this.load.spritesheet('octopus',
+    this.load.spritesheet('octopus',
         'assets/octopus/octopus.png',
       { frameWidth: 125, frameHeight: 100 }
     );
@@ -145,7 +148,8 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1
     });
     playerInfo.player.anims.play('swim', true);
-
+    //setinvincibility(false);
+    playerInfo.isInvincible = false;
     playerInfo.playerContainer = this.add.container(0, playerInfo.currLane*gameInfo.laneHeight).setScale(1.5).setDepth(2);
     playerInfo.playerContainer.add(playerInfo.player);
     playerInfo.playerContainer.add(playerInfo.octoHitBox);
@@ -187,9 +191,9 @@ export default class GameScene extends Phaser.Scene {
     playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
     playerInfo.rightKey = this.input.keyboard.on('keydown_RIGHT', function (event) {
       if (playerInfo.isBoosting == false && playerInfo.inkBarAmount > 0) {
+        setinvincibility(true);
         this.sound.add('boost').play();
         handleSpeedBoost(playerInfo.boostSpeed, playerInfo.boostDuration);
-        playerInfo.isInvincible = true;
       }
     }, this);
     this.input.keyboard.on('keyup_UP', function (event) {
