@@ -9,7 +9,6 @@ import { moveToCenterOfMenu } from "../function/UIUpdate/moveToCenterOfMenu.js";
 import { config } from "../../script.js";
 import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
 import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
-import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
 
 function updateDistance() {
@@ -32,6 +31,12 @@ export default class GameScene extends Phaser.Scene {
       this.load.audio('boost', 'assets/audio/sfx/boost.wav');
       this.load.audio('silverLoopPickup', 'assets/audio/sfx/silverLoopSound.wav');
       this.load.audio('goldLoopPickup', 'assets/audio/sfx/goldLoopSound.mp3');
+
+      this.load.image('rock', 'assets/background/rock.png');
+      this.load.image('seaAnemone', 'assets/background/seaAnemone.png');
+      this.load.image('seaGrass', 'assets/background/seaGrass.png');
+      this.load.image('starfishRock', 'assets/background/starfishRock.png');
+      this.load.image('yellowSeaAnemone', 'assets/background/yellowSeaAnemone.png');
 
       this.load.image('clownfishClown', 'assets/enemy/clownfishClown.png');
       this.load.image('clownfish', 'assets/enemy/clownfish.png');
@@ -103,9 +108,10 @@ export default class GameScene extends Phaser.Scene {
     background.sandGround = this.add.image(0, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
     background.sandGroundBound = background.sandGround.getBounds();
     background.sandGround.setPosition(0, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2);
-    background.sandGround2 = this.add.image(background.sandGroundBound-background.oceanBgBound.width, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
+
+    background.sandGround2 = this.add.image(background.sandGroundBound.x+background.sandGroundBound.width, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
     background.sandGround2Bound = background.sandGround.getBounds();
-    background.sandGround2.setPosition(0, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2);
+    background.sandGround2.setPosition(background.sandGroundBound.x+background.sandGroundBound.width, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2);
 
     background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0).setDepth(-2);
     background.oceanBgBound2 = background.oceanBg2.getBounds();

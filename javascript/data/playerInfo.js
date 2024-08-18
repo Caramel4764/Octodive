@@ -8,7 +8,7 @@ let playerInfo = {
   inkBar: undefined,
   inkGenCircle: undefined,
   inkBarAmount: 4,
-  isInvincible: false,
+  isInvincible: true,
   boostDuration: 500,
   playerVerticalSpeed: 650,
   isBoosting: false,

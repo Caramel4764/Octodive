@@ -58,7 +58,7 @@ let entity = {
     spawnDistanceRate: 8,
     prevDistanceTraveledRounded: 0,
     spawnFunction: () => {
-      let lane = Math.floor(Math.random() * 4);
+      let lane = Math.floor(Math.random() * 3);
       let pufferfish = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'pufferfish').setOrigin(0, 0).setDepth(0).setScale(3.9);
       let pufferfishInfo = {
         pufferfish: pufferfish,
@@ -76,7 +76,8 @@ let entity = {
         if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
           if (playerInfo.finishedLaneSwitching && pufferfish.hasBeenHit == false) {
             changeLife(-1)
-            console.log(1)
+            //heart issue here I think
+            //console.log(1)
             pufferfish.hasBeenHit = true;
           }
         }
@@ -120,8 +121,7 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     //audioSound: 'audio',
     activateFunctionality: function () {
-      changeLife(-1)
-      console.log(3)
+      changeLife(-1);
 
     },
     spawnFunction: () => {

@@ -13,7 +13,7 @@ let funFactList = [
   'Dashing makes you temporarily invincible',
   'Some swordfishes can swim up to 80 miles per hour',
   'Pufferfishes have elastic stomachs which they can fill with water to inflate themselves',
-  'Every year,8 to 12 million metric tons of plastic trash is dumped into the ocean'
+  'Every year, 8-12 million metric tons of plastic trash is dumped into the ocean'
 ]
 
 export {funFactList}
