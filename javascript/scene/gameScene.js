@@ -89,6 +89,10 @@ export default class GameScene extends Phaser.Scene {
       'assets/pufferfish.png',
       { frameWidth: 70, frameHeight: 70 }
     );
+    this.load.spritesheet('jellyfish',
+      'assets/enemy/jellyfish.png',
+      { frameWidth: 40, frameHeight: 60 }
+    );
   }
 
   create() {

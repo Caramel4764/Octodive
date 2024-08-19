@@ -184,7 +184,29 @@ let entity = {
     },
     moveFunction: () => {
       moveEntityBack(entity.clownfish)
-    }
+    },
+  },
+  jellyfish: {
+    ref: [],
+    speed: 4,
+    scale: 3,
+    spawnDistanceRate: 15,
+    prevDistanceTraveledRounded: 0,
+    warningTime: 250,
+    animationInfo: {
+      start: 0,
+      end: 6,
+      frameRate: 6,
+    },
+    activateFunctionality: function () {
+      changeLife(-1);
+    },
+    spawnFunction: () => {
+      spawnEntity('jellyfish')
+    },
+    moveFunction: () => {
+      moveEntityBack(entity.jellyfish)
+    },
   },
 }
 
