@@ -1,6 +1,7 @@
 
 import GameScene from './javascript/scene/gameScene.js';
 import GameOver from './javascript/scene/gameOver.js';
+import StartMenu from './javascript/scene/startMenu.js';
 import {funFactList} from "./javascript/data/funfact.js";
 let config = {
   type: Phaser.AUTO,
@@ -23,7 +24,7 @@ let config = {
     forceSetTimeOut: true
   },
   pixelArt: true,
-  scene: [GameScene, GameOver]
+  scene: [StartMenu, GameScene, GameOver]
 };
 
 let game = new Phaser.Game(config);

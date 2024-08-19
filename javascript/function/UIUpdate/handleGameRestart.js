@@ -1,5 +1,5 @@
 import { playerInfo } from "../../data/playerInfo.js";
-import { entity } from "../../data/entity.js";
+import { categories, entity } from "../../data/entity.js";
 import { gameInfo } from "../../data/gameInfo.js";
 import { setinvincibility } from "./setinvincibility.js";
 function handleGameRestart() {
@@ -25,8 +25,8 @@ function handleGameRestart() {
   playerInfo.isUpDown = false;
   playerInfo.inkBarAmount = 4,
   playerInfo.playerSpeed -= playerInfo.speedboost;
-  Object.keys(entity).forEach(singleEntity => {
-    entity[singleEntity].prevDistanceTraveledRounded = 0;
+  categories.forEach(category => {
+    category.prevDistanceTraveledRounded = 0;
   });
   this.scene.stop('GameOver').launch('GameScene');
 }
