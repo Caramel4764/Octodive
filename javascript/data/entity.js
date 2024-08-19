@@ -7,9 +7,11 @@ import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
 import { moveEntityBack } from "../function/movement/moveEntityBack.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
 import { spawnEntity } from "../function/UIUpdate/spawnEntity.js";
+//categories: drift, bullet, trash, power
 let entity = {
   silverLoops : {
     ref: [],
+    category: 'silverRing',
     isPowerup: true,
     speed: 0,
     indexVal: 4,
@@ -53,6 +55,7 @@ let entity = {
   },
   pufferfish : {
     ref: [],
+    category:'drift',
     speed: 0.3,
     multiLane: 1,
     spawnDistanceRate: 8,
@@ -86,6 +89,7 @@ let entity = {
   },
   swordfish: {
     ref: [],
+    category:'bullet',
     speed: -20,
     scale: 3.9,
     spawnDistanceRate: 5,
@@ -114,6 +118,7 @@ let entity = {
   },
   trash: {
     ref: [],
+    category:'trash',
     speed: 0,
     indexVal: 5,
     src: ['plasticBag', 'bottle', 'plasticRing', 'cigarette', 'crushedCan'],
@@ -171,6 +176,7 @@ let entity = {
   clownfish: {
     ref: [],
     speed: -1,
+    category:'bullet',
     scale: 3,
     spawnDistanceRate: 15,
     src: ['clownfish', 'clownfishClown'],
@@ -189,6 +195,7 @@ let entity = {
   jellyfish: {
     ref: [],
     speed: 4,
+    category:'drift',
     scale: 3,
     spawnDistanceRate: 15,
     prevDistanceTraveledRounded: 0,
@@ -210,7 +217,32 @@ let entity = {
   },
 }
 
-export {entity}
+let categories = [{
+  type: 'bullet',
+  listOfEntity: [],
+  frequency: 8,
+  prevDistanceTraveledRounded: 0,
+},
+{
+  type: 'drift',
+  listOfEntity: [],
+  frequency: 12,
+  prevDistanceTraveledRounded: 0,
+},
+{
+  type: 'trash',
+  listOfEntity: [],
+  frequency: 3,
+  prevDistanceTraveledRounded: 0,
+},
+{
+  type: 'silverRing',
+  listOfEntity: [],
+  frequency: 1,
+  prevDistanceTraveledRounded: 0,
+},]
+
+export {entity, categories}
 
 /*
     inkVial: {

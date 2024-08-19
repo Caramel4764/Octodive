@@ -1,5 +1,5 @@
 import {playerInfo} from "../data/playerInfo.js";
-import { entity } from "../data/entity.js";
+import { categories, entity } from "../data/entity.js";
 import { background } from "../data/background.js";
 import {handleMovingForward} from "../function/movement/handleMovingForward.js";
 import { gameInfo } from "../data/gameInfo.js";
@@ -12,6 +12,7 @@ import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
 import { addRandomLandDecor } from "../function/UIUpdate/addRandomLandDecor.js";
 import { setinvincibility } from "../function/UIUpdate/setinvincibility.js";
+import { spawnEntity } from "../function/UIUpdate/spawnEntity.js";
 
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
@@ -106,6 +107,14 @@ export default class GameScene extends Phaser.Scene {
       gameInfo.gameRef = this;
       gameInfo.isFirstLoop = false;
     }
+
+    Object.keys(entity).forEach(singleEntity => {
+      categories.forEach(category => {
+        if (entity[singleEntity].category == category.type) {
+          category.listOfEntity.push(singleEntity);
+        }
+      })
+    });
 
     //ocean
     playerInfo.scoreText = this.add.text(920, 14, `${playerInfo.score}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
@@ -220,12 +229,11 @@ export default class GameScene extends Phaser.Scene {
     // Game loop logic
     handleMovingForward();
     handlePlayerMovement();
-    Object.keys(entity).forEach(singleEntity => {
-      if (entity[singleEntity].isDistanceBased == undefined || entity[singleEntity].isDistanceBased==true) {
-        if (playerInfo.distanceTraveledRounded-entity[singleEntity].prevDistanceTraveledRounded >= entity[singleEntity].spawnDistanceRate) {
-          entity[singleEntity].prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-          entity[singleEntity].spawnFunction();
-        }
+    categories.forEach(category => {
+      if (playerInfo.distanceTraveledRounded-category.prevDistanceTraveledRounded >= category.frequency) {
+        let randomEntityType = Math.floor(Math.random()*category.listOfEntity.length);
+        entity[category.listOfEntity[randomEntityType]].spawnFunction();
+        category.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
       }
     })
   }
