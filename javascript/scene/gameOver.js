@@ -39,6 +39,7 @@ export default class GameOver extends Phaser.Scene {
     gameInfo.funFactText = funFactText;
     generateFunFact();
     playerInfo.rKey = this.input.keyboard.on('keydown_R', handleGameRestart, this);
+    
   }
   update() {
   }

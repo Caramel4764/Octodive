@@ -1,6 +1,9 @@
 let playerInfo = {
   playerSpeed: 5,
+  zKey: undefined,
   ogPlayerSpeed: 5,
+  zKeyTutorial: undefined,
+  xKeyTutorial: undefined,
   inkGenCounter: 0,
   inkGenCounterRate: 1000,
   afterHitInvincibleTime: 1000,
