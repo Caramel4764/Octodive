@@ -28,17 +28,24 @@ function spawnEntity(name, lane) {
     entityInfo.backEntityBody = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth-5, lane*gameInfo.laneHeight-5, entity[name].backSrc).setOrigin(0, 0).setDepth(1).setScale(entity[name].scale+0.2);
   }
   if (entity[name].animationInfo) {
-    let test = gameInfo.gameRef.anims.create({
-      key: 'idle',
+    /*let framesTest = gameInfo.gameRef.anims.create({
+      key: `idle${name}`,
       frames: gameInfo.gameRef.anims.generateFrameNumbers(name, { start: entity[name].animationInfo.start, end: entity[name].animationInfo.end }),
       frameRate: entity[name].animationInfo.frameRate,
       repeat: -1
     });
+    console.log(`Start: ${entity[name].animationInfo.start}`)
+    console.log(`End: ${framesTest.frames}`)*/
+
+    
+
     //console.log(test.play('idle', true));
-    if (entityInfo.entityBody.currentFrame) {
-    entityInfo.entityBody.anims.play('idle', true);
-    }
+    //if (entityInfo.entityBody.currentFrame) {
+    console.log(entityInfo.entityBody)
+    entityInfo.entityBody.anims.play(`idle${name}`, true);
+    //}
   }
+  
   entity[name].ref.push(entityInfo);
   placeCenterOfLane(entityBody, lane)
 }

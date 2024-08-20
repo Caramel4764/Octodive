@@ -11,6 +11,7 @@ let gameInfo = {
   bgMusic: undefined,
   isFirstLoop: true,
   landMovebackSpeed: 1.05,
+  test123: undefined
 }
 
 export {gameInfo}

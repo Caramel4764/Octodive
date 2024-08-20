@@ -12,6 +12,13 @@ export default class GameOver extends Phaser.Scene {
     this.load.image('gameOver', 'assets/gameOverMenu.png');
   }
   create() {
+    gameInfo.test123 = gameInfo.gameRef.anims.create({
+      key: `idlejellyfish`,
+      frames: gameInfo.gameRef.anims.generateFrameNumbers(name, { start: 0, end: 5 }),
+      frameRate: 6,
+      repeat: -1
+    });
+
     this.add.image(0, 0, 'gameOver').setOrigin(0, 0).setScale(7.7);
     let title = this.add.container(0, 0, [
       this.add.image(80, 120, 'title2').setOrigin(0, 0).setScale(8),
