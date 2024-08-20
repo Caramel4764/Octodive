@@ -25,7 +25,7 @@ let config = {
     forceSetTimeOut: true
   },
   pixelArt: true,
-  scene: [TutorialScene, StartMenu, GameScene, GameOver]
+  scene: [StartMenu, TutorialScene, GameScene, GameOver]
 };
 
 let game = new Phaser.Game(config);

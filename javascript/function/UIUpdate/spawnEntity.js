@@ -12,7 +12,6 @@ function spawnEntity(name, lane) {
   let entityBody
   if (entity[name].indexVal == undefined) {
     entityBody = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, name).setOrigin(0, 0).setDepth(0).setScale(entity[name].scale);
-    console.log(entityBody)
   } else {
     entityBody = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, name).setOrigin(0, 0).setDepth(entity[name].indexVal).setScale(entity[name].scale);
   }
@@ -29,17 +28,16 @@ function spawnEntity(name, lane) {
     entityInfo.backEntityBody = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth-5, lane*gameInfo.laneHeight-5, entity[name].backSrc).setOrigin(0, 0).setDepth(1).setScale(entity[name].scale+0.2);
   }
   if (entity[name].animationInfo) {
-    console.log(`${entityInfo.entityBody.texture.key}`)
-    console.log(entityInfo.entityBody);
-    //console.log(test.play('idle', true));
-
-    //if (entityInfo.entityBody.currentFrame) {
-    entityInfo.entityBody.anims.play(`jellyfishSwim`, true);
-    //} else {
-      //console.log(`${entityInfo.entityBody.texture.key}`)
-    //console.log(entityInfo.entityBody);
-
-    //}
+    if (gameInfo.gameRef.anims.get(`idle${name}`)) {
+    } else {
+      playerInfo.test = gameInfo.gameRef.anims.create({
+        key: `idle${name}`,
+        frames: gameInfo.gameRef.anims.generateFrameNumbers(name, { start: entity[name].animationInfo.start, end: entity[name].animationInfo.end }),
+        frameRate: entity[name].animationInfo.frameRate,
+        repeat: -1
+      });
+    }
+    entityInfo.entityBody.anims.play(`idle${name}`, true);
   }
   
   entity[name].ref.push(entityInfo);

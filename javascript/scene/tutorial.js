@@ -12,7 +12,7 @@ export default class GameOver extends Phaser.Scene {
 
     this.load.image('swordfish', 'assets/enemy/swordFish.png');
     this.load.image('plasticRing', 'assets/enemy/plasticRing.png');
-    this.load.image('jellyfish', 'assets/enemy/jellyfishSingle.png');
+    this.load.image('jellyfishSingle', 'assets/enemy/jellyfishSingle.png');
 
     this.load.image('goldLoop', 'assets/gold-ring/gold-ring.png');
     this.load.image('silverLoop', 'assets/silver-ring/silver-ring.png');
@@ -27,7 +27,7 @@ export default class GameOver extends Phaser.Scene {
   
   }
   create() {
-    let currentPage = 4;
+    let currentPage = 0;
     let keyXPos = 250;
     let keyYPos = 80;
     this.add.image(0, 0, 'menuBg').setOrigin(0, 0).setScale(7.7);
@@ -46,7 +46,7 @@ export default class GameOver extends Phaser.Scene {
       this.add.text(keyXPos + upArrowImg.getBounds().width+50, keyYPos+20, 'Dodge enemies', { font:'bold 40px Open Sans', fontFamily: 'Open Sans, sans-serif', fontStyle: 'bold'}).setOrigin(0, 0).setDepth(3),
       this.add.image(keyXPos, keyYPos+140*2, 'swordfish').setOrigin(0.5, 0.5).setScale(4),
       this.add.image(keyXPos*2+50, keyYPos+140*2, 'plasticRing').setOrigin(0.5, 0.5).setScale(4),
-      this.add.image(keyXPos*3+50, keyYPos+140*2, 'jellyfish').setOrigin(0.5, 0.5).setScale(4),
+      this.add.image(keyXPos*3+50, keyYPos+140*2, 'jellyfishSingle').setOrigin(0.5, 0.5).setScale(4),
     ])
     pages.push(enemyPage);
 

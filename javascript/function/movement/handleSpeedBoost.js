@@ -4,7 +4,7 @@ import { updateInkBar } from "../UIUpdate/updateInkBar.js";
 import { setinvincibility } from "../UIUpdate/setinvincibility.js";
 function handleSpeedBoost(speedboost, time) {
     playerInfo.playerSpeed += speedboost;
-    //playerInfo.isBoosting = true;
+    playerInfo.isBoosting = true;
     playerInfo.boostSpeed = speedboost,
     playerInfo.boostTimeEvent.push(gameInfo.gameRef.time.addEvent({
       delay: time,

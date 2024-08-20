@@ -160,12 +160,6 @@ export default class GameScene extends Phaser.Scene {
       frameRate: 13,
       repeat: -1
     });
-    this.anims.create({
-      key: 'jellyfishSwim',
-      frames: this.anims.generateFrameNumbers('jellyfish', { start: 0, end: 6 }),
-      frameRate: 13,
-      repeat: -1
-    });
     playerInfo.player.anims.play('swim', true);
     //setinvincibility(false);
     playerInfo.isInvincible = false;
