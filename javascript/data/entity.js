@@ -7,7 +7,7 @@ import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
 import { moveEntityBack } from "../function/movement/moveEntityBack.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
 import { spawnEntity } from "../function/UIUpdate/spawnEntity.js";
-//categories: drift, bullet, trash, power
+//categories: drift, bullet, trash, power, goodies
 let entity = {
   silverLoops : {
     ref: [],
@@ -139,6 +139,7 @@ let entity = {
   },
   heart: {
     ref: [],
+    category:'goodies',
     isPowerup: true,
     speed: 0,
     isDestroyedAfterGrab: true,
@@ -158,6 +159,7 @@ let entity = {
   inkVial: {
     ref: [],
     speed: 0,
+    category: 'goodies',
     isPowerup: true,
     isDestroyedAfterGrab: true,
     spawnDistanceRate: 6,
@@ -240,7 +242,14 @@ let categories = [{
   listOfEntity: [],
   frequency: 1,
   prevDistanceTraveledRounded: 0,
-},]
+},
+{
+  type: 'goodies',
+  listOfEntity: [],
+  frequency: 20,
+  prevDistanceTraveledRounded: 0,
+}
+]
 
 export {entity, categories}
 
