@@ -10,6 +10,7 @@ let gameInfo = {
   funFactText: undefined,
   bgMusic: undefined,
   isFirstLoop: true,
+  landMovebackSpeed: 1.05,
 }
 
 export {gameInfo}

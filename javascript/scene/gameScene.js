@@ -1,5 +1,5 @@
 import {playerInfo} from "../data/playerInfo.js";
-import { entity } from "../data/entity.js";
+import { categories, entity } from "../data/entity.js";
 import { background } from "../data/background.js";
 import {handleMovingForward} from "../function/movement/handleMovingForward.js";
 import { gameInfo } from "../data/gameInfo.js";
@@ -8,10 +8,11 @@ import { createHeart } from "../function/UIUpdate/createHeart.js";
 import { moveToCenterOfMenu } from "../function/UIUpdate/moveToCenterOfMenu.js";
 import { config } from "../../script.js";
 import { handleSpeedBoost } from "../function/movement/handleSpeedBoost.js";
-import { updateInkBar } from "../function/UIUpdate/updateInkBar.js";
 import { updateInkGenCircle } from "../function/UIUpdate/updateInkGenCircle.js";
-import { updatePlayerScore } from "../function/UIUpdate/updatePlayerScore.js";
 import { changeInk } from "../function/UIUpdate/changeInk.js";
+import { addRandomLandDecor } from "../function/UIUpdate/addRandomLandDecor.js";
+import { setinvincibility } from "../function/UIUpdate/setinvincibility.js";
+import { spawnEntity } from "../function/UIUpdate/spawnEntity.js";
 
 function updateDistance() {
   playerInfo.distanceTraveled += playerInfo.playerSpeed/5;
@@ -34,6 +35,20 @@ export default class GameScene extends Phaser.Scene {
       this.load.audio('silverLoopPickup', 'assets/audio/sfx/silverLoopSound.wav');
       this.load.audio('goldLoopPickup', 'assets/audio/sfx/goldLoopSound.mp3');
 
+      this.load.image('mossRock', 'assets/background/mossRock.png');
+      this.load.image('starfishRockBlue', 'assets/background/starfishRockBlue.png');
+      this.load.image('rock', 'assets/background/rock.png');
+      this.load.image('seaAnemone', 'assets/background/seaAnemone.png');
+      this.load.image('seaGrass', 'assets/background/seaGrass.png');
+      this.load.image('starfishRock', 'assets/background/starfishRock.png');
+      this.load.image('yellowSeaAnemone', 'assets/background/yellowSeaAnemone.png');
+
+      this.load.image('clownfishClown', 'assets/enemy/clownfishClown.png');
+      this.load.image('clownfish', 'assets/enemy/clownfish.png');
+      this.load.image('swordFishAqua', 'assets/enemy/swordFishAqua.png');
+      this.load.image('crushedCan', 'assets/enemy/crushedCan.png');
+      this.load.image('cigarette', 'assets/enemy/cigarette.png');
+
       this.load.image('inkVial', 'assets/ink-bottle/inkVial.png');
       this.load.image('oceanBg', 'assets/ocean.png');
       this.load.image('oceanBgGreen', 'assets/ocean-green-test.png');
@@ -44,7 +59,7 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('octoHitBox', 'assets/octopus/octoHitBox.png');
       this.load.image('heart', 'assets/oceanHeart.png');
       this.load.image('heartEmpty', 'assets/oceanHeartEmpty.png');
-      this.load.image('sandGround', 'assets/sandyGround.png');
+      this.load.image('sandGround', 'assets/background/sandyGround.png');
       this.load.image('inkBottle5', 'assets/ink-bottle/inkBottle1.png');
       this.load.image('inkBottle4', 'assets/ink-bottle/inkBottle2.png');
       this.load.image('inkBottle3', 'assets/ink-bottle/inkBottle3.png');
@@ -67,13 +82,17 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('inkGenCircle7', 'assets/inkGenerationBar/newInkBar7.png');
       this.load.image('inkGenCircle8', 'assets/inkGenerationBar/newInkBar8.png');
 
-      this.load.spritesheet('octopus',
+    this.load.spritesheet('octopus',
         'assets/octopus/octopus.png',
       { frameWidth: 125, frameHeight: 100 }
     );
     this.load.spritesheet('pufferfish',
       'assets/pufferfish.png',
       { frameWidth: 70, frameHeight: 70 }
+    );
+    this.load.spritesheet('jellyfish',
+      'assets/enemy/jellyfish.png',
+      { frameWidth: 40, frameHeight: 60 }
     );
   }
 
@@ -89,12 +108,34 @@ export default class GameScene extends Phaser.Scene {
       gameInfo.isFirstLoop = false;
     }
 
+    Object.keys(entity).forEach(singleEntity => {
+      categories.forEach(category => {
+        if (entity[singleEntity].category == category.type) {
+          category.listOfEntity.push(singleEntity);
+        }
+      })
+    });
+
     //ocean
     playerInfo.scoreText = this.add.text(920, 14, `${playerInfo.score}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
     playerInfo.distanceTraveledText = this.add.text(920, 60, `${playerInfo.distanceTraveledRounded}`, { font:'40px Georgia', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' }).setDepth(11);
-    background.oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
+    background.oceanBg = this.add.image(0, 0, 'oceanBg').setScale(3).setOrigin(0, 0).setDepth(-2);
     background.oceanBgBound = background.oceanBg.getBounds();
-    background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0);
+
+    background.sandGround = this.add.image(0, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
+    background.sandGroundBound = background.sandGround.getBounds();
+    background.sandGround.setPosition(0, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2+30);
+
+    background.sandGround2 = this.add.image(background.sandGroundBound.x+background.sandGroundBound.width, background.oceanBgBound.height-80, 'sandGround').setScale(3).setOrigin(0, 0).setDepth(0);
+    background.sandGround2Bound = background.sandGround.getBounds();
+    background.sandGround2.setPosition(background.sandGroundBound.x+background.sandGroundBound.width, background.oceanBgBound.height-background.sandGroundBound.height+background.sandGroundBound.height/2+30);
+    
+    background.groundDecor = this.add.image(0, 0, 'starfishRock').setScale(7).setOrigin(0, 0).setDepth(5);
+    background.groundDecorBound = background.groundDecor.getBounds();
+    background.groundDecor.setPosition(background.sandGround2Bound.x+background.sandGround2Bound.width, background.oceanBgBound.height-background.groundDecorBound.height);
+    addRandomLandDecor();
+
+    background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0).setDepth(-2);
     background.oceanBgBound2 = background.oceanBg2.getBounds();
     playerInfo.player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
     playerInfo.playerBound = playerInfo.player.getBounds();
@@ -120,7 +161,8 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1
     });
     playerInfo.player.anims.play('swim', true);
-
+    //setinvincibility(false);
+    playerInfo.isInvincible = false;
     playerInfo.playerContainer = this.add.container(0, playerInfo.currLane*gameInfo.laneHeight).setScale(1.5).setDepth(2);
     playerInfo.playerContainer.add(playerInfo.player);
     playerInfo.playerContainer.add(playerInfo.octoHitBox);
@@ -162,9 +204,9 @@ export default class GameScene extends Phaser.Scene {
     playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
     playerInfo.rightKey = this.input.keyboard.on('keydown_RIGHT', function (event) {
       if (playerInfo.isBoosting == false && playerInfo.inkBarAmount > 0) {
+        setinvincibility(true);
         this.sound.add('boost').play();
         handleSpeedBoost(playerInfo.boostSpeed, playerInfo.boostDuration);
-        playerInfo.isInvincible = true;
       }
     }, this);
     this.input.keyboard.on('keyup_UP', function (event) {
@@ -185,15 +227,13 @@ export default class GameScene extends Phaser.Scene {
   update() {
     let numberOfEntities = this.children.length;
     // Game loop logic
-    console.log(playerInfo.playerSpeed)
     handleMovingForward();
     handlePlayerMovement();
-    Object.keys(entity).forEach(singleEntity => {
-      if (entity[singleEntity].isDistanceBased == undefined || entity[singleEntity].isDistanceBased==true) {
-        if (playerInfo.distanceTraveledRounded-entity[singleEntity].prevDistanceTraveledRounded >= entity[singleEntity].spawnDistanceRate) {
-          entity[singleEntity].prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-          entity[singleEntity].spawnFunction();
-        }
+    categories.forEach(category => {
+      if (playerInfo.distanceTraveledRounded-category.prevDistanceTraveledRounded >= category.frequency) {
+        let randomEntityType = Math.floor(Math.random()*category.listOfEntity.length);
+        entity[category.listOfEntity[randomEntityType]].spawnFunction();
+        category.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
       }
     })
   }

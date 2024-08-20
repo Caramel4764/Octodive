@@ -1,16 +1,17 @@
 import { playerInfo } from "../../data/playerInfo.js";
 import { gameInfo } from "../../data/gameInfo.js";
 import { updatePlayerScore } from "../UIUpdate/updatePlayerScore.js";
+import { setinvincibility } from "./setinvincibility.js";
 function changeLife (change) {
   if (change < 0) {
     playerInfo.life+=change;
     gameInfo.gameRef.sound.add('hurt').play();
 
-    playerInfo.isInvincible = true;
+    setinvincibility(true, 'hurt');
     gameInfo.gameRef.time.addEvent({
       delay: playerInfo.afterHitInvincibleTime,
       callback: function () {
-        playerInfo.isInvincible = false;
+        setinvincibility(false)
       },
       callbackScope: this,
       loop: false

@@ -30,7 +30,7 @@ export default class GameOver extends Phaser.Scene {
     scoreText.setPosition(gameOverInfoWidth, config.height/2-30);
     distanceText = this.add.text(0, 0, `Distance: ${Math.floor(playerInfo.distanceTraveled)}`, { font:'50px Open Sans', fontFamily: 'Open Sans, sans-serif' }).setOrigin(0.5, 0.5).setDepth(3);
     distanceText.setPosition(gameOverInfoWidth, config.height/2+40);
-    restartText = this.add.text(0, 0, 'Press "R" to restart', { font:'50px Open Sans', fontFamily: 'Open Sans, sans-serif', fill: 'yellow'}).setOrigin(0.5, 0.5).setDepth(3);
+    restartText = this.add.text(0, 0, 'Press "Z" to restart', { font:'50px Open Sans', fontFamily: 'Open Sans, sans-serif', fill: 'yellow'}).setOrigin(0.5, 0.5).setDepth(3);
     restartText.setPosition(gameOverInfoWidth, config.height/2+150);
     funFactDiv = this.add.image(config.width/2+60, config.height/2, 'funFactDiv').setOrigin(0,0.5).setScale(9);
     funFactDiv = this.add.image(config.width/2+60, config.height/2, 'funFactDiv').setOrigin(0,0.5).setScale(9);
@@ -38,7 +38,8 @@ export default class GameOver extends Phaser.Scene {
     funFactText = this.add.text(funFactDiv.getBounds().x+funFactDiv.getBounds().width/2, funFactDiv.getBounds().y+250, `Fun fact goes here`, { font:'40px Open Sans', fontFamily: 'Open Sans, sans-serif', align: 'center', wordWrap: { width: 300, useAdvancedWrap: true }}).setOrigin(0.5, 0.5).setDepth(3);
     gameInfo.funFactText = funFactText;
     generateFunFact();
-    playerInfo.rKey = this.input.keyboard.on('keydown_R', handleGameRestart, this);
+    playerInfo.rKey = this.input.keyboard.on('keydown_Z', handleGameRestart, this);
+    
   }
   update() {
   }
