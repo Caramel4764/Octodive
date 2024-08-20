@@ -1,6 +1,7 @@
 import { gameInfo } from "../../data/gameInfo.js";
 import { entity } from "../../data/entity.js";
 import { placeCenterOfLane } from "./placeCenterOfLane.js";
+import { playerInfo } from "../../data/playerInfo.js";
 function spawnEntity(name, lane) {
   if (lane == undefined) {
     lane = Math.floor(Math.random() * 4);
@@ -28,21 +29,16 @@ function spawnEntity(name, lane) {
     entityInfo.backEntityBody = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth-5, lane*gameInfo.laneHeight-5, entity[name].backSrc).setOrigin(0, 0).setDepth(1).setScale(entity[name].scale+0.2);
   }
   if (entity[name].animationInfo) {
-    /*let framesTest = gameInfo.gameRef.anims.create({
-      key: `idle${name}`,
-      frames: gameInfo.gameRef.anims.generateFrameNumbers(name, { start: entity[name].animationInfo.start, end: entity[name].animationInfo.end }),
-      frameRate: entity[name].animationInfo.frameRate,
-      repeat: -1
-    });
-    console.log(`Start: ${entity[name].animationInfo.start}`)
-    console.log(`End: ${framesTest.frames}`)*/
-
-    
-
+    console.log(`${entityInfo.entityBody.texture.key}`)
+    console.log(entityInfo.entityBody);
     //console.log(test.play('idle', true));
+
     //if (entityInfo.entityBody.currentFrame) {
-    console.log(entityInfo.entityBody)
-    entityInfo.entityBody.anims.play(`idle${name}`, true);
+    entityInfo.entityBody.anims.play(`jellyfishSwim`, true);
+    //} else {
+      //console.log(`${entityInfo.entityBody.texture.key}`)
+    //console.log(entityInfo.entityBody);
+
     //}
   }
   

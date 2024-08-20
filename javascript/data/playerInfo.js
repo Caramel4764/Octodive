@@ -1,4 +1,6 @@
 let playerInfo = {
+  test: undefined,
+
   playerSpeed: 5,
   zKey: undefined,
   ogPlayerSpeed: 5,
