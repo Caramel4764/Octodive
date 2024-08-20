@@ -230,6 +230,8 @@ export default class GameScene extends Phaser.Scene {
     handleMovingForward();
     handlePlayerMovement();
     categories.forEach(category => {
+      console.log('category.type')
+
       if (playerInfo.distanceTraveledRounded-category.prevDistanceTraveledRounded >= category.frequency) {
         let randomEntityType = Math.floor(Math.random()*category.listOfEntity.length);
         entity[category.listOfEntity[randomEntityType]].spawnFunction();
