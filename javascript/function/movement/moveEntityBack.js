@@ -13,8 +13,6 @@ function moveEntityBack(entity) {
     if (playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed)+playerInfo.octoDangerHitBoxBound.width >= entityBound.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed) <=entityBound.x+entityBound.width && (playerInfo.isInvincible == false || entity.isPowerup) && playerInfo.finishedLaneSwitching == true && playerInfo.currLane == singleEntity.lane && singleEntity.hasBeenHit == false) {
       if (playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed)+playerInfo.octoDangerHitBoxBound.width >= entityBound.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed) <=entityBound.x+entityBound.width && (playerInfo.isInvincible == false || entity.isPowerup) && playerInfo.finishedLaneSwitching && singleEntity.hasBeenHit == false) {
         if (entity.activateFunctionality) {
-          console.log(`entityBound: ${entityBound.x}`)
-          console.log(`playerBound: ${playerInfo.octoDangerHitBoxBound.x}`)
           entity.activateFunctionality();
         }
         if (entity.audioSound) {

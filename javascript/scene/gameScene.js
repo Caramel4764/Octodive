@@ -34,6 +34,7 @@ export default class GameScene extends Phaser.Scene {
       this.load.audio('boost', 'assets/audio/sfx/boost.wav');
       this.load.audio('silverLoopPickup', 'assets/audio/sfx/silverLoopSound.wav');
       this.load.audio('goldLoopPickup', 'assets/audio/sfx/goldLoopSound.mp3');
+      this.load.audio('heal', 'assets/audio/sfx/heal.wav');
 
       this.load.image('mossRock', 'assets/background/mossRock.png');
       this.load.image('starfishRockBlue', 'assets/background/starfishRockBlue.png');
@@ -174,12 +175,14 @@ export default class GameScene extends Phaser.Scene {
 
     playerInfo.octoDangerHitBox = this.physics.add.sprite(150, 34, 'octoDangerHitBox').setScale(0.5).setOrigin(0.5, 0.5).setVisible(false);
     playerInfo.octoDangerHitBoxBound = playerInfo.octoDangerHitBox.getBounds();
-    this.anims.create({
-      key: 'swim',
-      frames: this.anims.generateFrameNumbers('octopus', { start: 0, end: 20 }),
-      frameRate: 13,
-      repeat: -1
-    });
+    if (!this.anims.get(`swim`)) {
+      this.anims.create({
+        key: 'swim',
+        frames: this.anims.generateFrameNumbers('octopus', { start: 0, end: 20 }),
+        frameRate: 13,
+        repeat: -1
+      });
+    }
     playerInfo.player.anims.play('swim', true);
     playerInfo.playerContainer = this.add.container(0, playerInfo.currLane*gameInfo.laneHeight).setScale(1.5).setDepth(2);
     playerInfo.playerContainer.add(playerInfo.player);
@@ -243,7 +246,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    let numberOfEntities = this.children.length;
     // Game loop logic
     handleMovingForward();
     handlePlayerMovement();

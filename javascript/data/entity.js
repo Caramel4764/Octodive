@@ -79,7 +79,6 @@ let entity = {
         if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
           if (playerInfo.finishedLaneSwitching && pufferfish.hasBeenHit == false) {
             changeLife(-1)
-            console.log(`puffer`)
             pufferfish.hasBeenHit = true;
           }
         }
@@ -97,7 +96,6 @@ let entity = {
     warningTime: 1000,
     activateFunctionality: function () {
       changeLife(-1)
-      console.log(`sword`);
     },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
@@ -127,7 +125,6 @@ let entity = {
     //audioSound: 'audio',
     activateFunctionality: function () {
       changeLife(-1)
-      console.log(`tr`);
 
     },
     spawnFunction: () => {
@@ -146,7 +143,7 @@ let entity = {
     isDestroyedAfterGrab: true,
     spawnDistanceRate: 30,
     prevDistanceTraveledRounded: 0,
-    audioSound: 'itemPickup',
+    audioSound: 'heal',
     activateFunctionality: function () {
       changeLife(1)
     },
@@ -187,7 +184,6 @@ let entity = {
     warningTime: 250,
     activateFunctionality: function () {
       changeLife(-1)
-      console.log(`cl`);
     },
     spawnFunction: () => {
       spawnEntity('clownfish')
@@ -211,7 +207,6 @@ let entity = {
     },
     activateFunctionality: function () {
       changeLife(-1)
-      console.log(`jel`);
     },
     spawnFunction: () => {
       spawnEntity('jellyfish')
