@@ -17,7 +17,8 @@ function handleGameRestart() {
   playerInfo.prevDistanceTraveledRounded = 0;
   playerInfo.heartEntity = [];
   playerInfo.currLane = 0;
-  setinvincibility(false);
+  setinvincibility(true);
+  playerInfo.hasGameRestarted = true;
   playerInfo.finishedLaneSwitching = true;
   playerInfo.playerSpeed = playerInfo.ogPlayerSpeed;
   playerInfo.isBoosting = false;
@@ -28,6 +29,9 @@ function handleGameRestart() {
   categories.forEach(category => {
     category.prevDistanceTraveledRounded = 0;
   });
+  Object.keys(entity).forEach(singleEntity => {
+    entity[singleEntity].ref=[];
+  })
   this.scene.stop('GameOver').launch('GameScene');
 }
 

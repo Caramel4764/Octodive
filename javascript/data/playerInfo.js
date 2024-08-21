@@ -46,6 +46,7 @@ let playerInfo = {
   silverLoopSpawnDistanceRate: 1,
   life: 3,
   heartEntity : [],
+  hasGameRestarted: false,
   octoDangerHitBox: undefined,
   octoDangerHitBoxBound: undefined,
 }

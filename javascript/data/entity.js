@@ -76,11 +76,10 @@ let entity = {
         pufferfishBounds.x -= playerInfo.playerSpeed-entity.pufferfish.speed;
     
         pufferfish.pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
-        if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
+        if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
           if (playerInfo.finishedLaneSwitching && pufferfish.hasBeenHit == false) {
             changeLife(-1)
-            //heart issue here I think
-            //console.log(1)
+            console.log(`puffer`)
             pufferfish.hasBeenHit = true;
           }
         }
@@ -97,7 +96,8 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     warningTime: 1000,
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
+      console.log(`sword`);
     },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
@@ -126,7 +126,8 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     //audioSound: 'audio',
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
+      console.log(`tr`);
 
     },
     spawnFunction: () => {
@@ -185,7 +186,8 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     warningTime: 250,
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
+      console.log(`cl`);
     },
     spawnFunction: () => {
       spawnEntity('clownfish')
@@ -208,7 +210,8 @@ let entity = {
       frameRate: 6,
     },
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
+      console.log(`jel`);
     },
     spawnFunction: () => {
       spawnEntity('jellyfish')

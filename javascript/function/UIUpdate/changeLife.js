@@ -3,6 +3,7 @@ import { gameInfo } from "../../data/gameInfo.js";
 import { updatePlayerScore } from "../UIUpdate/updatePlayerScore.js";
 import { setinvincibility } from "./setinvincibility.js";
 function changeLife (change) {
+  console.log('test')
   if (change < 0) {
     playerInfo.life+=change;
     gameInfo.gameRef.sound.add('hurt').play();

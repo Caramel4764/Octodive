@@ -97,6 +97,26 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    if (playerInfo.hasGameRestarted == true) {
+      setinvincibility(true);
+      playerInfo.isInvincible = true;
+      gameInfo.gameRef.time.addEvent({
+        delay: 1000,
+        callback: function () {
+          setinvincibility(false);
+          playerInfo.isInvincible = false;
+          playerInfo.hasGameRestarted = false;
+        },
+        callbackScope: this,
+        loop: false
+      });
+    } else {
+          //setinvincibility(false);
+        playerInfo.isInvincible = false;
+    }
+    if (gameInfo.isFirstLoop == true) {
+      playerInfo.hasGameRestarted = false;
+    }
     if (gameInfo.isFirstLoop == true) {
       gameInfo.bgMusic = this.sound.add('beachPanic');
       gameInfo.bgMusic.setLoop(true);
@@ -161,8 +181,6 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1
     });
     playerInfo.player.anims.play('swim', true);
-    //setinvincibility(false);
-    playerInfo.isInvincible = false;
     playerInfo.playerContainer = this.add.container(0, playerInfo.currLane*gameInfo.laneHeight).setScale(1.5).setDepth(2);
     playerInfo.playerContainer.add(playerInfo.player);
     playerInfo.playerContainer.add(playerInfo.octoHitBox);
@@ -229,14 +247,14 @@ export default class GameScene extends Phaser.Scene {
     // Game loop logic
     handleMovingForward();
     handlePlayerMovement();
-    categories.forEach(category => {
-      console.log('category.type')
-
-      if (playerInfo.distanceTraveledRounded-category.prevDistanceTraveledRounded >= category.frequency) {
-        let randomEntityType = Math.floor(Math.random()*category.listOfEntity.length);
-        entity[category.listOfEntity[randomEntityType]].spawnFunction();
-        category.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
-      }
-    })
+    if (playerInfo.hasGameRestarted == false) {
+      categories.forEach(category => {
+        if (playerInfo.distanceTraveledRounded-category.prevDistanceTraveledRounded >= category.frequency) {
+          let randomEntityType = Math.floor(Math.random()*category.listOfEntity.length);
+          entity[category.listOfEntity[randomEntityType]].spawnFunction();
+          category.prevDistanceTraveledRounded = playerInfo.distanceTraveledRounded;
+        }
+      })
+    }
   }
 }
