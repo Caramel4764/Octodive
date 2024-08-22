@@ -59,6 +59,7 @@ export default class GameScene extends Phaser.Scene {
       this.load.image('silverLoopFront', 'assets/silver-ring/silver-ring-front.png');
       this.load.image('octoHitBox', 'assets/octopus/octoHitBox.png');
       this.load.image('heart', 'assets/oceanHeart.png');
+      this.load.image('heartOutlined', 'assets/oceanHeartOutlined.png');
       this.load.image('heartEmpty', 'assets/oceanHeartEmpty.png');
       this.load.image('sandGround', 'assets/background/sandyGround.png');
       this.load.image('inkBottle5', 'assets/ink-bottle/inkBottle1.png');
@@ -85,7 +86,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.load.spritesheet('octopus',
         'assets/octopus/octopus.png',
-      { frameWidth: 125, frameHeight: 100 }
+      { frameWidth: 126, frameHeight: 100 }
     );
     this.load.spritesheet('pufferfish',
       'assets/pufferfish.png',

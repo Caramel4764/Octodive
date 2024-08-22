@@ -140,6 +140,7 @@ let entity = {
     category:'goodies',
     isPowerup: true,
     speed: 0,
+    src:['heartOutlined'],
     isDestroyedAfterGrab: true,
     spawnDistanceRate: 30,
     prevDistanceTraveledRounded: 0,
@@ -250,32 +251,3 @@ let categories = [{
 ]
 
 export {entity, categories}
-
-/*
-    inkVial: {
-    ref: [],
-    speed: 0,
-    isDestroyedAfterGrab: true,
-    spawnDistanceRate: 15,
-    prevDistanceTraveledRounded: 0,
-    audioSound: 'itemPickup',
-    activateFunctionality: function () {
-      changeInk(1);
-    },
-    spawnFunction: () => {
-      let lane = Math.floor(Math.random() * 4);
-      let inkVial = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'inkVial').setOrigin(0, 0).setDepth(0).setScale(2.3);
-      let heartInfo = {
-        inkVial: inkVial,
-        lane: lane,
-        hasBeenHit: false,
-        isMoving: false,
-      }
-      entity.inkVial.ref.push(heartInfo);
-      placeCenterOfLane(inkVial, lane)
-    },
-    moveFunction: () => {
-      moveEntityBack(entity.inkVial, 'inkVial')
-    }
-  }
-*/
