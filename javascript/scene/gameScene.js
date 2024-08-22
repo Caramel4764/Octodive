@@ -96,6 +96,10 @@ export default class GameScene extends Phaser.Scene {
       'assets/enemy/jellyfish.png',
       { frameWidth: 40, frameHeight: 60 }
     );
+    this.load.spritesheet('inkParticle',
+      'assets/inkParticle.png',
+      { frameWidth: 66, frameHeight: 67 }
+    );
   }
 
   create() {
@@ -159,7 +163,7 @@ export default class GameScene extends Phaser.Scene {
 
     background.oceanBg2 = this.add.image(900, 0, 'oceanBg').setScale(3).setOrigin(0, 0).setDepth(-2);
     background.oceanBgBound2 = background.oceanBg2.getBounds();
-    playerInfo.player = this.physics.add.sprite(0, 0, 'octopus').setOrigin(0, 0).setDepth(2);
+    playerInfo.player = this.physics.add.sprite(30, 0, 'octopus').setOrigin(0, 0).setDepth(2);
     playerInfo.playerBound = playerInfo.player.getBounds();
     gameInfo.sidebarMenuBg = this.add.image(0,0, 'sidebarMenuBg').setScale(6).setOrigin(0, 0).setDepth(10);
     gameInfo.sidebarMenuBg.setPosition(config.width-gameInfo.sidebarMenuBg.getBounds().width, 0);
@@ -181,6 +185,14 @@ export default class GameScene extends Phaser.Scene {
         key: 'swim',
         frames: this.anims.generateFrameNumbers('octopus', { start: 0, end: 20 }),
         frameRate: 13,
+        repeat: -1
+      });
+    }
+    if (!this.anims.get(`inkSwirl`)) {
+      this.anims.create({
+        key: 'inkSwirl',
+        frames: this.anims.generateFrameNumbers('inkParticle', { start: 0, end: 3 }),
+        frameRate: 18,
         repeat: -1
       });
     }
@@ -244,12 +256,25 @@ export default class GameScene extends Phaser.Scene {
     this.input.keyboard.on('keydown_DOWN', function (event) {
       playerInfo.isDownDown = true
     }, this);
+    playerInfo.zKeyPause = this.input.keyboard.on('keydown_Z', function () {
+      //this.sound.add('pageFlip').play();
+      if (gameInfo.isGamePaused) {
+        gameInfo.isGamePaused = false;
+        this.scene.launch("PauseScene");
+      } else {
+        gameInfo.isGamePaused = true;
+        this.scene.pause("GameScene");
+      }
+    }, this);
   }
 
   update() {
     // Game loop logic
     handleMovingForward();
     handlePlayerMovement();
+    playerInfo.inkParticle.forEach(singleInkParticle => {
+      singleInkParticle.setPosition(singleInkParticle.x-=playerInfo.playerSpeed/6, singleInkParticle.y);
+    })
     if (playerInfo.hasGameRestarted == false) {
       categories.forEach(category => {
         if (playerInfo.distanceTraveledRounded-category.prevDistanceTraveledRounded >= category.frequency) {

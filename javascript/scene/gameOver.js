@@ -20,6 +20,7 @@ export default class GameOver extends Phaser.Scene {
   preload() {
     this.load.image('gameOver', 'assets/gameOverMenu.png');
     this.load.image('funFactDiv', 'assets/funFactDiv.png');
+    this.load.audio('restart', 'assets/audio/sfx/restart.wav');
   }
   create() {
     let gameOverInfoWidth = config.width/3.5;

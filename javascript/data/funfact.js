@@ -10,7 +10,7 @@ let funFactList = [
   'All octopuses are venomous but most are not deadly to humans',
   'Octopuses have been documented to form hunting parties with fishes',
   'Octopuses are able recognize and remember people',
-  'Dashing makes you temporarily invincible',
+  'Collecting a heart with full heart awards 15 points',
   'Some swordfishes can swim up to 80 miles per hour',
   'Pufferfishes have elastic stomachs which they can fill with water to inflate themselves',
   'Every year, 8-12 million metric tons of plastic trash is dumped into the ocean'

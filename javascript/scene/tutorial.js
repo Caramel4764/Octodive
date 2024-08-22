@@ -1,10 +1,13 @@
 import { config } from "../../script.js";
+import { gameInfo } from "../data/gameInfo.js";
 import { playerInfo } from "../data/playerInfo.js";
 export default class GameOver extends Phaser.Scene {
   constructor() {
       super({ key: 'TutorialScene' });
   }
   preload() {
+    this.load.audio('restart', 'assets/audio/sfx/restart.wav');
+    this.load.audio('pageFlip', 'assets/audio/sfx/pageFlip.wav');
     this.load.image('downArrow', 'assets/titleScreen/downArrow.png');
     this.load.image('upArrow', 'assets/titleScreen/upArrow.png');
     this.load.image('rightArrow', 'assets/titleScreen/rightArrow.png');
@@ -17,7 +20,7 @@ export default class GameOver extends Phaser.Scene {
     this.load.image('goldLoop', 'assets/gold-ring/gold-ring.png');
     this.load.image('silverLoop', 'assets/silver-ring/silver-ring.png');
     this.load.image('inkVial', 'assets/ink-bottle/inkVial.png');
-    this.load.image('oceanHeart', 'assets/oceanHeart.png');
+    this.load.image('oceanHeartOutlined', 'assets/oceanHeartOutlined.png');
 
     this.load.image('inkBottle', 'assets/ink-bottle/inkBottle1.png');
     this.load.image('inkBottleHalf', 'assets/ink-bottle/inkBottle3.png');
@@ -56,7 +59,7 @@ export default class GameOver extends Phaser.Scene {
       this.add.image(keyXPos-40, keyYPos+140*2, 'inkVial').setOrigin(0.5, 0.5).setScale(5),
       this.add.image(keyXPos*2-80, keyYPos+140*2, 'goldLoop').setOrigin(0.5, 0.5).setScale(6),
       this.add.image(keyXPos*2+100, keyYPos+140*2, 'silverLoop').setOrigin(0.5, 0.5).setScale(6),
-      this.add.image(keyXPos*3+50, keyYPos+140*2, 'oceanHeart').setOrigin(0.5, 0.5).setScale(4),
+      this.add.image(keyXPos*3+50, keyYPos+140*2, 'oceanHeartOutlined').setOrigin(0.5, 0.5).setScale(4),
     ])
     pages.push(objectivePage);
     let dashPage = this.add.container(0, 0, [
@@ -86,6 +89,7 @@ export default class GameOver extends Phaser.Scene {
 
     playerInfo.zKeyTutorial = this.input.keyboard.on('keydown_Z', function () {
       currentPage++;
+      this.sound.add('pageFlip').play();
       for (let i = 0; i < pages.length; i++) {
         pages[i].setVisible(false);
         if (i == currentPage) {
@@ -93,10 +97,12 @@ export default class GameOver extends Phaser.Scene {
         }
       }
       if (currentPage == pages.length) {
+        this.sound.add('restart').play();
         this.scene.stop('TutorialScene').launch('GameScene');
       }
     }, this);
     playerInfo.xKeyTutorial = this.input.keyboard.on('keydown_X', function () {
+      this.sound.add('pageFlip').play();
       this.scene.stop('TutorialScene').launch('StartMenu');
     }, this);
   }
