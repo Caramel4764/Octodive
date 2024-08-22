@@ -10,8 +10,8 @@ function moveEntityBack(entity) {
       singleEntity.backEntityBody.setPosition(backEntityBound.x, backEntityBound.y);
     }
     singleEntity.entityBody.setPosition(entityBound.x, entityBound.y);
-    if ((playerInfo.isInvincible == false || entity.isPowerup) && playerInfo.finishedLaneSwitching == true && playerInfo.currLane == singleEntity.lane && singleEntity.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed)+playerInfo.octoDangerHitBoxBound.width >= entityBound.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed) <=entityBound.x+entityBound.width) {
-      if ((playerInfo.isInvincible == false || entity.isPowerup) && playerInfo.finishedLaneSwitching && singleEntity.hasBeenHit == false) {
+    if (playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed)+playerInfo.octoDangerHitBoxBound.width >= entityBound.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed) <=entityBound.x+entityBound.width && (playerInfo.isInvincible == false || entity.isPowerup) && playerInfo.finishedLaneSwitching == true && playerInfo.currLane == singleEntity.lane && singleEntity.hasBeenHit == false) {
+      if (playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed)+playerInfo.octoDangerHitBoxBound.width >= entityBound.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-entity.speed) <=entityBound.x+entityBound.width && (playerInfo.isInvincible == false || entity.isPowerup) && playerInfo.finishedLaneSwitching && singleEntity.hasBeenHit == false) {
         if (entity.activateFunctionality) {
           entity.activateFunctionality();
         }
@@ -24,7 +24,7 @@ function moveEntityBack(entity) {
         }
       }
     }
-    if (entityBound.x<-220) {
+    if (entityBound.x<-350) {
       singleEntity.entityBody.destroy();
       if (singleEntity.backEntityBody)
       singleEntity.backEntityBody.destroy();

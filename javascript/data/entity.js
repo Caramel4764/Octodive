@@ -76,11 +76,9 @@ let entity = {
         pufferfishBounds.x -= playerInfo.playerSpeed-entity.pufferfish.speed;
     
         pufferfish.pufferfish.setPosition(pufferfishBounds.x, pufferfishBounds.y);
-        if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
+        if (playerInfo.isInvincible == false && playerInfo.finishedLaneSwitching == true && (playerInfo.currLane == pufferfish.lane || playerInfo.currLane == pufferfish.lane+1) && pufferfish.hasBeenHit == false && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed)+playerInfo.octoDangerHitBoxBound.width >= pufferfishBounds.x && playerInfo.octoDangerHitBoxBound.x+(playerInfo.playerSpeed-0.3) <=pufferfishBounds.x+pufferfishBounds.width) {
           if (playerInfo.finishedLaneSwitching && pufferfish.hasBeenHit == false) {
             changeLife(-1)
-            //heart issue here I think
-            //console.log(1)
             pufferfish.hasBeenHit = true;
           }
         }
@@ -97,7 +95,7 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     warningTime: 1000,
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
     },
     spawnFunction: () => {
       let lane = Math.floor(Math.random() * 4);
@@ -126,7 +124,7 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     //audioSound: 'audio',
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
 
     },
     spawnFunction: () => {
@@ -139,13 +137,14 @@ let entity = {
   },
   heart: {
     ref: [],
-    category:'goodies',
+    category:'heart',
     isPowerup: true,
     speed: 0,
+    src:['heartOutlined'],
     isDestroyedAfterGrab: true,
     spawnDistanceRate: 30,
     prevDistanceTraveledRounded: 0,
-    audioSound: 'itemPickup',
+    audioSound: 'heal',
     activateFunctionality: function () {
       changeLife(1)
     },
@@ -159,7 +158,7 @@ let entity = {
   inkVial: {
     ref: [],
     speed: 0,
-    category: 'goodies',
+    category: 'ink',
     isPowerup: true,
     isDestroyedAfterGrab: true,
     spawnDistanceRate: 6,
@@ -185,7 +184,7 @@ let entity = {
     prevDistanceTraveledRounded: 0,
     warningTime: 250,
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
     },
     spawnFunction: () => {
       spawnEntity('clownfish')
@@ -208,7 +207,7 @@ let entity = {
       frameRate: 6,
     },
     activateFunctionality: function () {
-      changeLife(-1);
+      changeLife(-1)
     },
     spawnFunction: () => {
       spawnEntity('jellyfish')
@@ -222,62 +221,39 @@ let entity = {
 let categories = [{
   type: 'bullet',
   listOfEntity: [],
-  frequency: 8,
+  frequency: 6,
   prevDistanceTraveledRounded: 0,
 },
 {
   type: 'drift',
   listOfEntity: [],
-  frequency: 12,
+  frequency: 8,
   prevDistanceTraveledRounded: 0,
 },
 {
   type: 'trash',
   listOfEntity: [],
-  frequency: 3,
+  frequency: 4,
   prevDistanceTraveledRounded: 0,
 },
 {
   type: 'silverRing',
   listOfEntity: [],
-  frequency: 1,
+  frequency: 2,
   prevDistanceTraveledRounded: 0,
 },
 {
-  type: 'goodies',
+  type: 'heart',
   listOfEntity: [],
-  frequency: 20,
+  frequency: 35,
   prevDistanceTraveledRounded: 0,
-}
+},
+{
+  type: 'ink',
+  listOfEntity: [],
+  frequency: 15,
+  prevDistanceTraveledRounded: 0,
+},
 ]
 
 export {entity, categories}
-
-/*
-    inkVial: {
-    ref: [],
-    speed: 0,
-    isDestroyedAfterGrab: true,
-    spawnDistanceRate: 15,
-    prevDistanceTraveledRounded: 0,
-    audioSound: 'itemPickup',
-    activateFunctionality: function () {
-      changeInk(1);
-    },
-    spawnFunction: () => {
-      let lane = Math.floor(Math.random() * 4);
-      let inkVial = gameInfo.gameRef.physics.add.sprite(gameInfo.laneWidth, lane*gameInfo.laneHeight, 'inkVial').setOrigin(0, 0).setDepth(0).setScale(2.3);
-      let heartInfo = {
-        inkVial: inkVial,
-        lane: lane,
-        hasBeenHit: false,
-        isMoving: false,
-      }
-      entity.inkVial.ref.push(heartInfo);
-      placeCenterOfLane(inkVial, lane)
-    },
-    moveFunction: () => {
-      moveEntityBack(entity.inkVial, 'inkVial')
-    }
-  }
-*/

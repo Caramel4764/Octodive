@@ -1,6 +1,8 @@
 let playerInfo = {
+  pauseMenu: undefined,
+  xKeyExit: undefined,
   test: undefined,
-
+  inkParticle: [],
   playerSpeed: 5,
   zKey: undefined,
   ogPlayerSpeed: 5,
@@ -16,7 +18,7 @@ let playerInfo = {
   inkBarAmount: 4,
   isInvincible: true,
   boostDuration: 500,
-  playerVerticalSpeed: 650,
+  playerVerticalSpeed: 800,
   isBoosting: false,
   boostSpeed: 8,
   isGameOver: false,
@@ -26,6 +28,7 @@ let playerInfo = {
   isUpDown: false,
   isDownDown: false,
   rightKey: undefined,
+  zKeyPause: undefined,
   restartDelay: 1000,
   boostTimeEvent: [],
   goldLoopSpawnInterval: 5000,
@@ -46,6 +49,7 @@ let playerInfo = {
   silverLoopSpawnDistanceRate: 1,
   life: 3,
   heartEntity : [],
+  hasGameRestarted: false,
   octoDangerHitBox: undefined,
   octoDangerHitBoxBound: undefined,
 }

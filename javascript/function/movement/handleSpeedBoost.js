@@ -3,6 +3,15 @@ import { playerInfo } from "../../data/playerInfo.js";
 import { updateInkBar } from "../UIUpdate/updateInkBar.js";
 import { setinvincibility } from "../UIUpdate/setinvincibility.js";
 function handleSpeedBoost(speedboost, time) {
+  //spawn ink
+
+  let inkParticleImg = gameInfo.gameRef.physics.add.sprite(80, 25+playerInfo.currLane*gameInfo.laneHeight, 'inkParticle').setOrigin(0, 0).setDepth(0).setScale(1.5);
+  inkParticleImg.anims.play('inkSwirl', true);
+  playerInfo.inkParticle.push(inkParticleImg);
+
+  //inkParticle
+
+  //other
     playerInfo.playerSpeed += speedboost;
     playerInfo.isBoosting = true;
     playerInfo.boostSpeed = speedboost,

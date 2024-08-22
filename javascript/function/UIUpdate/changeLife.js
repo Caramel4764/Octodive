@@ -6,7 +6,6 @@ function changeLife (change) {
   if (change < 0) {
     playerInfo.life+=change;
     gameInfo.gameRef.sound.add('hurt').play();
-
     setinvincibility(true, 'hurt');
     gameInfo.gameRef.time.addEvent({
       delay: playerInfo.afterHitInvincibleTime,
@@ -18,16 +17,12 @@ function changeLife (change) {
     })
     if (playerInfo.heartEntity[playerInfo.life]) {
       playerInfo.heartEntity[playerInfo.life].setTexture('heartEmpty');
-    } else {
-      console.log(`heart doesn't exist ${playerInfo.life}`)
     }
   } else if (change > 0) {
     if (playerInfo.life < 3) {
       playerInfo.life+=change;
       if (playerInfo.heartEntity[playerInfo.life-1]) {
         playerInfo.heartEntity[playerInfo.life-1].setTexture('heart');
-      } else {
-        console.log(`heart doesn't exist ${playerInfo.life}`)
       }
     } else {
       updatePlayerScore(15);
