@@ -137,7 +137,7 @@ let entity = {
   },
   heart: {
     ref: [],
-    category:'goodies',
+    category:'heart',
     isPowerup: true,
     speed: 0,
     src:['heartOutlined'],
@@ -158,7 +158,7 @@ let entity = {
   inkVial: {
     ref: [],
     speed: 0,
-    category: 'goodies',
+    category: 'ink',
     isPowerup: true,
     isDestroyedAfterGrab: true,
     spawnDistanceRate: 6,
@@ -221,33 +221,39 @@ let entity = {
 let categories = [{
   type: 'bullet',
   listOfEntity: [],
-  frequency: 8,
+  frequency: 6,
   prevDistanceTraveledRounded: 0,
 },
 {
   type: 'drift',
   listOfEntity: [],
-  frequency: 12,
+  frequency: 8,
   prevDistanceTraveledRounded: 0,
 },
 {
   type: 'trash',
   listOfEntity: [],
-  frequency: 3,
+  frequency: 4,
   prevDistanceTraveledRounded: 0,
 },
 {
   type: 'silverRing',
   listOfEntity: [],
-  frequency: 1,
+  frequency: 2,
   prevDistanceTraveledRounded: 0,
 },
 {
-  type: 'goodies',
+  type: 'heart',
   listOfEntity: [],
-  frequency: 20,
+  frequency: 35,
   prevDistanceTraveledRounded: 0,
-}
+},
+{
+  type: 'ink',
+  listOfEntity: [],
+  frequency: 15,
+  prevDistanceTraveledRounded: 0,
+},
 ]
 
 export {entity, categories}

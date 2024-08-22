@@ -12,6 +12,7 @@ function handleGameRestart() {
   playerInfo.boostTimeEvent = [];
   playerInfo.score = 0;
   playerInfo.distanceTraveled = 0;
+  playerInfo.inkParticle = [];
   playerInfo.distanceTraveledRounded = 0;
   playerInfo.life = 3;
   playerInfo.inkGenCounter = 0;

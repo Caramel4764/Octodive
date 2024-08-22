@@ -12,7 +12,6 @@ export default class GameOver extends Phaser.Scene {
     this.load.image('startMenuBg', 'assets/background/startMenu.png');
     this.load.audio('pageFlip', 'assets/audio/sfx/pageFlip.wav');
     this.load.audio('restart', 'assets/audio/sfx/restart.wav');
-
   }
   create() {
     this.add.image(0, 0, 'startMenuBg').setOrigin(0, 0).setScale(7.7);

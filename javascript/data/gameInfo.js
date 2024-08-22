@@ -1,5 +1,6 @@
 let gameInfo = {
   laneHeight: undefined,
+  pauseMenuLaunched: false,
   laneWidth: undefined,
   maxLane: 3,
   isGamePaused: false,

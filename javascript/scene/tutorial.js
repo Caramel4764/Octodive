@@ -28,6 +28,8 @@ export default class GameOver extends Phaser.Scene {
     this.load.image('plus', 'assets/plus.png');
     this.load.image('equal', 'assets/equal.png');
   
+    this.load.image('zKeyIcon', 'assets/zBtnIcon.png');
+    this.load.image('pauseIcon', 'assets/pauseIcon.png');
   }
   create() {
     let currentPage = 0;
@@ -75,6 +77,8 @@ export default class GameOver extends Phaser.Scene {
     let goodLuckPage = this.add.container(0, 0, [
       this.add.text(config.width/2, keyYPos+20, 'GoodLuck! Continuing will begin the game', { font:'bold 40px Open Sans', fontFamily: 'Open Sans, sans-serif', fontStyle: 'bold'}).setOrigin(0.5, 0).setDepth(3),
       this.add.text(config.width/2, keyYPos+70, 'Feel free to press z if you ever want to pause', { font:'bold 30px Open Sans', fontFamily: 'Open Sans, sans-serif', fontStyle: 'bold'}).setOrigin(0.5, 0).setDepth(3),
+      this.add.image(keyXPos+120, keyYPos+140*2, 'zKeyIcon').setOrigin(0.5, 0.5).setScale(4),
+      this.add.image(keyXPos*2+130, keyYPos+140*2, 'pauseIcon').setOrigin(0.5, 0.5).setScale(4),
     ])
     pages.push(goodLuckPage);
 

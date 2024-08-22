@@ -1,4 +1,6 @@
 let playerInfo = {
+  pauseMenu: undefined,
+  xKeyExit: undefined,
   test: undefined,
   inkParticle: [],
   playerSpeed: 5,
