@@ -3,6 +3,10 @@ This is my first time trying to make a game with Phaser and will (hopefully) res
 If I finish early and have the time and confidence, I might even add an actual loop hole with a boss.
 
 Note: School has already started for me so I will not have enough time to code a whole boss fight sadly but I'm pretty proud of what I have  accomplished.
+
+![Octodive game screenshot](/assets/octodiveScreenhot.png "Octodive game screenshot")
+
+
 # Boilerplate
 Since I have no idea what I'm doing, I'm going to use the boilerplate from phaser's game tutorial to get me started
 https://phaser.io/tutorials/making-your-first-phaser-3-game/part1
